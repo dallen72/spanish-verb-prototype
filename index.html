@@ -71,10 +71,10 @@
           selectedPronoun = event.target.innerHTML.split("...")[0];
           if (selectedConjugation) {
             if (verb.conjugations[selectedPronoun] == selectedConjugation) {
-              document.querySelector(".cell.selected").classList.add("correct");
-              document.querySelector(".cell.selected").classList.remove("selected");
-              event.target.classList.add("correct");
+              showTheMatch(event.target);
               return;
+            } else {
+              selectedConjugation = null;
             }
           }
 
@@ -83,14 +83,23 @@
           selectedPronoun = event.target.innerHTML.split('...')[0];
         }
 
+        function showTheMatch(element) {
+          document.querySelector(".cell.selected").classList.add("correct");
+          document.querySelector(".cell.selected").innerHTML = selectedPronoun + " " + selectedConjugation;
+          document.querySelector(".cell.selected").classList.remove("selected");
+
+          element.classList.add("correct");
+          element.innerHTML = selectedPronoun + " " + selectedConjugation;
+        }
+
         function handleClickSecondary(event) {
           selectedConjugation = event.target.innerHTML;
           if (selectedPronoun) {
             if (verb.conjugations[selectedPronoun] == selectedConjugation) {
-              document.querySelector(".cell.selected").classList.add("correct");
-              document.querySelector(".cell.selected").classList.remove("selected");
-              event.target.classList.add("correct");
+              showTheMatch(event.target);
               return;
+            } else {
+              selectedPronoun = null;
             }
           }
 
