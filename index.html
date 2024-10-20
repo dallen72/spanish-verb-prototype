@@ -45,10 +45,31 @@
         nosotros: "tenemos",
         vosotros: "tenéis",
         ellos: "tienen"},
+      },
+      {
+        name: "Hablar",
+        conjugations: {
+          yo: "hablo",
+          tu: "tienes",
+          el: "habla",
+          nosotros: "hablamos",
+          ellos: "hablan"
+        }
+      },
+      {
+        name: "vivir",
+        conjugations: {
+          yo: "vivo",
+          tu: "vives",
+          el: "vive",
+          nosotros: "vivimos",
+          ellos: "viven"
+        }
       }
     ];
 
-    let verb = verbList[0]
+
+    let verb = verbList[ Math.floor(Math.random() * verbList.length) ]
 
 
     document.addEventListener("DOMContentLoaded", function(event) { 
