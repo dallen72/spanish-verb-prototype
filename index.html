@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body {
+    background-color: lightgray;
+  }
+  div.gameContainer {
+    display: flex;
+  }
+  div.gameContainer div.table {
+    width: fit-content;
+  }
+  div.gameContainer div.cell {
+    cursor: pointer;
+    background-color: yellow;
+    padding: 1rem;
+    margin: 2px;
+    flex-basis: 100%;
+    text-align: center;
+  }
+  div.gameContainer div.cell.selected {
+    background-color: green;
+  }
+  div.gameContainer div.row {
+    display: block;
+    width: 18rem;
+    display: flex;
+  }
+</style>
+  <script>
+        let verb = "Tener";
+        let selectedPronoun;
+        let selectedConjugation;
+
+        let conjugationList = [
+          {yo: "tengo",
+            tu: "tienes",
+            el: "tiene",
+            nosotros: "tenemos",
+            vosotros: "tenéis",
+            ellos: "tienen"}
+        ];
+
+        let clickables = [
+          {id: "yo"},
+          {id: "tu"},
+          {id: "el"},
+          {id: "nosotros"},
+          {id: "vosotros"},
+          {id: "ellos"}
+        ];
+
+    document.addEventListener("DOMContentLoaded", function(event) { 
+        for (let i = 0; i < conjugationList.length; i++) {
+          let conjugation = conjugationList[i];
+          for (let key in conjugation) {
+            let value = conjugation[key];
+            let keyName = getKeyByValue(conjugation, value);
+            let element = document.querySelector('.' + key + '-conjugate');
+            element.innerHTML = value;
+          }
+        }
+
+    });
+
+
+        function handleClickPrimary(event) {
+            // Get all buttons
+            const buttons = document.querySelectorAll('.cell.pronoun');
+            
+            // Remove highlight class from all buttons
+            buttons.forEach(button => {
+                button.classList.remove('selected');
+            });
+
+            event.target.classList.add('selected');
+        }
+
+        function handleClickSecondary(event) {
+            // Get all buttons
+            const buttons = document.querySelectorAll('.cell.conjugate');
+            
+            // Remove highlight class from all buttons
+            buttons.forEach(button => {
+                button.classList.remove('selected');
+            });
+
+            event.target.classList.add('selected');
+        }
+
+        function getKeyByValue(object, value) {
+          return Object.keys(object).find(key => object[key] === value);
+        }
+
+
+  </script>
+</head>
+<body>
+  <div id="app">
+    <h2>Match the conjugation with the pronoun for...</h2>
+    <h2>{{ verb }}</h2>
+    <div class="gameContainer">
+      <div class="table primary">
+        <div class="row">
+          <div class="cell pronoun yo" onclick="handleClickPrimary(event)">yo...</div>
+          <div class="cell pronoun tu" onclick="handleClickPrimary(event)">tu...</div>
+          <div class="cell pronoun el" onclick="handleClickPrimary(event)">el...</div>
+        </div>
+        <div class="row">
+          <div class="cell pronoun nosotros" onclick="handleClickPrimary(event)">nosotros...</div>
+          <div class="cell pronoun vosotros" onclick="handleClickPrimary(event)">vosotros...</div>
+          <div class="cell pronoun ellos" onclick="handleClickPrimary(event)">ellos...</div>
+        </div>
+      </div>
+      <div>
+        <h2><- Click to Match -></h2>
+      </div>
+      <div class="secondary">
+          <script>
+            let elementList = []
+            for (let i = 0; i < conjugationList.length; i++) {
+              let conjugation = conjugationList[i];
+              for (let key in conjugation) {
+                let value = conjugation[key];
+                let keyName = getKeyByValue(conjugation, value);
+                let element = document.querySelector(`.${key}-conjugate`);
+                let cellElement = document.createElement('div');
+                cellElement.classList.add('cell');
+                cellElement.classList.add(keyName + '-conjugate');
+                cellElement.classList.add('conjugate');
+                cellElement.innerHTML = value;
+                cellElement.onclick = function(event) {
+                  handleClickSecondary(event);
+                }
+                elementList.push(cellElement);
+              }
+            }
+            const randomizedList = elementList.sort(() => Math.random() - 0.5);
+            for (let element in randomizedList) {
+              document.querySelector(".secondary").appendChild(randomizedList[element]);
+            }
+          </script>
+      </div>
+  </div>
+</body>
+</html>
+
