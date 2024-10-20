@@ -50,9 +50,10 @@
         name: "Hablar",
         conjugations: {
           yo: "hablo",
-          tu: "tienes",
+          tu: "hablas",
           el: "habla",
           nosotros: "hablamos",
+          vosotros: "hablais",
           ellos: "hablan"
         }
       },
@@ -63,19 +64,20 @@
           tu: "vives",
           el: "vive",
           nosotros: "vivimos",
+          vosotros: "vivis",
           ellos: "viven"
         }
       }
     ];
 
-
+    let completedVerbs = []
     let verb = verbList[ Math.floor(Math.random() * verbList.length) ]
 
 
     document.addEventListener("DOMContentLoaded", function(event) { 
-      document.querySelector('h2.verblabel').innerHTML = verb.name;
 
 
+      // init pronoun part of game board
       for (let i = 0; i < Object.keys(verb.conjugations).length; i++) {
         let conjugation = verb.conjugations[i];
         for (let key in conjugation) {
@@ -88,11 +90,14 @@
     });
 
 
-        function handleClickPrimary(event) {
+        function handleClickPronoun(event) {
           selectedPronoun = event.target.innerHTML.split("...")[0];
           if (selectedConjugation) {
             if (verb.conjugations[selectedPronoun] == selectedConjugation) {
               showTheMatch(event.target);
+              if (allAreMatched()) {
+                getNextProblem();
+              }
               return;
             } else {
               selectedConjugation = null;
@@ -113,11 +118,33 @@
           element.innerHTML = selectedPronoun + " " + selectedConjugation;
         }
 
-        function handleClickSecondary(event) {
+        /*
+         * check if all the verb conjugations are matched
+         */
+        function allAreMatched() {
+          return document.querySelectorAll(".cell.correct").length >= 12;
+        }
+
+        /*
+         * set a new verb for the next problem
+         */
+        function getNextProblem() {
+          let completedVerbs = []
+          completedVerbs.push(verb.name);
+          while (completedVerbs.includes(verb.name)) {
+            verb = verbList[ Math.floor(Math.random() * verbList.length) ]
+          }
+          generateConjugationGameElements(verb);
+        }
+
+        function handleClickConjugation(event) {
           selectedConjugation = event.target.innerHTML;
           if (selectedPronoun) {
             if (verb.conjugations[selectedPronoun] == selectedConjugation) {
               showTheMatch(event.target);
+              if (allAreMatched()) {
+                getNextProblem();
+              }
               return;
             } else {
               selectedPronoun = null;
@@ -143,6 +170,40 @@
           return Object.keys(object).find(key => object[key] === value);
         }
 
+        function generateConjugationGameElements(_verb) {
+          document.querySelector('h2.verblabel').innerHTML = verb.name;
+
+          let conjugationElements = document.querySelectorAll("div.secondary div.cell");
+          if (conjugationElements.length > 0) {
+            for (let i = 0; i<conjugationElements.length; i++) {
+              conjugationElements[i].remove();
+            }
+          }
+          let pronounElements = document.querySelectorAll("div.cell.correct");
+          for (let i = 0; i<pronounElements.length; i++) {
+            pronounElements[i].innerHTML = pronounElements[i].innerHTML.split(" ")[0];
+            pronounElements[i].classList.remove("correct");
+          }
+          let elementList = []
+          for (let i = 0; i < Object.keys(_verb.conjugations).length; i++) {
+            let conjugation = _verb.conjugations[Object.keys(_verb.conjugations)[i]];
+            let keyName = getKeyByValue(_verb.conjugations, conjugation);
+            let element = document.querySelector("." + Object.keys(_verb.conjugations)[i] + "-conjugate");
+            let cellElement = document.createElement('div');
+            cellElement.classList.add('cell');
+            cellElement.classList.add(keyName + '-conjugate');
+            cellElement.classList.add('conjugate');
+            cellElement.innerHTML = conjugation;
+            cellElement.onclick = function(event) {
+              handleClickConjugation(event);
+            }
+            elementList.push(cellElement);
+          }
+          const randomizedList = elementList.sort(() => Math.random() - 0.5);
+          for (let element in randomizedList) {
+            document.querySelector(".secondary").appendChild(randomizedList[element]);
+          }
+        }
 
   </script>
 </head>
@@ -153,14 +214,14 @@
     <div class="gameContainer">
       <div class="table primary">
         <div class="row">
-          <div class="cell pronoun yo" onclick="handleClickPrimary(event)">yo...</div>
-          <div class="cell pronoun tu" onclick="handleClickPrimary(event)">tu...</div>
-          <div class="cell pronoun el" onclick="handleClickPrimary(event)">el...</div>
+          <div class="cell pronoun yo" onclick="handleClickPronoun(event)">yo...</div>
+          <div class="cell pronoun tu" onclick="handleClickPronoun(event)">tu...</div>
+          <div class="cell pronoun el" onclick="handleClickPronoun(event)">el...</div>
         </div>
         <div class="row">
-          <div class="cell pronoun nosotros" onclick="handleClickPrimary(event)">nosotros...</div>
-          <div class="cell pronoun vosotros" onclick="handleClickPrimary(event)">vosotros...</div>
-          <div class="cell pronoun ellos" onclick="handleClickPrimary(event)">ellos...</div>
+          <div class="cell pronoun nosotros" onclick="handleClickPronoun(event)">nosotros...</div>
+          <div class="cell pronoun vosotros" onclick="handleClickPronoun(event)">vosotros...</div>
+          <div class="cell pronoun ellos" onclick="handleClickPronoun(event)">ellos...</div>
         </div>
       </div>
       <div>
@@ -168,25 +229,7 @@
       </div>
       <div class="secondary">
           <script>
-            let elementList = []
-            for (let i = 0; i < Object.keys(verb.conjugations).length; i++) {
-              let conjugation = verb.conjugations[Object.keys(verb.conjugations)[i]];
-              let keyName = getKeyByValue(verb.conjugations, conjugation);
-              let element = document.querySelector("." + Object.keys(verb.conjugations)[i] + "-conjugate");
-              let cellElement = document.createElement('div');
-              cellElement.classList.add('cell');
-              cellElement.classList.add(keyName + '-conjugate');
-              cellElement.classList.add('conjugate');
-              cellElement.innerHTML = conjugation;
-              cellElement.onclick = function(event) {
-                handleClickSecondary(event);
-              }
-              elementList.push(cellElement);
-            }
-            const randomizedList = elementList.sort(() => Math.random() - 0.5);
-            for (let element in randomizedList) {
-              document.querySelector(".secondary").appendChild(randomizedList[element]);
-            }
+            generateConjugationGameElements(verb);
           </script>
       </div>
   </div>
