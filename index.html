@@ -23,6 +23,9 @@
   div.gameContainer div.cell.selected {
     background-color: green;
   }
+  div.gameContainer div.cell.correct {
+    background-color: lightblue;
+  }
   div.gameContainer div.row {
     display: block;
     width: 18rem;
@@ -65,27 +68,45 @@
 
 
         function handleClickPrimary(event) {
-            // Get all buttons
-            const buttons = document.querySelectorAll('.cell.pronoun');
-            
-            // Remove highlight class from all buttons
-            buttons.forEach(button => {
-                button.classList.remove('selected');
-            });
+          selectedPronoun = event.target.innerHTML.split("...")[0];
+          if (selectedConjugation) {
+            if (verb.conjugations[selectedPronoun] == selectedConjugation) {
+              document.querySelector(".cell.selected").classList.add("correct");
+              document.querySelector(".cell.selected").classList.remove("selected");
+              event.target.classList.add("correct");
+              return;
+            }
+          }
 
-            event.target.classList.add('selected');
+          const buttons = document.querySelectorAll('.cell');
+          highlightOnlyOne(event.target, buttons);
+          selectedPronoun = event.target.innerHTML.split('...')[0];
         }
 
         function handleClickSecondary(event) {
-            // Get all buttons
-            const buttons = document.querySelectorAll('.cell.conjugate');
-            
-            // Remove highlight class from all buttons
-            buttons.forEach(button => {
-                button.classList.remove('selected');
-            });
+          selectedConjugation = event.target.innerHTML;
+          if (selectedPronoun) {
+            if (verb.conjugations[selectedPronoun] == selectedConjugation) {
+              document.querySelector(".cell.selected").classList.add("correct");
+              document.querySelector(".cell.selected").classList.remove("selected");
+              event.target.classList.add("correct");
+              return;
+            }
+          }
 
-            event.target.classList.add('selected');
+          const buttons = document.querySelectorAll('.cell');
+          highlightOnlyOne(event.target, buttons);
+          selectedConjugation = event.target.innerHTML;
+        }
+
+        function highlightOnlyOne(target, buttons) {
+          // Remove highlight class from all buttons
+          buttons.forEach(button => {
+              button.classList.remove('selected');
+          });
+
+          // Add highlight class to target
+          target.classList.add('selected');
         }
 
         function getKeyByValue(object, value) {
