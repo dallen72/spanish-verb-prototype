@@ -30,39 +30,37 @@
   }
 </style>
   <script>
-        let verb = "Tener";
-        let selectedPronoun;
-        let selectedConjugation;
+    let selectedPronoun;
+    let selectedConjugation;
 
-        let conjugationList = [
-          {yo: "tengo",
-            tu: "tienes",
-            el: "tiene",
-            nosotros: "tenemos",
-            vosotros: "tenéis",
-            ellos: "tienen"}
-        ];
+    let verbList = [
+      {
+      name: "Tener",
+      conjugations: {yo: "tengo",
+        tu: "tienes",
+        el: "tiene",
+        nosotros: "tenemos",
+        vosotros: "tenéis",
+        ellos: "tienen"},
+      }
+    ];
 
-        let clickables = [
-          {id: "yo"},
-          {id: "tu"},
-          {id: "el"},
-          {id: "nosotros"},
-          {id: "vosotros"},
-          {id: "ellos"}
-        ];
+    let verb = verbList[0]
+
 
     document.addEventListener("DOMContentLoaded", function(event) { 
-        for (let i = 0; i < conjugationList.length; i++) {
-          let conjugation = conjugationList[i];
-          for (let key in conjugation) {
-            let value = conjugation[key];
-            let keyName = getKeyByValue(conjugation, value);
-            let element = document.querySelector('.' + key + '-conjugate');
-            element.innerHTML = value;
-          }
-        }
+      document.querySelector('h2.verblabel').innerHTML = verb.name;
 
+
+      for (let i = 0; i < Object.keys(verb.conjugations).length; i++) {
+        let conjugation = verb.conjugations[i];
+        for (let key in conjugation) {
+          let value = conjugation[key];
+          let keyName = getKeyByValue(conjugation, value);
+          let element = document.querySelector('.' + key + '-conjugate');
+          element.innerHTML = value;
+        }
+      }
     });
 
 
@@ -100,7 +98,7 @@
 <body>
   <div id="app">
     <h2>Match the conjugation with the pronoun for...</h2>
-    <h2>{{ verb }}</h2>
+    <h2 class="verblabel"></h2>
     <div class="gameContainer">
       <div class="table primary">
         <div class="row">
@@ -120,22 +118,19 @@
       <div class="secondary">
           <script>
             let elementList = []
-            for (let i = 0; i < conjugationList.length; i++) {
-              let conjugation = conjugationList[i];
-              for (let key in conjugation) {
-                let value = conjugation[key];
-                let keyName = getKeyByValue(conjugation, value);
-                let element = document.querySelector(`.${key}-conjugate`);
-                let cellElement = document.createElement('div');
-                cellElement.classList.add('cell');
-                cellElement.classList.add(keyName + '-conjugate');
-                cellElement.classList.add('conjugate');
-                cellElement.innerHTML = value;
-                cellElement.onclick = function(event) {
-                  handleClickSecondary(event);
-                }
-                elementList.push(cellElement);
+            for (let i = 0; i < Object.keys(verb.conjugations).length; i++) {
+              let conjugation = verb.conjugations[Object.keys(verb.conjugations)[i]];
+              let keyName = getKeyByValue(verb.conjugations, conjugation);
+              let element = document.querySelector("." + Object.keys(verb.conjugations)[i] + "-conjugate");
+              let cellElement = document.createElement('div');
+              cellElement.classList.add('cell');
+              cellElement.classList.add(keyName + '-conjugate');
+              cellElement.classList.add('conjugate');
+              cellElement.innerHTML = conjugation;
+              cellElement.onclick = function(event) {
+                handleClickSecondary(event);
               }
+              elementList.push(cellElement);
             }
             const randomizedList = elementList.sort(() => Math.random() - 0.5);
             for (let element in randomizedList) {
