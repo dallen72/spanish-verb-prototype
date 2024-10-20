@@ -3,14 +3,17 @@
 <html>
 <head>
 <style>
+  .excerciseTwo {
+    display: none;
+  }
+  div.gameContainer div.pronoun.section,
+  div.gameContainer div.divider,
+  div.gameContainer div.conjugation.section {
+    display: inline-block;
+    vertical-align: top;
+  }
   body {
     background-color: lightgray;
-  }
-  div.gameContainer {
-    display: flex;
-  }
-  div.gameContainer div.table {
-    width: fit-content;
   }
   div.gameContainer div.cell {
     cursor: pointer;
@@ -73,10 +76,17 @@
     let completedVerbs = []
     let verb = verbList[ Math.floor(Math.random() * verbList.length) ]
 
+    function goToExcerciseOne() {
+      document.querySelector('.excerciseOne').style.display = 'block';
+      document.querySelector('.excerciseTwo').style.display = 'none';
+    }
+
+    function goToExcerciseTwo() {
+      document.querySelector('.excerciseOne').style.display = 'none';
+      document.querySelector('.excerciseTwo').style.display = 'block';
+    }
 
     document.addEventListener("DOMContentLoaded", function(event) { 
-
-
       // init pronoun part of game board
       for (let i = 0; i < Object.keys(verb.conjugations).length; i++) {
         let conjugation = verb.conjugations[i];
@@ -173,7 +183,7 @@
         function generateConjugationGameElements(_verb) {
           document.querySelector('h2.verblabel').innerHTML = verb.name;
 
-          let conjugationElements = document.querySelectorAll("div.secondary div.cell");
+          let conjugationElements = document.querySelectorAll("div.conjugation.section div.cell");
           if (conjugationElements.length > 0) {
             for (let i = 0; i<conjugationElements.length; i++) {
               conjugationElements[i].remove();
@@ -201,18 +211,19 @@
           }
           const randomizedList = elementList.sort(() => Math.random() - 0.5);
           for (let element in randomizedList) {
-            document.querySelector(".secondary").appendChild(randomizedList[element]);
+            document.querySelector("div.conjugation.section").appendChild(randomizedList[element]);
           }
         }
 
   </script>
 </head>
 <body>
-  <div id="app">
-    <h2>Match the conjugation with the pronoun for...</h2>
-    <h2 class="verblabel"></h2>
-    <div class="gameContainer">
-      <div class="table primary">
+  <div class="gameContainer">
+    <div class="excercise excerciseOne">
+      <h2>Match the conjugation with the pronoun for...</h2>
+      <h2 class="verblabel"></h2>
+
+      <div class="pronoun section">
         <div class="row">
           <div class="cell pronoun yo" onclick="handleClickPronoun(event)">yo...</div>
           <div class="cell pronoun tu" onclick="handleClickPronoun(event)">tu...</div>
@@ -224,14 +235,24 @@
           <div class="cell pronoun ellos" onclick="handleClickPronoun(event)">ellos...</div>
         </div>
       </div>
-      <div>
+      <div class="divider">
         <h2><- Click to Match -></h2>
       </div>
-      <div class="secondary">
+      <div class="conjugation section">
           <script>
             generateConjugationGameElements(verb);
           </script>
       </div>
+      <div>
+        <h2 class="goToExcerciseTwo"><a href="#" onclick="goToExcerciseTwo(); return false;">Go to next excercise-></a></h2>
+      </div>
+    </div>
+
+    <div class="excercise excerciseTwo">
+      <div>
+        <h2 class="goToExcerciseOne"><a href="#" onclick="goToExcerciseOne(); return false;">Go to next excercise-></a></h2>
+      </div>
+    </div>
   </div>
 </body>
 </html>
