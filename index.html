@@ -38,6 +38,7 @@
   <script>
     let selectedPronoun;
     let selectedConjugation;
+    let previousScore = 0;
 
     let verbList = [
       {
@@ -102,15 +103,17 @@
 
         function handleClickPronoun(event) {
           selectedPronoun = event.target.innerHTML.split("...")[0];
-          if (selectedConjugation) {
+          if (selectedConjugation != null) {
             if (verb.conjugations[selectedPronoun] == selectedConjugation) {
               showTheMatch(event.target);
               if (allAreMatched()) {
                 getNextProblem();
               }
+              selectedConjugation = null;
+              selectedPronoun = null;
               return;
             } else {
-              selectedConjugation = null;
+              previousScore += 1;
             }
           }
 
@@ -144,20 +147,29 @@
           while (completedVerbs.includes(verb.name)) {
             verb = verbList[ Math.floor(Math.random() * verbList.length) ]
           }
+
+          updatePreviousScoreElement();
+
           generateConjugationGameElements(verb);
+        }
+
+        function updatePreviousScoreElement() {
+          document.querySelector("h2.previousScore").innerHTML = "You got " + previousScore + " wrong on the last problem";
         }
 
         function handleClickConjugation(event) {
           selectedConjugation = event.target.innerHTML;
-          if (selectedPronoun) {
+          if (selectedPronoun != null) {
             if (verb.conjugations[selectedPronoun] == selectedConjugation) {
               showTheMatch(event.target);
               if (allAreMatched()) {
                 getNextProblem();
               }
+              selectedConjugation = null;
+              selectedPronoun = null;
               return;
             } else {
-              selectedPronoun = null;
+              previousScore += 1;
             }
           }
 
@@ -243,6 +255,8 @@
             generateConjugationGameElements(verb);
           </script>
       </div>
+      <h2 class="previousScore">
+      </h2>
       <div>
         <h2 class="goToExcerciseTwo"><a href="#" onclick="goToExcerciseTwo(); return false;">Go to next excercise-></a></h2>
       </div>
