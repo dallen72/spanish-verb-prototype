@@ -3,6 +3,10 @@
 <html>
 <head>
 <style>
+  .excercise {
+    max-width: 44rem;
+    margin: auto;
+  }
   .excerciseTwo {
     display: none;
   }
@@ -23,7 +27,7 @@
     flex-basis: 100%;
     text-align: center;
     border-radius: 12px;
-  }
+   }
   div.gameContainer div.cell.selected {
     background-color: green;
   }
@@ -35,10 +39,30 @@
     width: 18rem;
     display: flex;
   }
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 20px;
+    border-radius: 5px;
+    display: none;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
+
+  /* For when the popup is visible */
+  .popup.show {
+      display: block;
+      opacity: 1;
+  } 
 </style>
   <script>
     let selectedPronoun;
     let selectedConjugation;
+    let previousScore = 0;
 
     let verbList = [
       {
@@ -77,16 +101,28 @@
     let completedVerbs = []
     let verb = verbList[ Math.floor(Math.random() * verbList.length) ]
 
+
+    /*
+     * show the first excercise
+     */
     function goToExcerciseOne() {
       document.querySelector('.excerciseOne').style.display = 'block';
       document.querySelector('.excerciseTwo').style.display = 'none';
     }
 
+
+    /* 
+     * show the second excercise
+     */
     function goToExcerciseTwo() {
       document.querySelector('.excerciseOne').style.display = 'none';
       document.querySelector('.excerciseTwo').style.display = 'block';
     }
 
+
+    /*
+     * main function to run when the page is loaded
+     */
     document.addEventListener("DOMContentLoaded", function(event) { 
       // init pronoun part of game board
       for (let i = 0; i < Object.keys(verb.conjugations).length; i++) {
@@ -101,120 +137,187 @@
     });
 
 
-        function handleClickPronoun(event) {
-          selectedPronoun = event.target.innerHTML.split("...")[0];
-          if (selectedConjugation) {
-            if (verb.conjugations[selectedPronoun] == selectedConjugation) {
-              showTheMatch(event.target);
-              if (allAreMatched()) {
-                getNextProblem();
-              }
-              return;
-            } else {
-              selectedConjugation = null;
-            }
+    /*
+
+     * handle click event for pronoun buttons
+
+     */
+    function handleClickPronoun(event) {
+      selectedPronoun = event.target.innerHTML.split("...")[0];
+      if (selectedConjugation != null) {
+        if (verb.conjugations[selectedPronoun] == selectedConjugation) {
+          showTheMatch(event.target);
+          if (allAreMatched()) {
+            showPopup();
+            getNextProblem();
           }
-
-          const buttons = document.querySelectorAll('.cell');
-          highlightOnlyOne(event.target, buttons);
-          selectedPronoun = event.target.innerHTML.split('...')[0];
+          selectedConjugation = null;
+          selectedPronoun = null;
+          return;
+        } else {
+          previousScore += 1;
         }
+      }
 
-        function showTheMatch(element) {
-          document.querySelector(".cell.selected").classList.add("correct");
-          document.querySelector(".cell.selected").innerHTML = selectedPronoun + " " + selectedConjugation;
-          document.querySelector(".cell.selected").classList.remove("selected");
+      const buttons = document.querySelectorAll('.cell');
+      highlightOnlyOne(buttons, event.target);
+      selectedPronoun = event.target.innerHTML.split('...')[0];
+    }
 
-          element.classList.add("correct");
-          element.innerHTML = selectedPronoun + " " + selectedConjugation;
-        }
 
-        /*
-         * check if all the verb conjugations are matched
-         */
-        function allAreMatched() {
-          return document.querySelectorAll(".cell.correct").length >= 12;
-        }
+    /*
+     * change the buttons of the matched element 
+     */
+    function showTheMatch(element) {
+      document.querySelector(".cell.selected").classList.add("correct");
+      document.querySelector(".cell.selected").innerHTML = selectedPronoun + " " + selectedConjugation;
+      document.querySelector(".cell.selected").classList.remove("selected");
 
-        /*
-         * set a new verb for the next problem
-         */
-        function getNextProblem() {
-          let completedVerbs = []
-          completedVerbs.push(verb.name);
-          while (completedVerbs.includes(verb.name)) {
-            verb = verbList[ Math.floor(Math.random() * verbList.length) ]
+      element.classList.add("correct");
+      element.innerHTML = selectedPronoun + " " + selectedConjugation;
+    }
+
+
+    /*
+     * check if all the verb conjugations are matched
+     */
+    function allAreMatched() {
+      return document.querySelectorAll(".cell.correct").length >= 12;
+    }
+
+
+    /*
+     * set a new verb for the next problem
+     */
+    function getNextProblem() {
+      let completedVerbs = []
+      completedVerbs.push(verb.name);
+      while (completedVerbs.includes(verb.name)) {
+        verb = verbList[ Math.floor(Math.random() * verbList.length) ]
+      }
+
+      updatePreviousScoreElement();
+
+      generateConjugationGameElements(verb);
+    }
+
+
+    /*
+     * update the text for information on the last problem
+     */
+    function updatePreviousScoreElement() {
+      document.querySelector("h2.previousScore").innerHTML = "You got " + previousScore + " wrong on the last problem";
+    }
+
+
+    /*
+     * handle click event for conjugation buttons
+     */
+    function handleClickConjugation(event) {
+      selectedConjugation = event.target.innerHTML;
+      if (selectedPronoun != null) {
+        if (verb.conjugations[selectedPronoun] == selectedConjugation) {
+          showTheMatch(event.target);
+          if (allAreMatched()) {
+            showPopup();
+            getNextProblem();
           }
-          generateConjugationGameElements(verb);
+          selectedConjugation = null;
+          selectedPronoun = null;
+          return;
+        } else {
+          previousScore += 1;
         }
+      }
 
-        function handleClickConjugation(event) {
-          selectedConjugation = event.target.innerHTML;
-          if (selectedPronoun) {
-            if (verb.conjugations[selectedPronoun] == selectedConjugation) {
-              showTheMatch(event.target);
-              if (allAreMatched()) {
-                getNextProblem();
-              }
-              return;
-            } else {
-              selectedPronoun = null;
-            }
-          }
+      const buttons = document.querySelectorAll('.cell');
+      highlightOnlyOne(buttons, event.target);
+      selectedConjugation = event.target.innerHTML;
+    }
 
-          const buttons = document.querySelectorAll('.cell');
-          highlightOnlyOne(event.target, buttons);
-          selectedConjugation = event.target.innerHTML;
+
+    /*
+     * highlight only one button and remove highlight from all others
+     * @param target - the button to highlight
+     * @param buttons - the list of all buttons to remove highlight from
+     */
+    function highlightOnlyOne(buttons, target) {
+      // Remove highlight class from all buttons
+      buttons.forEach(button => {
+          button.classList.remove('selected');
+      });
+
+      // Add highlight class to target
+      target.classList.add('selected');
+    }
+
+
+    /*
+     * get the key of an object by its value
+     * @param object - the object to search
+     * @param value - the value to search for
+     * @return the key of the object
+     */
+    function getKeyByValue(object, value) {
+      return Object.keys(object).find(key => object[key] === value);
+    }
+
+
+    /*
+     * generate the conjugation game html elements
+     * @param _verb - the verb to generate the elements for
+     */
+    function generateConjugationGameElements(_verb) {
+      document.querySelector('h2.verblabel').innerHTML = verb.name;
+
+      let conjugationElements = document.querySelectorAll("div.conjugation.section div.cell");
+      if (conjugationElements.length > 0) {
+        for (let i = 0; i<conjugationElements.length; i++) {
+          conjugationElements[i].remove();
         }
-
-        function highlightOnlyOne(target, buttons) {
-          // Remove highlight class from all buttons
-          buttons.forEach(button => {
-              button.classList.remove('selected');
-          });
-
-          // Add highlight class to target
-          target.classList.add('selected');
+      }
+      let pronounElements = document.querySelectorAll("div.cell.correct");
+      for (let i = 0; i<pronounElements.length; i++) {
+        pronounElements[i].innerHTML = pronounElements[i].innerHTML.split(" ")[0];
+        pronounElements[i].classList.remove("correct");
+      }
+      let elementList = []
+      for (let i = 0; i < Object.keys(_verb.conjugations).length; i++) {
+        let conjugation = _verb.conjugations[Object.keys(_verb.conjugations)[i]];
+        let keyName = getKeyByValue(_verb.conjugations, conjugation);
+        let element = document.querySelector("." + Object.keys(_verb.conjugations)[i] + "-conjugate");
+        let cellElement = document.createElement('div');
+        cellElement.classList.add('cell');
+        cellElement.classList.add(keyName + '-conjugate');
+        cellElement.classList.add('conjugate');
+        cellElement.innerHTML = conjugation;
+        cellElement.onclick = function(event) {
+          handleClickConjugation(event);
         }
+        elementList.push(cellElement);
+      }
+      const randomizedList = elementList.sort(() => Math.random() - 0.5);
+      for (let element in randomizedList) {
+        document.querySelector("div.conjugation.section").appendChild(randomizedList[element]);
+      }
+    }
 
-        function getKeyByValue(object, value) {
-          return Object.keys(object).find(key => object[key] === value);
-        }
 
-        function generateConjugationGameElements(_verb) {
-          document.querySelector('h2.verblabel').innerHTML = verb.name;
+    /*
+     * show the temporary popup
+     */
+    function showPopup() {
+        const popup = document.getElementById('popup');
 
-          let conjugationElements = document.querySelectorAll("div.conjugation.section div.cell");
-          if (conjugationElements.length > 0) {
-            for (let i = 0; i<conjugationElements.length; i++) {
-              conjugationElements[i].remove();
-            }
-          }
-          let pronounElements = document.querySelectorAll("div.cell.correct");
-          for (let i = 0; i<pronounElements.length; i++) {
-            pronounElements[i].innerHTML = pronounElements[i].innerHTML.split(" ")[0];
-            pronounElements[i].classList.remove("correct");
-          }
-          let elementList = []
-          for (let i = 0; i < Object.keys(_verb.conjugations).length; i++) {
-            let conjugation = _verb.conjugations[Object.keys(_verb.conjugations)[i]];
-            let keyName = getKeyByValue(_verb.conjugations, conjugation);
-            let element = document.querySelector("." + Object.keys(_verb.conjugations)[i] + "-conjugate");
-            let cellElement = document.createElement('div');
-            cellElement.classList.add('cell');
-            cellElement.classList.add(keyName + '-conjugate');
-            cellElement.classList.add('conjugate');
-            cellElement.innerHTML = conjugation;
-            cellElement.onclick = function(event) {
-              handleClickConjugation(event);
-            }
-            elementList.push(cellElement);
-          }
-          const randomizedList = elementList.sort(() => Math.random() - 0.5);
-          for (let element in randomizedList) {
-            document.querySelector("div.conjugation.section").appendChild(randomizedList[element]);
-          }
-        }
+        // Show the popup with fade-in effect
+        popup.classList.add('show');
+
+        // After 2 seconds, fade out the popup
+        setTimeout(function() {
+            popup.classList.remove('show');
+        }, 2000); // 2000 ms = 2 seconds
+    }
+
 
   </script>
 </head>
@@ -223,6 +326,7 @@
     <div class="excercise excerciseOne">
       <h2>Match the conjugation with the pronoun for...</h2>
       <h2 class="verblabel"></h2>
+
 
       <div class="pronoun section">
         <div class="row">
@@ -244,17 +348,24 @@
             generateConjugationGameElements(verb);
           </script>
       </div>
+      <h2 class="previousScore">
+      </h2>
       <div>
         <h2 class="goToExcerciseTwo"><a href="#" onclick="goToExcerciseTwo(); return false;">Go to next excercise-></a></h2>
       </div>
+      <div id="popup" class="popup">
+        Good Job!
+      </div>
     </div>
+
 
     <div class="excercise excerciseTwo">
       <div>
         <h2 class="goToExcerciseOne"><a href="#" onclick="goToExcerciseOne(); return false;">Go to next excercise-></a></h2>
       </div>
     </div>
+
+
   </div>
 </body>
 </html>
-
