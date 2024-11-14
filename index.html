@@ -138,9 +138,7 @@
 
 
     /*
-
      * handle click event for pronoun buttons
-
      */
     function handleClickPronoun(event) {
       selectedPronoun = event.target.innerHTML.split("...")[0];
@@ -150,6 +148,19 @@
           if (allAreMatched()) {
             showPopup();
             getNextProblem();
+            // TODO: rename the excercises, matchingExcercise and sentenceFillInBlank excercise
+            // TODO: make sentenceMatchingExcercise. this shows first. this is a one sentence per excercise. the conjugation score is determined from this. also verb and ending.
+            // when the user gets this right, the next excercise is shown.
+            // TODO: make fillInBlankExcercise. this shows second. this is a sentence with a blank verb. this effects conjugation score.  also verb and ending scores.
+            // scoring: the total number wrong. compare to other categories (verb, conjugation, excercise)
+                // when the total wrong for the conjugation is zero (ending, verb, conjugation same) is zero, the verb conjugation changes and the first excercise is shown. if the total wrong for all conjugations are each zero for the verb, the verb changes. and the first excercise is shown again. if the total wrong for all verbs is zero, the excercise changes to the word matching excercise. . 
+              // for the word matching excercise, if the total wrong for all verbs is zero, the verb ending changes, along with the verb and conjugation, and the first excercise is shown again. if the total wrong for all endings is zero, a "congratulations, you won!" message is shown.
+
+            // step 1. shows first problem
+            // step 2. after completing, new score is calculated. then if the problem is 2 or more below the best score, the problem is shown again. if the problem is 1 below the best score, the next problem is shown.
+            // but there is a score for the problem, the verb, and the verb ending. so there is a score associated with the actual problem, the score associated with the verb, and the score associated with the verb ending.
+            // TODO: a data structure for this
+            // TODO: an algorithm for this
           }
           selectedConjugation = null;
           selectedPronoun = null;
