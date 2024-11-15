@@ -3,12 +3,15 @@
 <html>
 <head>
 <style>
-  .excercise {
+  div.excercise {
     max-width: 44rem;
     margin: auto;
   }
-  .matchTheSentenceExcercise {
+  div.excercise:not(.current) {
     display: none;
+  }
+  .excercise.current {
+    display: block;
   }
   div.gameContainer div.pronoun.section,
   div.gameContainer div.divider,
@@ -97,47 +100,34 @@
       }
     ];
 
+    let verbScores = createScoresListFromVerbList(VERB_LIST);
+
+    /*
+     * create a scores list for each verb from a verb list in the format of VERB_LIST
+     * @param verbList - the list of verbs to create the scores list from
+     * @return the scores list
+     */
+    function createScoresListFromVerbList(verbList) {
+      let verbScores = {};
+      for (verbListObject in verbList) {
+        let verbScoreObject = {};
+        verbScoreObject.conjugationScores = {};
+        for (conjugation in verbListObject.conjugations) {
+          verbScoreObject.conjugationScores[conjugation] = 0;
+        }
+        verbScoreObject.score = 0;
+        verbScores[verbListObject.name] = verbScoreObject;
+      }
+
+      return verbScores;
+    }
+
     let endingScores = {
       "ar": 0,
       "er": 0,
       "ir": 0
     }
 
-    let verbScores = {
-      "Tener": {
-        conjugationScores: {
-          "yo": 0,
-          "tu": 0,
-          "el": 0,
-          "nosotros": 0,
-          "vosotros": 0,
-          "ellos": 0
-        },
-        score: 0
-      },
-      "Hablar": {
-        conjugationScores: {
-          "yo": 0,
-          "tu": 0,
-          "el": 0,
-          "nosotros": 0,
-          "vosotros": 0,
-          "ellos": 0
-        },
-        score: 0
-      },
-      "vivir": {
-        conjugationScores: {
-          "yo": 0,
-          "tu": 0,
-          "el": 0,
-          "nosotros": 0,
-          "vosotros": 0,
-          "ellos": 0
-        },
-        score: 0
-      }
-    };
 
     let selectedPronoun;
     let selectedConjugation;
@@ -170,14 +160,9 @@
      */
     document.addEventListener("DOMContentLoaded", function(event) { 
       // init pronoun part of game board
-      for (let i = 0; i < Object.keys(verb.conjugations).length; i++) {
-        let conjugation = verb.conjugations[i];
-        for (let key in conjugation) {
-          let value = conjugation[key];
-          let keyName = getKeyByValue(conjugation, value);
-          let element = document.querySelector('.' + key + '-conjugate');
-          element.innerHTML = value;
-        }
+      for (pronoun in verb.conjugations) {
+        let element = document.querySelector('.' + pronoun + '-conjugate');
+        element.innerHTML = verb.conjugations[pronoun];
       }
     });
 
@@ -380,7 +365,7 @@
 </head>
 <body>
   <div class="gameContainer">
-    <div class="excercise wordMatchingExcercise">
+    <div class="excercise wordMatchingExcercise current">
       <h2>Match the conjugation with the pronoun for...</h2>
       <h2 class="verblabel"></h2>
 
