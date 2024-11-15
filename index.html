@@ -7,7 +7,7 @@
     max-width: 44rem;
     margin: auto;
   }
-  .excerciseTwo {
+  .matchTheSentenceExcercise {
     display: none;
   }
   div.gameContainer div.pronoun.section,
@@ -60,19 +60,16 @@
   } 
 </style>
   <script>
-    let selectedPronoun;
-    let selectedConjugation;
-    let previousScore = 0;
-
-    let verbList = [
+    const VERB_LIST = [
       {
-      name: "Tener",
-      conjugations: {yo: "tengo",
-        tu: "tienes",
-        el: "tiene",
-        nosotros: "tenemos",
-        vosotros: "tenéis",
-        ellos: "tienen"},
+        name: "Tener",
+        conjugations: {yo: "tengo",
+          tu: "tienes",
+          el: "tiene",
+          nosotros: "tenemos",
+          vosotros: "tenéis",
+          ellos: "tienen"},
+        ending: "er"
       },
       {
         name: "Hablar",
@@ -83,7 +80,8 @@
           nosotros: "hablamos",
           vosotros: "hablais",
           ellos: "hablan"
-        }
+        },
+        ending: "ar"
       },
       {
         name: "vivir",
@@ -94,20 +92,67 @@
           nosotros: "vivimos",
           vosotros: "vivis",
           ellos: "viven"
-        }
+        },
+        ending: "ir"
       }
     ];
 
+    let endingScores = {
+      "ar": 0,
+      "er": 0,
+      "ir": 0
+    }
+
+    let verbScores = {
+      "Tener": {
+        conjugationScores: {
+          "yo": 0,
+          "tu": 0,
+          "el": 0,
+          "nosotros": 0,
+          "vosotros": 0,
+          "ellos": 0
+        },
+        score: 0
+      },
+      "Hablar": {
+        conjugationScores: {
+          "yo": 0,
+          "tu": 0,
+          "el": 0,
+          "nosotros": 0,
+          "vosotros": 0,
+          "ellos": 0
+        },
+        score: 0
+      },
+      "vivir": {
+        conjugationScores: {
+          "yo": 0,
+          "tu": 0,
+          "el": 0,
+          "nosotros": 0,
+          "vosotros": 0,
+          "ellos": 0
+        },
+        score: 0
+      }
+    };
+
+    let selectedPronoun;
+    let selectedConjugation;
+    let previousScore = 0;
+
     let completedVerbs = []
-    let verb = verbList[ Math.floor(Math.random() * verbList.length) ]
+    let verb = VERB_LIST[ Math.floor(Math.random() * VERB_LIST.length) ]
 
 
     /*
      * show the first excercise
      */
     function goToExcerciseOne() {
-      document.querySelector('.excerciseOne').style.display = 'block';
-      document.querySelector('.excerciseTwo').style.display = 'none';
+      document.querySelector('.wordMatchingExcercise').style.display = 'block';
+      document.querySelector('.matchTheSentenceExcercise').style.display = 'none';
     }
 
 
@@ -115,8 +160,8 @@
      * show the second excercise
      */
     function goToExcerciseTwo() {
-      document.querySelector('.excerciseOne').style.display = 'none';
-      document.querySelector('.excerciseTwo').style.display = 'block';
+      document.querySelector('.wordMatchingExcercise').style.display = 'none';
+      document.querySelector('.matchTheSentenceExcercise').style.display = 'block';
     }
 
 
@@ -148,7 +193,6 @@
           if (allAreMatched()) {
             showPopup();
             getNextProblem();
-            // TODO: rename the excercises, matchingExcercise and sentenceFillInBlank excercise
             // TODO: make sentenceMatchingExcercise. this shows first. this is a one sentence per excercise. the conjugation score is determined from this. also verb and ending.
             // when the user gets this right, the next excercise is shown.
             // TODO: make fillInBlankExcercise. this shows second. this is a sentence with a blank verb. this effects conjugation score.  also verb and ending scores.
@@ -161,6 +205,8 @@
             // but there is a score for the problem, the verb, and the verb ending. so there is a score associated with the actual problem, the score associated with the verb, and the score associated with the verb ending.
             // TODO: a data structure for this
             // TODO: an algorithm for this
+            // TODO therefore, : level system is 001 is first excercise. 002 for other conjugations until 006. then when the verb changes and level 010. then at the word matching excercise the level is 100. when the verb ending changes, it becomes the first excercise again and goes to level 101. when the second ending gets to the word matching excercise, it beomes level 200. then when the third ending gets to the word matching excercise, it becomes level 600. then the conjugations and verbs go up until 666. then when the conjugation is all done, the user wins and level 777 is a fill in the blank for "the beast is preparing to leave his mark" and 777 is shown with a "congratulations, you won!" message.
+            // TODO: level 000 is a tutorial that explains what the game is.
           }
           selectedConjugation = null;
           selectedPronoun = null;
@@ -204,7 +250,7 @@
       let completedVerbs = []
       completedVerbs.push(verb.name);
       while (completedVerbs.includes(verb.name)) {
-        verb = verbList[ Math.floor(Math.random() * verbList.length) ]
+        verb = VERB_LIST[ Math.floor(Math.random() * VERB_LIST.length) ]
       }
 
       updatePreviousScoreElement();
@@ -334,7 +380,7 @@
 </head>
 <body>
   <div class="gameContainer">
-    <div class="excercise excerciseOne">
+    <div class="excercise wordMatchingExcercise">
       <h2>Match the conjugation with the pronoun for...</h2>
       <h2 class="verblabel"></h2>
 
@@ -370,7 +416,7 @@
     </div>
 
 
-    <div class="excercise excerciseTwo">
+    <div class="excercise matchTheSentenceExcercise">
       <div>
         <h2 class="goToExcerciseOne"><a href="#" onclick="goToExcerciseOne(); return false;">Go to next excercise-></a></h2>
       </div>
