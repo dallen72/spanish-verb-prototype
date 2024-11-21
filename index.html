@@ -65,9 +65,8 @@
   <script>
     const PRONOUNS = {
       she: "ella",
-      he: "el",
       we: "nosotros",
-      they: "ellos",
+      they: "ellas",
       you: "tu",
       i: "yo"
     };
@@ -75,7 +74,6 @@
       {
         name: "Tener",
         english_conjugations: {
-          he: "has",
           she: "has",
           we: "have",
           they: "have",
@@ -84,16 +82,15 @@
         },
         conjugations: {yo: "tengo",
           tu: "tienes",
-          el: "tiene",
+          ella: "tiene",
           nosotros: "tenemos",
           vosotros: "tenéis",
-          ellos: "tienen"},
+          ellas: "tienen"},
         ending: "er"
       },
       {
         name: "Hablar",
         english_conjugations: {
-          he: "speaks",
           she: "speaks",
           we: "speak",
           they: "speak",
@@ -103,17 +100,16 @@
         conjugations: {
           yo: "hablo",
           tu: "hablas",
-          el: "habla",
+          ella: "habla",
           nosotros: "hablamos",
           vosotros: "hablais",
-          ellos: "hablan"
+          ellas: "hablan"
         },
         ending: "ar"
       },
       {
         name: "vivir",
         english_conjugations: {
-          he: "lives",
           she: "lives",
           we: "live",
           they: "live",
@@ -123,10 +119,10 @@
         conjugations: {
           yo: "vivo",
           tu: "vives",
-          el: "vive",
+          ella: "vive",
           nosotros: "vivimos",
           vosotros: "vivis",
-          ellos: "viven"
+          ellas: "viven"
         },
         ending: "ir"
       }
@@ -198,6 +194,34 @@
       }
     });
 
+    /*
+     * determine what the next excercise should be 
+     */ 
+    function getNextExcercise() {
+
+      // if number wrong was zero:
+        // possiblylevelUp()
+          // if excercise was word matching, wordMatchingWasPerfect = true
+          // if excercise was sentence matching, sentenceMatchingWasPerfect = true
+          // if excercise was fill in the blank, fillInTheBlankWasPerfect = true
+          // if all excercises were done perfectly, the score for the conjugation is +1. go to next conjugation
+            /*
+            wordMatchingWasPerfect = false;
+            sentenceMatchingWasPerfect = false;
+            fillInTheBlankWasPerfect = false;
+            */
+          // if all conjugations have score +1 or above, the score for the verb is +1, and go to next verb
+          // if all verbs have score +1 or above, the score for the ending is +1 and go to the next ending
+          // if all endings have score +1 or above, the user wins
+      // else {
+        // go to next excercise without perfect score
+      //}
+
+      // conjugation score
+      // verb score  
+      // ending score 
+
+    }
 
     /*
      * handle click event for pronoun buttons
@@ -509,7 +533,7 @@
         <div class="row">
           <div class="cell pronoun nosotros" onclick="handleClickPronoun(event)">nosotros...</div>
           <div class="cell pronoun vosotros" onclick="handleClickPronoun(event)">vosotros...</div>
-          <div class="cell pronoun ellos" onclick="handleClickPronoun(event)">ellos...</div>
+          <div class="cell pronoun ellas" onclick="handleClickPronoun(event)">ellas...</div>
         </div>
       </div>
       <div class="divider">
