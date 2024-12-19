@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="index.css"></link>
+  <script src="module-build.js"></script>
+</head>
+<body>
+  <div class="gameContainer">
+    <div class="excercise wordMatchingExcercise current">
+      <h2>Match the conjugation with the pronoun for...</h2>
+      <h2 class="verblabel"></h2>
+
+
+      <div class="pronoun section">
+        <div class="row">
+          <div class="cell pronoun yo" onclick="handleClickPronoun(event)">yo...</div>
+          <div class="cell pronoun tu" onclick="handleClickPronoun(event)">tu...</div>
+          <div class="cell pronoun el" onclick="handleClickPronoun(event)">el...</div>
+        </div>
+        <div class="row">
+          <div class="cell pronoun nosotros" onclick="handleClickPronoun(event)">nosotros...</div>
+          <div class="cell pronoun vosotros" onclick="handleClickPronoun(event)">vosotros...</div>
+          <div class="cell pronoun ellos" onclick="handleClickPronoun(event)">ellos...</div>
+        </div>
+      </div>
+      <div class="divider">
+        <h2><- Click to Match -></h2>
+      </div>
+      <div class="conjugation section">
+          <script>
+            generateConjugationGameElements(verb);
+          </script>
+      </div>
+      <h2 class="previousScore">
+      </h2>
+      <div>
+        <h2 class="goToNextExcercise"><a href="#" onclick="goToNextExcercise(); return false;">Go to next excercise-></a></h2>
+      </div>
+      <div id="popup" class="popup">
+        Good Job!
+      </div>
+    </div>
+
+
+    <div class="excercise matchTheSentenceExcercise">
+      <div>
+        <h2 class="goToFirstExcercise"><a href="#" onclick="goToFirstExcercise(); return false;">Go to next excercise-></a></h2>
+      </div>
+    </div>
+
+
+  </div>
+</body>
+</html>

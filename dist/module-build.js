@@ -1,10 +1,10 @@
 (() => {
-  // library.js
+  // src/library.js
   var example = function() {
     console.log("hello world");
   };
 
-  // first-excercise.js
+  // src/first-excercise.js
   function showTheMatch(element) {
     document.querySelector(".cell.selected").classList.add("correct");
     document.querySelector(".cell.selected").innerHTML = selectedPronoun + " " + selectedConjugation;
@@ -194,7 +194,7 @@
     }
   };
 
-  // script.js
+  // src/main.js
   example();
   generateConjugationGameElements = first_excercise_default.generateConjugationGameElements;
   verb = first_excercise_default.verb;

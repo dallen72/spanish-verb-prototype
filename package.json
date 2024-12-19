@@ -1,5 +1,9 @@
 {
   "devDependencies": {
     "esbuild": "0.24.0"
+  },
+  "scripts": {
+    "build-all.bat":  "build-all.bat",
+    "build-js.bat": "build-js.bat"
   }
 }
