@@ -1,21 +1,20 @@
 
 import { example } from "./library.js";
-import firstExcercise from "./first-excercise.js"
+import { FirstExcercise } from "./first-excercise.js"
 
 example();
-generateConjugationGameElements = firstExcercise.generateConjugationGameElements;
-verb = firstExcercise.verb;
-handleClickPronoun = firstExcercise.handleClickPronoun;
-previousScore = firstExcercise.previousScore;
+const firstExcercise = new FirstExcercise();
+
 
 /*
  * main function to run when the page is loaded
  */
 document.addEventListener("DOMContentLoaded", function(event) { 
+  firstExcercise.generateConjugationGameElements();
   // init pronoun part of game board
-  for (pronoun in verb.conjugations) {
+  for (pronoun in firstExcercise.verb.conjugations) {
     let element = document.querySelector('.' + pronoun + '-conjugate');
-    element.innerHTML = verb.conjugations[pronoun];
+    element.innerHTML = firstExcercise.verb.conjugations[pronoun];
   }
 });
 
