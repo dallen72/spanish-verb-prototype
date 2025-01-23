@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import GameCard from './GameCard.vue';
 import { handleCardClick } from '../lib/game/one-to-many-matching';
 import { promptCard, answerCards } from '../lib/game/cardData';
-import type { MatchingCard } from '../lib/game/one-to-many-matching';
+import type { MatchingCard } from '../lib/types/MatchingCard';
 
 const cards = ref<MatchingCard[]>([promptCard, ...answerCards]);
 

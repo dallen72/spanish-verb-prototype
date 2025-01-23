@@ -1,12 +1,8 @@
 <script setup lang="ts">
+import type { MatchingCard } from '../lib/types/MatchingCard';
 
-// Default values can be set using withDefaults if needed
-withDefaults(defineProps<{
-  isActive: boolean;
-  isMatched: boolean;
-  text: string;
-  value: string;
-}>(), {
+// Define props that implement MatchingCard interface
+withDefaults(defineProps<MatchingCard>(), {
   isActive: false,
   isMatched: false,
   text: "",

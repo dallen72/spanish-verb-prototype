@@ -1,9 +1,4 @@
-export interface MatchingCard {
-    text: string;
-    value: string;
-    isActive: boolean;
-    isMatched: boolean;
-}
+import type { MatchingCard } from '../types/MatchingCard';
 
 /**
  * Handles the logic when a card is clicked
