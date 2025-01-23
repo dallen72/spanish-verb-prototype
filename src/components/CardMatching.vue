@@ -3,11 +3,11 @@ import { ref } from 'vue';
 import GameCard from './GameCard.vue';
 import { handleCardClick } from '../lib/game/one-to-many-matching';
 import { promptCard, answerCards } from '../lib/game/cardData';
-import type { MatchingCard as CardType } from '../lib/game/one-to-many-matching';
+import type { MatchingCard } from '../lib/game/one-to-many-matching';
 
 const cards = ref<MatchingCard[]>([promptCard, ...answerCards]);
 
-function onCardClick(clickedCard: CardType) {
+function onCardClick(clickedCard: MatchingCard) {
     cards.value = handleCardClick(cards.value, clickedCard);
 }
 </script>
@@ -49,6 +49,6 @@ function onCardClick(clickedCard: CardType) {
   </div>
 </template>
 
-<style scoped>
+<style src="./card-matching.css" scoped>
 /* Import your existing CSS or include it here */
 </style> 
