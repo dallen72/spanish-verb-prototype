@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import type { MatchingCard } from '../lib/types/MatchingCard';
 
+// Define emits
+defineEmits<{
+  click: []  // empty array means no payload
+}>();
+
 // Define props that implement MatchingCard interface
 withDefaults(defineProps<MatchingCard>(), {
   isActive: false,

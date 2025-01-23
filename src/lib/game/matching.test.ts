@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { handleCardClick } from './one-to-many-matching';
-import type { MatchingCard } from './one-to-many-matching';
+import type { MatchingCard } from '../types/MatchingCard';
 
 describe('handleCardClick', () => {
     // Card indices for better readability
