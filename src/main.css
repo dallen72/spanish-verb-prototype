@@ -1,9 +1,18 @@
 @import 'shared.css';
 
+:root {
+    --color-background: #e0e3e8;      /* Slightly darker, cooler gray */
+    --color-card: #4a90e2;            /* Keep original blue */
+    --color-card-text: white;
+    --color-card-active: #f39c12;     /* Keep original orange */
+    --color-card-matched: #27ae60;    /* Keep original green */
+}
+
 main {
     min-height: 100vh;
     background-color: var(--color-background);
     padding: var(--spacing-md);
+    font-family: var(--font-family);
 }
 
 header {

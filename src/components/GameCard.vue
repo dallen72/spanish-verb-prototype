@@ -31,8 +31,8 @@ withDefaults(defineProps<MatchingCard>(), {
 <style scoped>
 .game-card {
     cursor: pointer;
-    background-color: #4a90e2;
-    color: white;
+    background-color: var(--color-card);
+    color: var(--color-card-text);
     border-radius: 8px;
     transition: background-color 0.3s ease;
     padding: 1rem 2rem;
@@ -44,11 +44,11 @@ withDefaults(defineProps<MatchingCard>(), {
 }
 
 .active {
-    background-color: #f39c12;
+    background-color: var(--color-card-active);
 }
 
 .matched {
-    background-color: #27ae60;
+    background-color: var(--color-card-matched);
     cursor: default;
 }
 </style> 
