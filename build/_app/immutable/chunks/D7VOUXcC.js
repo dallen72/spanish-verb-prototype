@@ -1,0 +1,1 @@
+import{b as o,E as p,i as c,a as f,n as _,d as u,h as d,c as l,s as i,e as v}from"./CpTWrPA6.js";function m(r,a,...s){var t=r,n=_,e;o(()=>{n!==(n=a())&&(e&&(u(e),e=null),n==null&&c(),e=f(()=>n(t,...s)))},p),d&&(t=l)}function y(r,a){return(s,...t)=>{var n=v;i(r);try{return a(s,...t)}finally{i(n)}}}export{m as s,y as w};
