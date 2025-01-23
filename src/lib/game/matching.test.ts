@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { handleCardClick } from './matching';
-import type { Card } from './matching';
+import { handleCardClick } from './one-to-many-matching';
+import type { MatchingCard } from './one-to-many-matching';
 
 describe('handleCardClick', () => {
     // Card indices for better readability
@@ -9,7 +9,7 @@ describe('handleCardClick', () => {
     const NON_MATCHING_CARD = 2;
 
     // Helper function to create a fresh set of cards
-    function createTestCards(): Card[] {
+    function createTestCards(): MatchingCard[] {
         return [
             { text: "He speaks", value: "he-speaks", isActive: false, isMatched: false },
             { text: "habla", value: "he-speaks", isActive: false, isMatched: false },  // Matches PROMPT_CARD
@@ -18,26 +18,26 @@ describe('handleCardClick', () => {
     }
 
     // Helper to activate a specific card
-    function activateCard(cards: Card[], index: number): Card[] {
+    function activateCard(cards: MatchingCard[], index: number): MatchingCard[] {
         return cards.map((card, i) => 
             i === index ? { ...card, isActive: true } : card
         );
     }
 
     // Helper to check if all cards are inactive
-    function areAllCardsInactive(cards: Card[]): boolean {
+    function areAllCardsInactive(cards: MatchingCard[]): boolean {
         return cards.every(card => !card.isActive);
     }
 
     // Helper to check if specific cards are matched
-    function areCardsMatched(cards: Card[], indices: number[]): boolean {
+    function areCardsMatched(cards: MatchingCard[], indices: number[]): boolean {
         return indices.every(index => cards[index].isMatched);
     }
 
     describe('when clicking a card', () => {
         it('should do nothing if clicked card is already matched', () => {
             const cards = createTestCards();
-            const matchedCard: Card = { ...cards[PROMPT_CARD], isMatched: true };
+            const matchedCard: MatchingCard = { ...cards[PROMPT_CARD], isMatched: true };
             const result = handleCardClick(cards, matchedCard);
             
             expect(result).toEqual(cards);

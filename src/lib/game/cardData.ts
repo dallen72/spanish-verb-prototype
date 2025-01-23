@@ -1,4 +1,4 @@
-import type { Card } from './matching';
+import type { Card } from './one-to-many-matching';
 
 export const promptCard: Card = {
     text: "He speaks",

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import Card from './Card.vue';
-import { handleCardClick } from '../lib/game/matching';
+import GameCard from './GameCard.vue';
+import { handleCardClick } from '../lib/game/one-to-many-matching';
 import { promptCard, answerCards } from '../lib/game/cardData';
-import type { Card as CardType } from '../lib/game/matching';
+import type { MatchingCard as CardType } from '../lib/game/one-to-many-matching';
 
-const cards = ref<CardType[]>([promptCard, ...answerCards]);
+const cards = ref<MatchingCard[]>([promptCard, ...answerCards]);
 
 function onCardClick(clickedCard: CardType) {
     cards.value = handleCardClick(cards.value, clickedCard);
@@ -24,7 +24,7 @@ function onCardClick(clickedCard: CardType) {
     <div class="game-container">
       <div class="prompt-side">
         <h2>Find the match:</h2>
-        <Card 
+        <GameCard 
           :text="cards[0].text"
           :value="cards[0].value"
           :is-active="cards[0].isActive"
@@ -35,7 +35,7 @@ function onCardClick(clickedCard: CardType) {
       
       <div class="answer-side">
         <h2>Available conjugations:</h2>
-        <Card 
+        <GameCard 
           v-for="(card, i) in answerCards"
           :key="i"
           :text="cards[i + 1].text"
