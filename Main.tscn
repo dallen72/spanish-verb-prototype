@@ -51,6 +51,21 @@ text = "Previous Score: 0"
 horizontal_alignment = 1
 theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
 
+[node name="GameModeSelector" type="HBoxContainer" parent="HeaderContainer/TitleSection"]
+layout_mode = 2
+alignment = 1
+
+[node name="PronounModeButton" type="Button" parent="HeaderContainer/TitleSection/GameModeSelector"]
+layout_mode = 2
+text = "Pronoun Matching"
+toggle_mode = true
+button_pressed = true
+
+[node name="EnglishModeButton" type="Button" parent="HeaderContainer/TitleSection/GameModeSelector"]
+layout_mode = 2
+text = "English Matching"
+toggle_mode = true
+
 [node name="ProgressIndicator" type="Control" parent="HeaderContainer"]
 layout_mode = 2
 custom_minimum_size = Vector2(400, 0)
@@ -155,6 +170,21 @@ layout_mode = 2
 size_flags_horizontal = 3
 columns = 3
 
+[node name="EnglishSection" type="VBoxContainer" parent="VBoxContainer/GameArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EnglishLabel" type="Label" parent="VBoxContainer/GameArea/EnglishSection"]
+layout_mode = 2
+text = "English Phrases"
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="EnglishGrid" type="GridContainer" parent="VBoxContainer/GameArea/EnglishSection"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 3
+
 [node name="yo" type="Button" parent="VBoxContainer/GameArea/PronounSection/PronounGrid"]
 layout_mode = 2
 custom_minimum_size = Vector2(120, 60)
@@ -184,6 +214,36 @@ text = "vosotros..."
 layout_mode = 2
 custom_minimum_size = Vector2(120, 60)
 text = "ellos..."
+
+[node name="yo_eng" type="Button" parent="VBoxContainer/GameArea/EnglishSection/EnglishGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 60)
+text = "I..."
+
+[node name="tu_eng" type="Button" parent="VBoxContainer/GameArea/EnglishSection/EnglishGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 60)
+text = "You..."
+
+[node name="el_eng" type="Button" parent="VBoxContainer/GameArea/EnglishSection/EnglishGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 60)
+text = "He/She..."
+
+[node name="nosotros_eng" type="Button" parent="VBoxContainer/GameArea/EnglishSection/EnglishGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 60)
+text = "We..."
+
+[node name="vosotros_eng" type="Button" parent="VBoxContainer/GameArea/EnglishSection/EnglishGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 60)
+text = "You all..."
+
+[node name="ellos_eng" type="Button" parent="VBoxContainer/GameArea/EnglishSection/EnglishGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 60)
+text = "They..."
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/GameArea"]
 layout_mode = 2
