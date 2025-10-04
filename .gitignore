@@ -1,1 +1,49 @@
-node_modules/
+# Godot 4+ specific ignores
+.godot/
+
+# Godot-specific ignores
+*.tmp
+*.translation
+
+# Imported files (see Import tab in Godot Editor)
+*.dae
+*.fbx
+*.glb
+*.gltf
+*.obj
+*.x3d
+
+# Godot 3.x specific ignores
+.godot-version
+.godot/
+
+# Build results
+builds/
+exports/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Backup files
+*.bak
+*.backup
