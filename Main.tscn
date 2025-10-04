@@ -1,0 +1,151 @@
+[gd_scene load_steps=2 format=3 uid="uid://b0x8jqyqj0x0r"]
+
+[ext_resource type="Script" path="res://Main.gd" id="1_0x8jq"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_0x8jq")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.827, 0.827, 0.827, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = 50.0
+offset_right = -50.0
+offset_bottom = -50.0
+
+[node name="Header" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer/Header"]
+layout_mode = 2
+text = "Spanish Verb Conjugation Game"
+horizontal_alignment = 1
+
+[node name="VerbLabel" type="Label" parent="VBoxContainer/Header"]
+layout_mode = 2
+text = "Match the conjugation with the pronoun for..."
+horizontal_alignment = 1
+
+[node name="PreviousScoreLabel" type="Label" parent="VBoxContainer/Header"]
+layout_mode = 2
+text = "Previous Score: 0"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="GameArea" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PronounSection" type="VBoxContainer" parent="VBoxContainer/GameArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PronounLabel" type="Label" parent="VBoxContainer/GameArea/PronounSection"]
+layout_mode = 2
+text = "Pronouns"
+horizontal_alignment = 1
+
+[node name="PronounGrid" type="GridContainer" parent="VBoxContainer/GameArea/PronounSection"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 3
+
+[node name="yo" type="Button" parent="VBoxContainer/GameArea/PronounSection/PronounGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 60)
+text = "yo..."
+
+[node name="tu" type="Button" parent="VBoxContainer/GameArea/PronounSection/PronounGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 60)
+text = "tu..."
+
+[node name="el" type="Button" parent="VBoxContainer/GameArea/PronounSection/PronounGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 60)
+text = "el..."
+
+[node name="nosotros" type="Button" parent="VBoxContainer/GameArea/PronounSection/PronounGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 60)
+text = "nosotros..."
+
+[node name="vosotros" type="Button" parent="VBoxContainer/GameArea/PronounSection/PronounGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 60)
+text = "vosotros..."
+
+[node name="ellos" type="Button" parent="VBoxContainer/GameArea/PronounSection/PronounGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 60)
+text = "ellos..."
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/GameArea"]
+layout_mode = 2
+
+[node name="ConjugationSection" type="VBoxContainer" parent="VBoxContainer/GameArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ConjugationLabel" type="Label" parent="VBoxContainer/GameArea/ConjugationSection"]
+layout_mode = 2
+text = "Conjugations"
+horizontal_alignment = 1
+
+[node name="ConjugationGrid" type="GridContainer" parent="VBoxContainer/GameArea/ConjugationSection"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 3
+
+[node name="Popup" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -100.0
+offset_right = 150.0
+offset_bottom = 100.0
+visible = false
+
+[node name="Background" type="ColorRect" parent="Popup"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.8)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Popup"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+
+[node name="Label" type="Label" parent="Popup/VBoxContainer"]
+layout_mode = 2
+text = "Good Job!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
