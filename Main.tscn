@@ -16,33 +16,121 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.827, 0.827, 0.827, 1)
 
+[node name="HeaderContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 140.0
+
+[node name="TitleSection" type="VBoxContainer" parent="HeaderContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TitleLabel" type="Label" parent="HeaderContainer/TitleSection"]
+layout_mode = 2
+text = "Spanish Verb Conjugation Game"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="VerbLabel" type="Label" parent="HeaderContainer/TitleSection"]
+layout_mode = 2
+text = "Match the conjugation with the pronoun for..."
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.3, 0.3, 0.3, 1)
+
+[node name="PreviousScoreLabel" type="Label" parent="HeaderContainer/TitleSection"]
+layout_mode = 2
+text = "Previous Score: 0"
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
+
+[node name="ProgressIndicator" type="Control" parent="HeaderContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(400, 0)
+
+[node name="Background" type="ColorRect" parent="HeaderContainer/ProgressIndicator"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.2, 0.2, 0.2, 0.9)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HeaderContainer/ProgressIndicator"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+
+[node name="ProgressTitle" type="Label" parent="HeaderContainer/ProgressIndicator/VBoxContainer"]
+layout_mode = 2
+text = "Progress"
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="HSeparator" type="HSeparator" parent="HeaderContainer/ProgressIndicator/VBoxContainer"]
+layout_mode = 2
+
+[node name="ContentContainer" type="HBoxContainer" parent="HeaderContainer/ProgressIndicator/VBoxContainer"]
+layout_mode = 2
+
+[node name="LeftColumn" type="VBoxContainer" parent="HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CurrentVerbLabel" type="Label" parent="HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer/LeftColumn"]
+layout_mode = 2
+text = "Current: Tener"
+theme_override_colors/font_color = Color(0.8, 1, 0.8, 1)
+
+[node name="VerbsCompletedLabel" type="Label" parent="HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer/LeftColumn"]
+layout_mode = 2
+text = "Completed: 0/3"
+theme_override_colors/font_color = Color(0.8, 0.8, 1, 1)
+
+[node name="RightColumn" type="VBoxContainer" parent="HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VerbEndingLabel" type="Label" parent="HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer/RightColumn"]
+layout_mode = 2
+text = "Ending: -er"
+theme_override_colors/font_color = Color(1, 1, 0.8, 1)
+
+[node name="TotalErrorsLabel" type="Label" parent="HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer/RightColumn"]
+layout_mode = 2
+text = "Total Errors: 0"
+theme_override_colors/font_color = Color(1, 0.9, 0.8, 1)
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 50.0
-offset_top = 50.0
+offset_top = 150.0
 offset_right = -50.0
 offset_bottom = -50.0
 
-[node name="Header" type="VBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="TitleLabel" type="Label" parent="VBoxContainer/Header"]
-layout_mode = 2
-text = "Spanish Verb Conjugation Game"
-horizontal_alignment = 1
-
-[node name="VerbLabel" type="Label" parent="VBoxContainer/Header"]
-layout_mode = 2
-text = "Match the conjugation with the pronoun for..."
-horizontal_alignment = 1
-
-[node name="PreviousScoreLabel" type="Label" parent="VBoxContainer/Header"]
-layout_mode = 2
-text = "Previous Score: 0"
-horizontal_alignment = 1
+[node name="TopHSeparator" type="HSeparator" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_top = 140.0
+offset_bottom = 140.0
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
@@ -60,6 +148,7 @@ size_flags_horizontal = 3
 layout_mode = 2
 text = "Pronouns"
 horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
 
 [node name="PronounGrid" type="GridContainer" parent="VBoxContainer/GameArea/PronounSection"]
 layout_mode = 2
@@ -107,6 +196,7 @@ size_flags_horizontal = 3
 layout_mode = 2
 text = "Conjugations"
 horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
 
 [node name="ConjugationGrid" type="GridContainer" parent="VBoxContainer/GameArea/ConjugationSection"]
 layout_mode = 2

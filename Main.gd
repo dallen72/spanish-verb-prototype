@@ -6,6 +6,7 @@ var selected_conjugation: String = ""
 var previous_score: int = 0
 var completed_verbs: Array = []
 var current_verb: Dictionary = {}
+var total_errors: int = 0
 
 # Verb data - same as HTML version
 const VERB_LIST = [
@@ -48,12 +49,18 @@ const VERB_LIST = [
 ]
 
 # UI references
-@onready var verb_label: Label = $VBoxContainer/Header/VerbLabel
-@onready var previous_score_label: Label = $VBoxContainer/Header/PreviousScoreLabel
+@onready var verb_label: Label = $HeaderContainer/TitleSection/VerbLabel
+@onready var previous_score_label: Label = $HeaderContainer/TitleSection/PreviousScoreLabel
 @onready var pronoun_container: GridContainer = $VBoxContainer/GameArea/PronounSection/PronounGrid
 @onready var conjugation_container: GridContainer = $VBoxContainer/GameArea/ConjugationSection/ConjugationGrid
 @onready var popup: Control = $Popup
 @onready var popup_label: Label = $Popup/VBoxContainer/Label
+
+# Progress indicator references
+@onready var current_verb_label: Label = $HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer/LeftColumn/CurrentVerbLabel
+@onready var verbs_completed_label: Label = $HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer/LeftColumn/VerbsCompletedLabel
+@onready var verb_ending_label: Label = $HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer/RightColumn/VerbEndingLabel
+@onready var total_errors_label: Label = $HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer/RightColumn/TotalErrorsLabel
 
 func _ready():
 	# Initialize the game with a random verb
@@ -93,6 +100,9 @@ func start_new_problem():
 	
 	# Reset pronoun button states
 	reset_pronoun_buttons()
+	
+	# Update progress indicator
+	update_progress_indicator()
 
 func clear_conjugation_buttons():
 	for child in conjugation_container.get_children():
@@ -144,6 +154,8 @@ func _on_pronoun_button_pressed(button: Button):
 		else:
 			# Incorrect match
 			previous_score += 1
+			total_errors += 1
+			update_progress_indicator()
 	
 	# Update selection
 	clear_selections()
@@ -169,6 +181,8 @@ func _on_conjugation_button_pressed(button: Button):
 		else:
 			# Incorrect match
 			previous_score += 1
+			total_errors += 1
+			update_progress_indicator()
 	
 	# Update selection
 	clear_selections()
@@ -223,3 +237,19 @@ func get_pronoun_button_by_name(name: String) -> Button:
 		if button is Button and button.name == name:
 			return button
 	return null
+
+func update_progress_indicator():
+	# Update current verb
+	current_verb_label.text = "Current: " + current_verb["name"]
+	
+	# Update verbs completed
+	var total_verbs = VERB_LIST.size()
+	var completed_count = completed_verbs.size()
+	
+	verbs_completed_label.text = "Completed: " + str(completed_count) + "/" + str(total_verbs)
+	
+	# Update verb ending
+	verb_ending_label.text = "Ending: -" + current_verb["ending"]
+	
+	# Update total errors
+	total_errors_label.text = "Total Errors: " + str(total_errors)
