@@ -30,6 +30,14 @@ const VERB_LIST = [
 			"vosotros": "You all have",
 			"ellos": "They have"
 		},
+		"sentence_templates": {
+			"yo": "___ tengo hambre",
+			"tu": "¿___ tienes tiempo?",
+			"el": "___ tiene un coche",
+			"nosotros": "___ tenemos clase",
+			"vosotros": "¿___ tenéis dinero?",
+			"ellos": "___ tienen muchos amigos"
+		},
 		"ending": "er"
 	},
 	{
@@ -49,6 +57,14 @@ const VERB_LIST = [
 			"nosotros": "We speak",
 			"vosotros": "You all speak",
 			"ellos": "They speak"
+		},
+		"sentence_templates": {
+			"yo": "___ hablo español",
+			"tu": "¿___ hablas inglés?",
+			"el": "___ habla francés",
+			"nosotros": "___ hablamos mucho",
+			"vosotros": "¿___ habláis italiano?",
+			"ellos": "___ hablan chino"
 		},
 		"ending": "ar"
 	},
@@ -70,6 +86,14 @@ const VERB_LIST = [
 			"vosotros": "You all live",
 			"ellos": "They live"
 		},
+		"sentence_templates": {
+			"yo": "___ vivo en Madrid",
+			"tu": "¿___ vives aquí?",
+			"el": "___ vive en Barcelona",
+			"nosotros": "___ vivimos juntos",
+			"vosotros": "¿___ vivís cerca?",
+			"ellos": "___ viven en París"
+		},
 		"ending": "ir"
 	}
 ]
@@ -79,6 +103,7 @@ const VERB_LIST = [
 @onready var previous_score_label: Label = $HeaderContainer/TitleSection/PreviousScoreLabel
 @onready var pronoun_mode_button: Button = $HeaderContainer/TitleSection/GameModeSelector/PronounModeButton
 @onready var english_mode_button: Button = $HeaderContainer/TitleSection/GameModeSelector/EnglishModeButton
+@onready var sentence_mode_button: Button = $HeaderContainer/TitleSection/GameModeSelector/SentenceModeButton
 @onready var pronoun_container: GridContainer = $VBoxContainer/GameArea/PronounSection/PronounGrid
 @onready var english_container: GridContainer = $VBoxContainer/GameArea/EnglishSection/EnglishGrid
 @onready var conjugation_container: GridContainer = $VBoxContainer/GameArea/ConjugationSection/ConjugationGrid
@@ -98,6 +123,7 @@ func _ready():
 	# Connect game mode button signals
 	pronoun_mode_button.pressed.connect(_on_pronoun_mode_button_pressed)
 	english_mode_button.pressed.connect(_on_english_mode_button_pressed)
+	sentence_mode_button.pressed.connect(_on_sentence_mode_button_pressed)
 	
 	# Connect pronoun button signals
 	for button in pronoun_container.get_children():
@@ -330,6 +356,7 @@ func _on_pronoun_mode_button_pressed():
 	
 	game_mode = "pronoun_matching"
 	english_mode_button.button_pressed = false
+	sentence_mode_button.button_pressed = false
 	update_game_mode_display()
 	start_new_problem()
 
@@ -340,8 +367,12 @@ func _on_english_mode_button_pressed():
 	
 	game_mode = "english_matching"
 	pronoun_mode_button.button_pressed = false
+	sentence_mode_button.button_pressed = false
 	update_game_mode_display()
 	start_new_problem()
+
+func _on_sentence_mode_button_pressed():
+	get_tree().change_scene_to_file("res://SentenceCompletion.tscn")
 
 func update_game_mode_display():
 	if game_mode == "pronoun_matching":

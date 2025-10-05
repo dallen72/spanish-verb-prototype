@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://b0x8jqyqj0x0r"]
+[gd_scene load_steps=2 format=3 uid="uid://by4hv4xrjwvfl"]
 
-[ext_resource type="Script" path="res://Main.gd" id="1_0x8jq"]
+[ext_resource type="Script" path="res://SentenceCompletion.gd" id="1_0x8jq"]
 
-[node name="Main" type="Control"]
+[node name="SentenceCompletion" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -41,7 +41,7 @@ theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
 
 [node name="VerbLabel" type="Label" parent="HeaderContainer/TitleSection"]
 layout_mode = 2
-text = "Match the conjugation with the pronoun for..."
+text = "Match the conjugation with the correct sentence for Hablar"
 horizontal_alignment = 1
 theme_override_colors/font_color = Color(0.3, 0.3, 0.3, 1)
 
@@ -59,7 +59,6 @@ alignment = 1
 layout_mode = 2
 text = "Pronoun Matching"
 toggle_mode = true
-button_pressed = true
 
 [node name="EnglishModeButton" type="Button" parent="HeaderContainer/TitleSection/GameModeSelector"]
 layout_mode = 2
@@ -70,6 +69,7 @@ toggle_mode = true
 layout_mode = 2
 text = "Sentence Completion"
 toggle_mode = true
+button_pressed = true
 
 [node name="ProgressIndicator" type="Control" parent="HeaderContainer"]
 layout_mode = 2
@@ -110,7 +110,7 @@ size_flags_horizontal = 3
 
 [node name="CurrentVerbLabel" type="Label" parent="HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer/LeftColumn"]
 layout_mode = 2
-text = "Current: Tener"
+text = "Current: Hablar"
 theme_override_colors/font_color = Color(0.8, 1, 0.8, 1)
 
 [node name="VerbsCompletedLabel" type="Label" parent="HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer/LeftColumn"]
@@ -124,23 +124,13 @@ size_flags_horizontal = 3
 
 [node name="VerbEndingLabel" type="Label" parent="HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer/RightColumn"]
 layout_mode = 2
-text = "Ending: -er"
+text = "Ending: -ar"
 theme_override_colors/font_color = Color(1, 1, 0.8, 1)
 
 [node name="TotalErrorsLabel" type="Label" parent="HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer/RightColumn"]
 layout_mode = 2
 text = "Total Errors: 0"
 theme_override_colors/font_color = Color(1, 0.9, 0.8, 1)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 50.0
-offset_top = 150.0
-offset_right = -50.0
-offset_bottom = -50.0
 
 [node name="TopHSeparator" type="HSeparator" parent="."]
 layout_mode = 1
@@ -152,6 +142,16 @@ anchor_bottom = 0.0
 offset_top = 140.0
 offset_bottom = 140.0
 
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = 150.0
+offset_right = -50.0
+offset_bottom = -50.0
+
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
 
@@ -160,114 +160,69 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="PronounSection" type="VBoxContainer" parent="VBoxContainer/GameArea"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="PronounLabel" type="Label" parent="VBoxContainer/GameArea/PronounSection"]
-layout_mode = 2
-text = "Pronouns"
-horizontal_alignment = 1
-theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
-
-[node name="PronounGrid" type="GridContainer" parent="VBoxContainer/GameArea/PronounSection"]
-layout_mode = 2
-size_flags_horizontal = 3
-columns = 3
-
-[node name="EnglishSection" type="VBoxContainer" parent="VBoxContainer/GameArea"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="EnglishLabel" type="Label" parent="VBoxContainer/GameArea/EnglishSection"]
-layout_mode = 2
-text = "English Phrases"
-horizontal_alignment = 1
-theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
-
-[node name="EnglishGrid" type="GridContainer" parent="VBoxContainer/GameArea/EnglishSection"]
-layout_mode = 2
-size_flags_horizontal = 3
-columns = 3
-
-[node name="yo" type="Button" parent="VBoxContainer/GameArea/PronounSection/PronounGrid"]
-layout_mode = 2
-custom_minimum_size = Vector2(120, 60)
-text = "yo..."
-
-[node name="tu" type="Button" parent="VBoxContainer/GameArea/PronounSection/PronounGrid"]
-layout_mode = 2
-custom_minimum_size = Vector2(120, 60)
-text = "tu..."
-
-[node name="el" type="Button" parent="VBoxContainer/GameArea/PronounSection/PronounGrid"]
-layout_mode = 2
-custom_minimum_size = Vector2(120, 60)
-text = "el..."
-
-[node name="nosotros" type="Button" parent="VBoxContainer/GameArea/PronounSection/PronounGrid"]
-layout_mode = 2
-custom_minimum_size = Vector2(120, 60)
-text = "nosotros..."
-
-[node name="vosotros" type="Button" parent="VBoxContainer/GameArea/PronounSection/PronounGrid"]
-layout_mode = 2
-custom_minimum_size = Vector2(120, 60)
-text = "vosotros..."
-
-[node name="ellos" type="Button" parent="VBoxContainer/GameArea/PronounSection/PronounGrid"]
-layout_mode = 2
-custom_minimum_size = Vector2(120, 60)
-text = "ellos..."
-
-[node name="yo_eng" type="Button" parent="VBoxContainer/GameArea/EnglishSection/EnglishGrid"]
-layout_mode = 2
-custom_minimum_size = Vector2(120, 60)
-text = "I..."
-
-[node name="tu_eng" type="Button" parent="VBoxContainer/GameArea/EnglishSection/EnglishGrid"]
-layout_mode = 2
-custom_minimum_size = Vector2(120, 60)
-text = "You..."
-
-[node name="el_eng" type="Button" parent="VBoxContainer/GameArea/EnglishSection/EnglishGrid"]
-layout_mode = 2
-custom_minimum_size = Vector2(120, 60)
-text = "He/She..."
-
-[node name="nosotros_eng" type="Button" parent="VBoxContainer/GameArea/EnglishSection/EnglishGrid"]
-layout_mode = 2
-custom_minimum_size = Vector2(120, 60)
-text = "We..."
-
-[node name="vosotros_eng" type="Button" parent="VBoxContainer/GameArea/EnglishSection/EnglishGrid"]
-layout_mode = 2
-custom_minimum_size = Vector2(120, 60)
-text = "You all..."
-
-[node name="ellos_eng" type="Button" parent="VBoxContainer/GameArea/EnglishSection/EnglishGrid"]
-layout_mode = 2
-custom_minimum_size = Vector2(120, 60)
-text = "They..."
-
-
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer/GameArea"]
-layout_mode = 2
-
 [node name="ConjugationSection" type="VBoxContainer" parent="VBoxContainer/GameArea"]
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="ConjugationLabel" type="Label" parent="VBoxContainer/GameArea/ConjugationSection"]
 layout_mode = 2
-text = "Conjugations"
+text = "Conjugation"
 horizontal_alignment = 1
 theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
 
-[node name="ConjugationGrid" type="GridContainer" parent="VBoxContainer/GameArea/ConjugationSection"]
+[node name="ConjugationDisplay" type="Button" parent="VBoxContainer/GameArea/ConjugationSection"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 100)
+text = "hablo"
+disabled = true
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/GameArea"]
+layout_mode = 2
+
+[node name="SentenceSection" type="VBoxContainer" parent="VBoxContainer/GameArea"]
 layout_mode = 2
 size_flags_horizontal = 3
-columns = 3
+
+[node name="SentenceLabel" type="Label" parent="VBoxContainer/GameArea/SentenceSection"]
+layout_mode = 2
+text = "Choose the correct sentence"
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="SentenceGrid" type="GridContainer" parent="VBoxContainer/GameArea/SentenceSection"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 2
+
+[node name="sentence_yo" type="Button" parent="VBoxContainer/GameArea/SentenceSection/SentenceGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(250, 60)
+text = "___ hablo español"
+
+[node name="sentence_tu" type="Button" parent="VBoxContainer/GameArea/SentenceSection/SentenceGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(250, 60)
+text = "¿___ hablas inglés?"
+
+[node name="sentence_el" type="Button" parent="VBoxContainer/GameArea/SentenceSection/SentenceGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(250, 60)
+text = "___ habla francés"
+
+[node name="sentence_nosotros" type="Button" parent="VBoxContainer/GameArea/SentenceSection/SentenceGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(250, 60)
+text = "___ hablamos mucho"
+
+[node name="sentence_vosotros" type="Button" parent="VBoxContainer/GameArea/SentenceSection/SentenceGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(250, 60)
+text = "¿___ habláis italiano?"
+
+[node name="sentence_ellos" type="Button" parent="VBoxContainer/GameArea/SentenceSection/SentenceGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(250, 60)
+text = "___ hablan chino"
 
 [node name="Popup" type="Control" parent="."]
 layout_mode = 1
@@ -304,4 +259,3 @@ layout_mode = 2
 text = "Good Job!"
 horizontal_alignment = 1
 vertical_alignment = 1
-
