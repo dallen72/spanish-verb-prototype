@@ -99,9 +99,7 @@ const VERB_LIST = [
 # UI references
 @onready var verb_label: Label = $HeaderContainer/TitleSection/VerbLabel
 @onready var previous_score_label: Label = $HeaderContainer/TitleSection/PreviousScoreLabel
-@onready var english_pronoun_mode_button: Button = $HeaderContainer/TitleSection/GameModeSelector/EnglishPronounModeButton
-@onready var spanish_pronoun_mode_button: Button = $HeaderContainer/TitleSection/GameModeSelector/SpanishPronounModeButton
-@onready var sentence_mode_button: Button = $HeaderContainer/TitleSection/GameModeSelector/SentenceModeButton
+@onready var game_mode_selector: HBoxContainer = $HeaderContainer/TitleSection/GameModeSelector
 @onready var conjugation_display_button: Button = $VBoxContainer/GameArea/ConjugationSection/ConjugationDisplay
 @onready var sentence_container: GridContainer = $VBoxContainer/GameArea/SentenceSection/SentenceGrid
 @onready var popup: Control = $Popup
@@ -117,10 +115,11 @@ func _ready():
 	# Initialize the game with a random verb
 	start_new_problem()
 	
-	# Connect game mode button signals
-	english_pronoun_mode_button.pressed.connect(_on_english_pronoun_mode_button_pressed)
-	spanish_pronoun_mode_button.pressed.connect(_on_spanish_pronoun_mode_button_pressed)
-	sentence_mode_button.pressed.connect(_on_sentence_mode_button_pressed)
+	# Connect game mode selector signal
+	game_mode_selector.game_mode_changed.connect(_on_game_mode_changed)
+	
+	# Set initial mode to sentence completion
+	game_mode_selector.set_initial_mode("sentence_completion")
 	
 	# Connect sentence button signals
 	for button in sentence_container.get_children():
@@ -227,13 +226,8 @@ func show_popup():
 func hide_popup():
 	popup.visible = false
 
-# Game mode switching functions
-func _on_english_pronoun_mode_button_pressed():
-	get_tree().change_scene_to_file("res://Main.tscn")
-
-func _on_spanish_pronoun_mode_button_pressed():
-	get_tree().change_scene_to_file("res://Main.tscn")
-
-func _on_sentence_mode_button_pressed():
-	# Already in sentence mode, do nothing
-	pass
+# Game mode switching function
+func _on_game_mode_changed(mode: String):
+	if mode != "sentence_completion":
+		get_tree().change_scene_to_file("res://Main.tscn")
+	# If mode is sentence_completion, do nothing (already in this scene)

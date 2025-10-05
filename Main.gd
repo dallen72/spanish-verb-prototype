@@ -101,9 +101,7 @@ const VERB_LIST = [
 # UI references
 @onready var verb_label: Label = $HeaderContainer/TitleSection/VerbLabel
 @onready var previous_score_label: Label = $HeaderContainer/TitleSection/PreviousScoreLabel
-@onready var english_pronoun_mode_button: Button = $HeaderContainer/TitleSection/GameModeSelector/EnglishPronounModeButton
-@onready var spanish_pronoun_mode_button: Button = $HeaderContainer/TitleSection/GameModeSelector/SpanishPronounModeButton
-@onready var sentence_mode_button: Button = $HeaderContainer/TitleSection/GameModeSelector/SentenceModeButton
+@onready var game_mode_selector: HBoxContainer = $HeaderContainer/TitleSection/GameModeSelector
 @onready var pronoun_container: GridContainer = $VBoxContainer/GameArea/PronounSection/PronounGrid
 @onready var english_container: GridContainer = $VBoxContainer/GameArea/EnglishSection/EnglishGrid
 @onready var conjugation_container: GridContainer = $VBoxContainer/GameArea/ConjugationSection/ConjugationGrid
@@ -120,10 +118,8 @@ func _ready():
 	# Initialize the game with a random verb
 	start_new_problem()
 	
-	# Connect game mode button signals
-	english_pronoun_mode_button.pressed.connect(_on_english_pronoun_mode_button_pressed)
-	spanish_pronoun_mode_button.pressed.connect(_on_spanish_pronoun_mode_button_pressed)
-	sentence_mode_button.pressed.connect(_on_sentence_mode_button_pressed)
+	# Connect game mode selector signal
+	game_mode_selector.game_mode_changed.connect(_on_game_mode_changed)
 	
 	# Connect pronoun button signals
 	for button in pronoun_container.get_children():
@@ -349,30 +345,14 @@ func update_progress_indicator():
 	# Update total errors
 	total_errors_label.text = "Total Errors: " + str(total_errors)
 
-func _on_english_pronoun_mode_button_pressed():
-	if not english_pronoun_mode_button.button_pressed:
-		english_pronoun_mode_button.button_pressed = true
-		return
+func _on_game_mode_changed(mode: String):
+	game_mode = mode
 	
-	game_mode = "english_pronouns"
-	spanish_pronoun_mode_button.button_pressed = false
-	sentence_mode_button.button_pressed = false
-	update_game_mode_display()
-	start_new_problem()
-
-func _on_spanish_pronoun_mode_button_pressed():
-	if not spanish_pronoun_mode_button.button_pressed:
-		spanish_pronoun_mode_button.button_pressed = true
-		return
-	
-	game_mode = "spanish_pronouns"
-	english_pronoun_mode_button.button_pressed = false
-	sentence_mode_button.button_pressed = false
-	update_game_mode_display()
-	start_new_problem()
-
-func _on_sentence_mode_button_pressed():
-	get_tree().change_scene_to_file("res://SentenceCompletion.tscn")
+	if mode == "sentence_completion":
+		get_tree().change_scene_to_file("res://SentenceCompletion.tscn")
+	else:
+		update_game_mode_display()
+		start_new_problem()
 
 func update_game_mode_display():
 	if game_mode == "english_pronouns":
