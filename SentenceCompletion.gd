@@ -8,93 +8,7 @@ var total_errors: int = 0
 var current_conjugation_for_sentences: String = ""
 var current_pronoun_for_sentences: String = ""
 
-# Verb data - enhanced with English phrases and sentence templates
-const VERB_LIST = [
-	{
-		"name": "Tener",
-		"conjugations": {
-			"yo": "tengo",
-			"tu": "tienes", 
-			"el": "tiene",
-			"nosotros": "tenemos",
-			"vosotros": "tenéis",
-			"ellos": "tienen"
-		},
-		"english_phrases": {
-			"yo": "I have",
-			"tu": "You have",
-			"el": "He/She has",
-			"nosotros": "We have",
-			"vosotros": "You all have",
-			"ellos": "They have"
-		},
-		"sentence_templates": {
-			"yo": "___ tengo hambre",
-			"tu": "¿___ tienes tiempo?",
-			"el": "___ tiene un coche",
-			"nosotros": "___ tenemos clase",
-			"vosotros": "¿___ tenéis dinero?",
-			"ellos": "___ tienen muchos amigos"
-		},
-		"ending": "er"
-	},
-	{
-		"name": "Hablar",
-		"conjugations": {
-			"yo": "hablo",
-			"tu": "hablas",
-			"el": "habla", 
-			"nosotros": "hablamos",
-			"vosotros": "hablais",
-			"ellos": "hablan"
-		},
-		"english_phrases": {
-			"yo": "I speak",
-			"tu": "You speak",
-			"el": "He/She speaks",
-			"nosotros": "We speak",
-			"vosotros": "You all speak",
-			"ellos": "They speak"
-		},
-		"sentence_templates": {
-			"yo": "___ hablo español",
-			"tu": "¿___ hablas inglés?",
-			"el": "___ habla francés",
-			"nosotros": "___ hablamos mucho",
-			"vosotros": "¿___ habláis italiano?",
-			"ellos": "___ hablan chino"
-		},
-		"ending": "ar"
-	},
-	{
-		"name": "Vivir",
-		"conjugations": {
-			"yo": "vivo",
-			"tu": "vives",
-			"el": "vive",
-			"nosotros": "vivimos", 
-			"vosotros": "vivis",
-			"ellos": "viven"
-		},
-		"english_phrases": {
-			"yo": "I live",
-			"tu": "You live",
-			"el": "He/She lives",
-			"nosotros": "We live",
-			"vosotros": "You all live",
-			"ellos": "They live"
-		},
-		"sentence_templates": {
-			"yo": "___ vivo en Madrid",
-			"tu": "¿___ vives aquí?",
-			"el": "___ vive en Barcelona",
-			"nosotros": "___ vivimos juntos",
-			"vosotros": "¿___ vivís cerca?",
-			"ellos": "___ viven en París"
-		},
-		"ending": "ir"
-	}
-]
+# Verb data is now imported from VerbData.gd
 
 # UI references
 @onready var verb_label: Label = $HeaderContainer/TitleSection/VerbLabel
@@ -128,17 +42,12 @@ func _ready():
 
 func start_new_problem():
 	# Select a random verb that hasn't been completed yet
-	var available_verbs = []
-	for verb in VERB_LIST:
-		if not verb["name"] in completed_verbs:
-			available_verbs.append(verb)
+	current_verb = VerbData.get_random_available_verb(completed_verbs)
 	
-	if available_verbs.size() > 0:
-		current_verb = available_verbs[randi() % available_verbs.size()]
-	else:
-		# All verbs completed, reset and start over
+	# If all verbs completed, reset and start over
+	if completed_verbs.size() >= VerbData.get_total_verb_count():
 		completed_verbs.clear()
-		current_verb = VERB_LIST[randi() % VERB_LIST.size()]
+		current_verb = VerbData.get_random_verb()
 	
 	# Update UI
 	previous_score_label.text = "You got " + str(previous_score) + " wrong on the last problem"
@@ -208,7 +117,7 @@ func update_progress_indicator():
 	current_verb_label.text = "Current: " + current_verb["name"]
 	
 	# Update verbs completed
-	var total_verbs = VERB_LIST.size()
+	var total_verbs = VerbData.get_total_verb_count()
 	var completed_count = completed_verbs.size()
 	
 	verbs_completed_label.text = "Completed: " + str(completed_count) + "/" + str(total_verbs)
