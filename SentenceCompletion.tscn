@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://by4hv4xrjwvfl"]
+[gd_scene load_steps=4 format=3 uid="uid://by4hv4xrjwvfl"]
 
 [ext_resource type="Script" path="res://SentenceCompletion.gd" id="1_0x8jq"]
 [ext_resource type="PackedScene" uid="uid://c8x9k2y3z4w5v6" path="res://GameModeSelector.tscn" id="2_3x4y"]
+[ext_resource type="PackedScene" uid="uid://d9x0k3y6z7w8v1" path="res://ProgressIndicator.tscn" id="3_6x7y"]
 
 [node name="SentenceCompletion" type="Control"]
 layout_mode = 3
@@ -55,66 +56,8 @@ theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
 [node name="GameModeSelector" parent="HeaderContainer/TitleSection" instance=ExtResource("2_3x4y")]
 layout_mode = 2
 
-[node name="ProgressIndicator" type="Control" parent="HeaderContainer"]
+[node name="ProgressIndicator" parent="HeaderContainer" instance=ExtResource("3_6x7y")]
 layout_mode = 2
-custom_minimum_size = Vector2(400, 0)
-
-[node name="Background" type="ColorRect" parent="HeaderContainer/ProgressIndicator"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color(0.2, 0.2, 0.2, 0.9)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HeaderContainer/ProgressIndicator"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
-
-[node name="ProgressTitle" type="Label" parent="HeaderContainer/ProgressIndicator/VBoxContainer"]
-layout_mode = 2
-text = "Progress"
-horizontal_alignment = 1
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-
-[node name="HSeparator" type="HSeparator" parent="HeaderContainer/ProgressIndicator/VBoxContainer"]
-layout_mode = 2
-
-[node name="ContentContainer" type="HBoxContainer" parent="HeaderContainer/ProgressIndicator/VBoxContainer"]
-layout_mode = 2
-
-[node name="LeftColumn" type="VBoxContainer" parent="HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="CurrentVerbLabel" type="Label" parent="HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer/LeftColumn"]
-layout_mode = 2
-text = "Current: Hablar"
-theme_override_colors/font_color = Color(0.8, 1, 0.8, 1)
-
-[node name="VerbsCompletedLabel" type="Label" parent="HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer/LeftColumn"]
-layout_mode = 2
-text = "Completed: 0/3"
-theme_override_colors/font_color = Color(0.8, 0.8, 1, 1)
-
-[node name="RightColumn" type="VBoxContainer" parent="HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="VerbEndingLabel" type="Label" parent="HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer/RightColumn"]
-layout_mode = 2
-text = "Ending: -ar"
-theme_override_colors/font_color = Color(1, 1, 0.8, 1)
-
-[node name="TotalErrorsLabel" type="Label" parent="HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer/RightColumn"]
-layout_mode = 2
-text = "Total Errors: 0"
-theme_override_colors/font_color = Color(1, 0.9, 0.8, 1)
 
 [node name="TopHSeparator" type="HSeparator" parent="."]
 layout_mode = 1

@@ -14,16 +14,11 @@ var current_pronoun_for_sentences: String = ""
 @onready var verb_label: Label = $HeaderContainer/TitleSection/VerbLabel
 @onready var previous_score_label: Label = $HeaderContainer/TitleSection/PreviousScoreLabel
 @onready var game_mode_selector: HBoxContainer = $HeaderContainer/TitleSection/GameModeSelector
+@onready var progress_indicator: Control = $HeaderContainer/ProgressIndicator
 @onready var conjugation_display_button: Button = $VBoxContainer/GameArea/ConjugationSection/ConjugationDisplay
 @onready var sentence_container: GridContainer = $VBoxContainer/GameArea/SentenceSection/SentenceGrid
 @onready var popup: Control = $Popup
 @onready var popup_label: Label = $Popup/VBoxContainer/Label
-
-# Progress indicator references
-@onready var current_verb_label: Label = $HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer/LeftColumn/CurrentVerbLabel
-@onready var verbs_completed_label: Label = $HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer/LeftColumn/VerbsCompletedLabel
-@onready var verb_ending_label: Label = $HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer/RightColumn/VerbEndingLabel
-@onready var total_errors_label: Label = $HeaderContainer/ProgressIndicator/VBoxContainer/ContentContainer/RightColumn/TotalErrorsLabel
 
 func _ready():
 	# Initialize the game with a random verb
@@ -113,20 +108,7 @@ func _on_sentence_button_pressed(button: Button):
 		button.modulate = Color.WHITE
 
 func update_progress_indicator():
-	# Update current verb
-	current_verb_label.text = "Current: " + current_verb["name"]
-	
-	# Update verbs completed
-	var total_verbs = VerbData.get_total_verb_count()
-	var completed_count = completed_verbs.size()
-	
-	verbs_completed_label.text = "Completed: " + str(completed_count) + "/" + str(total_verbs)
-	
-	# Update verb ending
-	verb_ending_label.text = "Ending: -" + current_verb["ending"]
-	
-	# Update total errors
-	total_errors_label.text = "Total Errors: " + str(total_errors)
+	progress_indicator.update_progress(current_verb, completed_verbs, total_errors)
 
 func show_popup():
 	popup.visible = true
