@@ -7,7 +7,7 @@ var previous_score: int = 0
 var completed_verbs: Array = []
 var current_verb: Dictionary = {}
 var total_errors: int = 0
-var game_mode: String = "pronoun_matching"  # "pronoun_matching" or "english_matching"
+var game_mode: String = "english_pronouns"  # "english_pronouns" or "spanish_pronouns"
 var selected_english_phrase: String = ""
 
 # Verb data - enhanced with English phrases
@@ -101,8 +101,8 @@ const VERB_LIST = [
 # UI references
 @onready var verb_label: Label = $HeaderContainer/TitleSection/VerbLabel
 @onready var previous_score_label: Label = $HeaderContainer/TitleSection/PreviousScoreLabel
-@onready var pronoun_mode_button: Button = $HeaderContainer/TitleSection/GameModeSelector/PronounModeButton
-@onready var english_mode_button: Button = $HeaderContainer/TitleSection/GameModeSelector/EnglishModeButton
+@onready var english_pronoun_mode_button: Button = $HeaderContainer/TitleSection/GameModeSelector/EnglishPronounModeButton
+@onready var spanish_pronoun_mode_button: Button = $HeaderContainer/TitleSection/GameModeSelector/SpanishPronounModeButton
 @onready var sentence_mode_button: Button = $HeaderContainer/TitleSection/GameModeSelector/SentenceModeButton
 @onready var pronoun_container: GridContainer = $VBoxContainer/GameArea/PronounSection/PronounGrid
 @onready var english_container: GridContainer = $VBoxContainer/GameArea/EnglishSection/EnglishGrid
@@ -121,8 +121,8 @@ func _ready():
 	start_new_problem()
 	
 	# Connect game mode button signals
-	pronoun_mode_button.pressed.connect(_on_pronoun_mode_button_pressed)
-	english_mode_button.pressed.connect(_on_english_mode_button_pressed)
+	english_pronoun_mode_button.pressed.connect(_on_english_pronoun_mode_button_pressed)
+	spanish_pronoun_mode_button.pressed.connect(_on_spanish_pronoun_mode_button_pressed)
 	sentence_mode_button.pressed.connect(_on_sentence_mode_button_pressed)
 	
 	# Connect pronoun button signals
@@ -164,10 +164,10 @@ func start_new_problem():
 	generate_conjugation_buttons()
 	
 	# Reset button states based on game mode
-	if game_mode == "pronoun_matching":
-		reset_pronoun_buttons()
-	else:
+	if game_mode == "english_pronouns":
 		reset_english_buttons()
+	else:  # spanish_pronouns
+		reset_pronoun_buttons()
 	
 	# Update progress indicator
 	update_progress_indicator()
@@ -233,7 +233,7 @@ func _on_pronoun_button_pressed(button: Button):
 func _on_conjugation_button_pressed(button: Button):
 	var conjugation = button.text
 	
-	if game_mode == "pronoun_matching" and selected_pronoun != "":
+	if game_mode == "spanish_pronouns" and selected_pronoun != "":
 		# Check if this is a correct match
 		if current_verb["conjugations"][selected_pronoun] == conjugation:
 			# Correct match!
@@ -252,7 +252,7 @@ func _on_conjugation_button_pressed(button: Button):
 			previous_score += 1
 			total_errors += 1
 			update_progress_indicator()
-	elif game_mode == "english_matching" and selected_english_phrase != "":
+	elif game_mode == "english_pronouns" and selected_english_phrase != "":
 		# Check if this is a correct match
 		if current_verb["conjugations"][selected_english_phrase] == conjugation:
 			# Correct match!
@@ -307,7 +307,7 @@ func show_match(pronoun_button: Button, conjugation_button: Button):
 
 func all_are_matched() -> bool:
 	var matched_count = 0
-	var container_to_check = pronoun_container if game_mode == "pronoun_matching" else english_container
+	var container_to_check = pronoun_container if game_mode == "spanish_pronouns" else english_container
 	
 	for button in container_to_check.get_children():
 		if button is Button and button.disabled:
@@ -349,24 +349,24 @@ func update_progress_indicator():
 	# Update total errors
 	total_errors_label.text = "Total Errors: " + str(total_errors)
 
-func _on_pronoun_mode_button_pressed():
-	if not pronoun_mode_button.button_pressed:
-		pronoun_mode_button.button_pressed = true
+func _on_english_pronoun_mode_button_pressed():
+	if not english_pronoun_mode_button.button_pressed:
+		english_pronoun_mode_button.button_pressed = true
 		return
 	
-	game_mode = "pronoun_matching"
-	english_mode_button.button_pressed = false
+	game_mode = "english_pronouns"
+	spanish_pronoun_mode_button.button_pressed = false
 	sentence_mode_button.button_pressed = false
 	update_game_mode_display()
 	start_new_problem()
 
-func _on_english_mode_button_pressed():
-	if not english_mode_button.button_pressed:
-		english_mode_button.button_pressed = true
+func _on_spanish_pronoun_mode_button_pressed():
+	if not spanish_pronoun_mode_button.button_pressed:
+		spanish_pronoun_mode_button.button_pressed = true
 		return
 	
-	game_mode = "english_matching"
-	pronoun_mode_button.button_pressed = false
+	game_mode = "spanish_pronouns"
+	english_pronoun_mode_button.button_pressed = false
 	sentence_mode_button.button_pressed = false
 	update_game_mode_display()
 	start_new_problem()
@@ -375,19 +375,19 @@ func _on_sentence_mode_button_pressed():
 	get_tree().change_scene_to_file("res://SentenceCompletion.tscn")
 
 func update_game_mode_display():
-	if game_mode == "pronoun_matching":
-		verb_label.text = "Match the conjugation with the pronoun for " + current_verb["name"]
-		# Show pronoun section, hide English section
+	if game_mode == "english_pronouns":
+		verb_label.text = "Match the English pronoun with the Spanish conjugation for " + current_verb["name"]
+		# Show English section, hide Spanish pronoun section
+		english_container.get_parent().visible = true
+		pronoun_container.get_parent().visible = false
+	else:  # spanish_pronouns
+		verb_label.text = "Match the Spanish pronoun with the Spanish conjugation for " + current_verb["name"]
+		# Show Spanish pronoun section, hide English section
 		pronoun_container.get_parent().visible = true
 		english_container.get_parent().visible = false
-	else:
-		verb_label.text = "Match the English phrase with the Spanish conjugation for " + current_verb["name"]
-		# Show English section, hide pronoun section
-		pronoun_container.get_parent().visible = false
-		english_container.get_parent().visible = true
 
 func _on_english_button_pressed(button: Button):
-	if game_mode != "english_matching":
+	if game_mode != "english_pronouns":
 		return
 	
 	if selected_conjugation != "":

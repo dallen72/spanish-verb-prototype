@@ -99,8 +99,8 @@ const VERB_LIST = [
 # UI references
 @onready var verb_label: Label = $HeaderContainer/TitleSection/VerbLabel
 @onready var previous_score_label: Label = $HeaderContainer/TitleSection/PreviousScoreLabel
-@onready var pronoun_mode_button: Button = $HeaderContainer/TitleSection/GameModeSelector/PronounModeButton
-@onready var english_mode_button: Button = $HeaderContainer/TitleSection/GameModeSelector/EnglishModeButton
+@onready var english_pronoun_mode_button: Button = $HeaderContainer/TitleSection/GameModeSelector/EnglishPronounModeButton
+@onready var spanish_pronoun_mode_button: Button = $HeaderContainer/TitleSection/GameModeSelector/SpanishPronounModeButton
 @onready var sentence_mode_button: Button = $HeaderContainer/TitleSection/GameModeSelector/SentenceModeButton
 @onready var conjugation_display_button: Button = $VBoxContainer/GameArea/ConjugationSection/ConjugationDisplay
 @onready var sentence_container: GridContainer = $VBoxContainer/GameArea/SentenceSection/SentenceGrid
@@ -118,8 +118,8 @@ func _ready():
 	start_new_problem()
 	
 	# Connect game mode button signals
-	pronoun_mode_button.pressed.connect(_on_pronoun_mode_button_pressed)
-	english_mode_button.pressed.connect(_on_english_mode_button_pressed)
+	english_pronoun_mode_button.pressed.connect(_on_english_pronoun_mode_button_pressed)
+	spanish_pronoun_mode_button.pressed.connect(_on_spanish_pronoun_mode_button_pressed)
 	sentence_mode_button.pressed.connect(_on_sentence_mode_button_pressed)
 	
 	# Connect sentence button signals
@@ -228,12 +228,11 @@ func hide_popup():
 	popup.visible = false
 
 # Game mode switching functions
-func _on_pronoun_mode_button_pressed():
+func _on_english_pronoun_mode_button_pressed():
 	get_tree().change_scene_to_file("res://Main.tscn")
 
-func _on_english_mode_button_pressed():
-	# For now, just show a message - we could create an English matching scene too
-	print("English matching mode - would switch to English matching scene")
+func _on_spanish_pronoun_mode_button_pressed():
+	get_tree().change_scene_to_file("res://Main.tscn")
 
 func _on_sentence_mode_button_pressed():
 	# Already in sentence mode, do nothing

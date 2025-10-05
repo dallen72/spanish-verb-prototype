@@ -55,20 +55,20 @@ theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
 layout_mode = 2
 alignment = 1
 
-[node name="PronounModeButton" type="Button" parent="HeaderContainer/TitleSection/GameModeSelector"]
+[node name="EnglishPronounModeButton" type="Button" parent="HeaderContainer/TitleSection/GameModeSelector"]
 layout_mode = 2
-text = "Pronoun Matching"
+text = "Level 1-1: English Pronouns"
 toggle_mode = true
 button_pressed = true
 
-[node name="EnglishModeButton" type="Button" parent="HeaderContainer/TitleSection/GameModeSelector"]
+[node name="SpanishPronounModeButton" type="Button" parent="HeaderContainer/TitleSection/GameModeSelector"]
 layout_mode = 2
-text = "English Matching"
+text = "Level 1-2: Spanish Pronouns"
 toggle_mode = true
 
 [node name="SentenceModeButton" type="Button" parent="HeaderContainer/TitleSection/GameModeSelector"]
 layout_mode = 2
-text = "Sentence Completion"
+text = "Level 3: Sentence Completion"
 toggle_mode = true
 
 [node name="ProgressIndicator" type="Control" parent="HeaderContainer"]
@@ -166,7 +166,7 @@ size_flags_horizontal = 3
 
 [node name="PronounLabel" type="Label" parent="VBoxContainer/GameArea/PronounSection"]
 layout_mode = 2
-text = "Pronouns"
+text = "Spanish Pronouns"
 horizontal_alignment = 1
 theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
 
@@ -181,7 +181,7 @@ size_flags_horizontal = 3
 
 [node name="EnglishLabel" type="Label" parent="VBoxContainer/GameArea/EnglishSection"]
 layout_mode = 2
-text = "English Phrases"
+text = "English Pronouns"
 horizontal_alignment = 1
 theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
 
