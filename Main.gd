@@ -21,7 +21,6 @@ var selected_english_phrase: String = ""
 @onready var english_container: GridContainer = $VBoxContainer/GameArea/EnglishSection/EnglishGrid
 @onready var conjugation_container: GridContainer = $VBoxContainer/GameArea/ConjugationSection/ConjugationGrid
 @onready var popup: Control = $Popup
-@onready var popup_label: Label = $Popup/VBoxContainer/Label
 
 func _ready():
 	# Initialize the game with a random verb
@@ -215,11 +214,10 @@ func all_are_matched() -> bool:
 	return matched_count >= 6
 
 func show_popup():
-	popup.visible = true
-	popup_label.text = "Good Job!"
+	popup.show_popup()
 
 func hide_popup():
-	popup.visible = false
+	popup.hide_popup()
 
 func get_conjugation_button_by_text(text: String) -> Button:
 	for button in conjugation_container.get_children():

@@ -18,7 +18,6 @@ var current_pronoun_for_sentences: String = ""
 @onready var conjugation_display_button: Button = $VBoxContainer/GameArea/ConjugationSection/ConjugationDisplay
 @onready var sentence_container: GridContainer = $VBoxContainer/GameArea/SentenceSection/SentenceGrid
 @onready var popup: Control = $Popup
-@onready var popup_label: Label = $Popup/VBoxContainer/Label
 
 func _ready():
 	# Initialize the game with a random verb
@@ -111,11 +110,10 @@ func update_progress_indicator():
 	progress_indicator.update_progress(current_verb, completed_verbs, total_errors)
 
 func show_popup():
-	popup.visible = true
-	popup_label.text = "Good Job!"
+	popup.show_popup()
 
 func hide_popup():
-	popup.visible = false
+	popup.hide_popup()
 
 # Game mode switching function
 func _on_game_mode_changed(mode: String):
