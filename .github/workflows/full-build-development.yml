@@ -1,0 +1,103 @@
+name: Upload to Itch.io
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+jobs:
+  upload:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v5
+    
+    - name: Install Butler
+      run: |
+        curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
+        unzip butler.zip
+        chmod +x butler
+        sudo mv butler /usr/local/bin/
+        butler -V
+    
+    - name: Extract game ID from ITCHURL
+      id: extract-game-id
+      env:
+        ITCHURL: ${{ vars.ITCHURL }}
+      run: |
+        # Extract username/game-name from URL like https://username.itch.io/game-name
+        GAME_ID=$(echo "$ITCHURL" | sed -E 's|https://([^/]+)\.itch\.io/([^/]+).*|\1/\2|')
+        echo "game-id=$GAME_ID" >> $GITHUB_OUTPUT
+        echo "Extracted game ID: $GAME_ID"
+    
+    - name: Upload Web Build
+      env:
+        BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        PROJECTNAME: ${{ vars.PROJECTNAME }}
+        WEBBUILD: ${{ vars.WEBBUILD || 'true' }}
+      run: |
+        if [ "$WEBBUILD" != "true" ]; then
+          echo "Skipping Web build upload (WEBBUILD=$WEBBUILD)"
+          exit 0
+        fi
+        FILE_NAME="${PROJECTNAME}Web.zip"
+        if [ -f "build/$FILE_NAME" ]; then
+          butler push "build/$FILE_NAME" ${{ steps.extract-game-id.outputs.game-id }}:web
+        else
+          echo "Warning: $FILE_NAME not found in build directory"
+          exit 1
+        fi
+    
+    - name: Upload Linux Build
+      env:
+        BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        PROJECTNAME: ${{ vars.PROJECTNAME }}
+        LINUXBUILD: ${{ vars.LINUXBUILD || 'false' }}
+      run: |
+        if [ "$LINUXBUILD" != "true" ]; then
+          echo "Skipping Linux build upload (LINUXBUILD=$LINUXBUILD)"
+          exit 0
+        fi
+        FILE_NAME="${PROJECTNAME}Linux.zip"
+        if [ -f "build/$FILE_NAME" ]; then
+          butler push "build/$FILE_NAME" ${{ steps.extract-game-id.outputs.game-id }}:linux
+        else
+          echo "Warning: $FILE_NAME not found in build directory"
+          exit 1
+        fi
+    
+    - name: Upload macOS Build
+      env:
+        BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        PROJECTNAME: ${{ vars.PROJECTNAME }}
+        MACOSBUILD: ${{ vars.MACOSBUILD || 'false' }}
+      run: |
+        if [ "$MACOSBUILD" != "true" ]; then
+          echo "Skipping macOS build upload (MACOSBUILD=$MACOSBUILD)"
+          exit 0
+        fi
+        FILE_NAME="${PROJECTNAME}MacOS.zip"
+        if [ -f "build/$FILE_NAME" ]; then
+          butler push "build/$FILE_NAME" ${{ steps.extract-game-id.outputs.game-id }}:osx
+        else
+          echo "Warning: $FILE_NAME not found in build directory"
+          exit 1
+        fi
+    
+    - name: Upload Windows Build
+      env:
+        BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        PROJECTNAME: ${{ vars.PROJECTNAME }}
+        WINDOWSBUILD: ${{ vars.WINDOWSBUILD || 'true' }}
+      run: |
+        if [ "$WINDOWSBUILD" != "true" ]; then
+          echo "Skipping Windows build upload (WINDOWSBUILD=$WINDOWSBUILD)"
+          exit 0
+        fi
+        FILE_NAME="${PROJECTNAME}Windows.zip"
+        if [ -f "build/$FILE_NAME" ]; then
+          butler push "build/$FILE_NAME" ${{ steps.extract-game-id.outputs.game-id }}:windows
+        else
+          echo "Warning: $FILE_NAME not found in build directory"
+          exit 1
+        fi
+
