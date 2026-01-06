@@ -1,5 +1,5 @@
 # Spanish Verb Conjugation Game - Godot Version
-
+debug
 TODO: continuous integration for itch
 
 refactor manually
