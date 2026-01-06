@@ -13,8 +13,25 @@ jobs:
     
     - name: Install Butler
       run: |
-        curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
-        unzip butler.zip
+        # Install Butler - try multiple methods for reliability
+        set -e
+        # Method 1: Try the itch.io Butler service (may return zip or binary)
+        if curl -f -L -o butler_temp https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default 2>/dev/null; then
+          # Check if it's a zip file
+          if file butler_temp | grep -q "Zip archive"; then
+            unzip -q butler_temp
+            rm butler_temp
+          else
+            mv butler_temp butler
+          fi
+        # Method 2: Fallback to GitHub releases
+        elif curl -f -L -o butler.zip https://github.com/itchio/butler/releases/download/v15.21.0/butler-linux-amd64.zip 2>/dev/null; then
+          unzip -q butler.zip
+          rm butler.zip
+        else
+          echo "Error: Failed to download Butler"
+          exit 1
+        fi
         chmod +x butler
         sudo mv butler /usr/local/bin/
         butler -V
