@@ -16,16 +16,6 @@ jobs:
     - name: Verify Butler is installed
       run: butler -V
     
-    - name: Extract game ID from ITCHURL
-      id: extract-game-id
-      env:
-        ITCHURL: ${{ vars.ITCHURL }}
-      run: |
-        # Extract username/game-name from URL like https://username.itch.io/game-name
-        GAME_ID=$(echo "$ITCHURL" | sed -E 's|https://([^/]+)\.itch\.io/([^/]+).*|\1/\2|')
-        echo "game-id=$GAME_ID" >> $GITHUB_OUTPUT
-        echo "Extracted game ID: $GAME_ID"
-    
     - name: Upload Web Build
       env:
         BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
@@ -38,7 +28,7 @@ jobs:
         fi
         FILE_NAME="${PROJECTNAME}Web.zip"
         if [ -f "build/$FILE_NAME" ]; then
-          butler push "build/$FILE_NAME" ${{ steps.extract-game-id.outputs.game-id }}:web
+          butler push "build/$FILE_NAME" island-treehouse/${PROJECTNAME}:web
         else
           echo "Warning: $FILE_NAME not found in build directory"
           exit 1
@@ -56,7 +46,7 @@ jobs:
         fi
         FILE_NAME="${PROJECTNAME}Linux.zip"
         if [ -f "build/$FILE_NAME" ]; then
-          butler push "build/$FILE_NAME" ${{ steps.extract-game-id.outputs.game-id }}:linux
+          butler push "build/$FILE_NAME" island-treehouse/${PROJECTNAME}:linux
         else
           echo "Warning: $FILE_NAME not found in build directory"
           exit 1
@@ -74,7 +64,7 @@ jobs:
         fi
         FILE_NAME="${PROJECTNAME}MacOS.zip"
         if [ -f "build/$FILE_NAME" ]; then
-          butler push "build/$FILE_NAME" ${{ steps.extract-game-id.outputs.game-id }}:osx
+          butler push "build/$FILE_NAME" island-treehouse/${PROJECTNAME}:osx
         else
           echo "Warning: $FILE_NAME not found in build directory"
           exit 1
@@ -92,7 +82,7 @@ jobs:
         fi
         FILE_NAME="${PROJECTNAME}Windows.zip"
         if [ -f "build/$FILE_NAME" ]; then
-          butler push "build/$FILE_NAME" ${{ steps.extract-game-id.outputs.game-id }}:windows
+          butler push "build/$FILE_NAME" island-treehouse/${PROJECTNAME}:windows
         else
           echo "Warning: $FILE_NAME not found in build directory"
           exit 1
