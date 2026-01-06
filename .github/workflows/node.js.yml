@@ -42,14 +42,14 @@ jobs:
       run: npx playwright install --with-deps
     - name: Run Playwright tests
       env:
-        ITCHURL: ${{ secrets.ITCHURL }}
-        ITCHUSERNAME: ${{ secrets.ITCHUSERNAME }}
+        ITCHURL: ${{ vars.ITCHURL }}
+        ITCHUSERNAME: ${{ vars.ITCHUSERNAME }}
         ITCHPASSWORD: ${{ secrets.ITCHPASSWORD }}
-        PROJECTNAME: ${{ secrets.PROJECTNAME }}
-        WEBBUILD: ${{ secrets.WEBBUILD || 'true' }}
-        LINUXBUILD: ${{ secrets.LINUXBUILD || 'false' }}
-        MACOSBUILD: ${{ secrets.MACOSBUILD || 'false' }}
-        WINDOWSBUILD: ${{ secrets.WINDOWSBUILD || 'true' }}
+        PROJECTNAME: ${{ vars.PROJECTNAME }}
+        WEBBUILD: ${{ vars.WEBBUILD || 'true' }}
+        LINUXBUILD: ${{ vars.LINUXBUILD || 'false' }}
+        MACOSBUILD: ${{ vars.MACOSBUILD || 'false' }}
+        WINDOWSBUILD: ${{ vars.WINDOWSBUILD || 'true' }}
       run: npx playwright test
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
