@@ -6,7 +6,7 @@ refactor manually
 
 add to cursorfile stuff you learned you needed to refactor manually because cursor did not do it
 automatically
-
+debug
 
 This is a Godot conversion of the HTML Spanish verb conjugation matching game. Players match Spanish pronouns (yo, tu, el, nosotros, vosotros, ellos) with their corresponding verb conjugations.
 
