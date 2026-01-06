@@ -47,3 +47,6 @@ Thumbs.db
 # Backup files
 *.bak
 *.backup
+
+# CI/CD configuration files (contains sensitive data)
+cicd/playwright-config.env

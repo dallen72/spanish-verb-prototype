@@ -1,5 +1,13 @@
 # Spanish Verb Conjugation Game - Godot Version
 
+TODO: continuous integration for itch
+
+refactor manually
+
+add to cursorfile stuff you learned you needed to refactor manually because cursor did not do it
+automatically
+
+
 This is a Godot conversion of the HTML Spanish verb conjugation matching game. Players match Spanish pronouns (yo, tu, el, nosotros, vosotros, ellos) with their corresponding verb conjugations.
 
 ## How to Play
@@ -44,4 +52,3 @@ The game includes three Spanish verbs with their conjugations:
 - **Vivir** (to live): vivo, vives, vive, vivimos, vivis, viven
 
 Enjoy learning Spanish verb conjugations!
-

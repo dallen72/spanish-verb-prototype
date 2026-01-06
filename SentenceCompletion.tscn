@@ -1,15 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://by4hv4xrjwvfl"]
+[gd_scene load_steps=5 format=3 uid="uid://due0cu77lqf53"]
 
-[ext_resource type="Script" path="res://SentenceCompletion.gd" id="1_0x8jq"]
-[ext_resource type="PackedScene" uid="uid://c8x9k2y3z4w5v6" path="res://GameModeSelector.tscn" id="2_3x4y"]
-[ext_resource type="PackedScene" uid="uid://d9x0k3y6z7w8v1" path="res://ProgressIndicator.tscn" id="3_6x7y"]
-[ext_resource type="PackedScene" uid="uid://e0x1k4y7z8w9v2" path="res://Popup.tscn" id="4_7x8y"]
+[ext_resource type="Script" uid="uid://clw8hg83mmlby" path="res://SentenceCompletion.gd" id="1_0x8jq"]
+[ext_resource type="PackedScene" path="res://GameModeSelector.tscn" id="2_3x4y"]
+[ext_resource type="PackedScene" path="res://ProgressIndicator.tscn" id="3_6x7y"]
+[ext_resource type="PackedScene" path="res://Popup.tscn" id="4_7x8y"]
 
 [node name="SentenceCompletion" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_0x8jq")
 
 [node name="Background" type="ColorRect" parent="."]
@@ -17,19 +19,20 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.827, 0.827, 0.827, 1)
 
 [node name="HeaderContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.0
-anchor_top = 0.0
+anchors_preset = 10
 anchor_right = 1.0
-anchor_bottom = 0.0
 offset_left = 20.0
 offset_top = 20.0
 offset_right = -20.0
 offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 0
 
 [node name="TitleSection" type="VBoxContainer" parent="HeaderContainer"]
 layout_mode = 2
@@ -37,38 +40,36 @@ size_flags_horizontal = 3
 
 [node name="TitleLabel" type="Label" parent="HeaderContainer/TitleSection"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
 text = "Spanish Verb Conjugation Game"
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
 
 [node name="VerbLabel" type="Label" parent="HeaderContainer/TitleSection"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.3, 0.3, 1)
 text = "Match the conjugation with the correct sentence for Hablar"
 horizontal_alignment = 1
-theme_override_colors/font_color = Color(0.3, 0.3, 0.3, 1)
 
 [node name="PreviousScoreLabel" type="Label" parent="HeaderContainer/TitleSection"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
 text = "Previous Score: 0"
 horizontal_alignment = 1
-theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
 
 [node name="GameModeSelector" parent="HeaderContainer/TitleSection" instance=ExtResource("2_3x4y")]
-layout_mode = 2
 
 [node name="ProgressIndicator" parent="HeaderContainer" instance=ExtResource("3_6x7y")]
 layout_mode = 2
 
 [node name="TopHSeparator" type="HSeparator" parent="."]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.0
-anchor_top = 0.0
+anchors_preset = 10
 anchor_right = 1.0
-anchor_bottom = 0.0
 offset_top = 140.0
 offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -79,6 +80,8 @@ offset_left = 50.0
 offset_top = 150.0
 offset_right = -50.0
 offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
@@ -94,15 +97,15 @@ size_flags_horizontal = 3
 
 [node name="ConjugationLabel" type="Label" parent="VBoxContainer/GameArea/ConjugationSection"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
 text = "Conjugation"
 horizontal_alignment = 1
-theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
 
 [node name="ConjugationDisplay" type="Button" parent="VBoxContainer/GameArea/ConjugationSection"]
-layout_mode = 2
 custom_minimum_size = Vector2(200, 100)
-text = "hablo"
+layout_mode = 2
 disabled = true
+text = "hablo"
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/GameArea"]
 layout_mode = 2
@@ -113,9 +116,9 @@ size_flags_horizontal = 3
 
 [node name="SentenceLabel" type="Label" parent="VBoxContainer/GameArea/SentenceSection"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
 text = "Choose the correct sentence"
 horizontal_alignment = 1
-theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
 
 [node name="SentenceGrid" type="GridContainer" parent="VBoxContainer/GameArea/SentenceSection"]
 layout_mode = 2
@@ -123,34 +126,35 @@ size_flags_horizontal = 3
 columns = 2
 
 [node name="sentence_yo" type="Button" parent="VBoxContainer/GameArea/SentenceSection/SentenceGrid"]
-layout_mode = 2
 custom_minimum_size = Vector2(250, 60)
+layout_mode = 2
 text = "___ hablo español"
 
 [node name="sentence_tu" type="Button" parent="VBoxContainer/GameArea/SentenceSection/SentenceGrid"]
-layout_mode = 2
 custom_minimum_size = Vector2(250, 60)
+layout_mode = 2
 text = "¿___ hablas inglés?"
 
 [node name="sentence_el" type="Button" parent="VBoxContainer/GameArea/SentenceSection/SentenceGrid"]
-layout_mode = 2
 custom_minimum_size = Vector2(250, 60)
+layout_mode = 2
 text = "___ habla francés"
 
 [node name="sentence_nosotros" type="Button" parent="VBoxContainer/GameArea/SentenceSection/SentenceGrid"]
-layout_mode = 2
 custom_minimum_size = Vector2(250, 60)
+layout_mode = 2
 text = "___ hablamos mucho"
 
 [node name="sentence_vosotros" type="Button" parent="VBoxContainer/GameArea/SentenceSection/SentenceGrid"]
-layout_mode = 2
 custom_minimum_size = Vector2(250, 60)
+layout_mode = 2
 text = "¿___ habláis italiano?"
 
 [node name="sentence_ellos" type="Button" parent="VBoxContainer/GameArea/SentenceSection/SentenceGrid"]
-layout_mode = 2
 custom_minimum_size = Vector2(250, 60)
+layout_mode = 2
 text = "___ hablan chino"
 
 [node name="Popup" parent="." instance=ExtResource("4_7x8y")]
-layout_mode = 1
+grow_horizontal = 2
+grow_vertical = 2
