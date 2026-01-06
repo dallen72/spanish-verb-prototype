@@ -44,6 +44,15 @@ jobs:
           exit 1
         fi
     
+    - name: Upload Web Build Artifact to GitHub
+      if: ${{ vars.WEBBUILD == 'true' }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: web-build
+        path: build/${{ vars.PROJECTNAME }}Web.zip
+        retention-days: 7
+        if-no-files-found: ignore
+    
     - name: Upload Linux Build
       env:
         BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
@@ -64,6 +73,15 @@ jobs:
           ls -la build/*.zip 2>/dev/null || echo "No zip files found"
           exit 1
         fi
+    
+    - name: Upload Linux Build Artifact to GitHub
+      if: ${{ vars.LINUXBUILD == 'true' }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: linux-build
+        path: build/${{ vars.PROJECTNAME }}Linux.zip
+        retention-days: 7
+        if-no-files-found: ignore
     
     - name: Upload macOS Build
       env:
@@ -86,6 +104,15 @@ jobs:
           exit 1
         fi
     
+    - name: Upload macOS Build Artifact to GitHub
+      if: ${{ vars.MACOSBUILD == 'true' }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: macos-build
+        path: build/${{ vars.PROJECTNAME }}MacOS.zip
+        retention-days: 7
+        if-no-files-found: ignore
+    
     - name: Upload Windows Build
       env:
         BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
@@ -106,4 +133,13 @@ jobs:
           ls -la build/*.zip 2>/dev/null || echo "No zip files found"
           exit 1
         fi
+    
+    - name: Upload Windows Build Artifact to GitHub
+      if: ${{ vars.WINDOWSBUILD == 'true' }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows-build
+        path: build/${{ vars.PROJECTNAME }}Windows.zip
+        retention-days: 7
+        if-no-files-found: ignore
 
