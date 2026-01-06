@@ -16,6 +16,30 @@ jobs:
     - uses: actions/setup-node@v5
       with:
         node-version: lts/*
+    - name: Cache npm dependencies
+      uses: actions/cache@v4
+      id: npm-cache
+      with:
+        path: |
+          ~/.npm
+          playwright/node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('playwright/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+    - name: Install dependencies
+      if: steps.npm-cache.outputs.cache-hit != 'true'
+      run: npm ci
+    - name: Cache Playwright browsers
+      uses: actions/cache@v4
+      id: playwright-cache
+      with:
+        path: ~/.cache/ms-playwright
+        key: ${{ runner.os }}-playwright-${{ hashFiles('playwright/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-playwright-
+    - name: Install Playwright Browsers
+      if: steps.playwright-cache.outputs.cache-hit != 'true'
+      run: npx playwright install --with-deps
     - name: Run Playwright tests
       run: npx playwright test
     - uses: actions/upload-artifact@v4
