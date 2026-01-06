@@ -8,6 +8,7 @@ jobs:
   upload:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    environment: playwright
     container:
       image: barichello/godot-ci:4.5
     steps:
@@ -21,16 +22,6 @@ jobs:
         echo "Files in build directory:"
         ls -la build/ || echo "Build directory not found or empty"
     
-    - name: Extract game name from ITCHURL for filename
-      id: extract-game-name
-      env:
-        ITCHURL: ${{ vars.ITCHURL }}
-      run: |
-        # Extract game-name from URL like https://username.itch.io/game-name
-        GAME_NAME=$(echo "$ITCHURL" | sed -E 's|https://[^/]+\.itch\.io/([^/]+).*|\1|')
-        echo "game-name=$GAME_NAME" >> $GITHUB_OUTPUT
-        echo "Extracted game name for filename: $GAME_NAME"
-    
     - name: Upload Web Build
       env:
         BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
@@ -41,7 +32,8 @@ jobs:
           echo "Skipping Web build upload (WEBBUILD=$WEBBUILD)"
           exit 0
         fi
-        FILE_NAME="${{ steps.extract-game-name.outputs.game-name }}Web.zip"
+        FILE_NAME="${PROJECTNAME}Web.zip"
+        echo "PROJECTNAME is: $PROJECTNAME"
         echo "Looking for file: build/$FILE_NAME"
         if [ -f "build/$FILE_NAME" ]; then
           butler push "build/$FILE_NAME" island-treehouse/${PROJECTNAME}:web
@@ -62,7 +54,7 @@ jobs:
           echo "Skipping Linux build upload (LINUXBUILD=$LINUXBUILD)"
           exit 0
         fi
-        FILE_NAME="${{ steps.extract-game-name.outputs.game-name }}Linux.zip"
+        FILE_NAME="${PROJECTNAME}Linux.zip"
         echo "Looking for file: build/$FILE_NAME"
         if [ -f "build/$FILE_NAME" ]; then
           butler push "build/$FILE_NAME" island-treehouse/${PROJECTNAME}:linux
@@ -83,7 +75,7 @@ jobs:
           echo "Skipping macOS build upload (MACOSBUILD=$MACOSBUILD)"
           exit 0
         fi
-        FILE_NAME="${{ steps.extract-game-name.outputs.game-name }}MacOS.zip"
+        FILE_NAME="${PROJECTNAME}MacOS.zip"
         echo "Looking for file: build/$FILE_NAME"
         if [ -f "build/$FILE_NAME" ]; then
           butler push "build/$FILE_NAME" island-treehouse/${PROJECTNAME}:osx
@@ -104,7 +96,7 @@ jobs:
           echo "Skipping Windows build upload (WINDOWSBUILD=$WINDOWSBUILD)"
           exit 0
         fi
-        FILE_NAME="${{ steps.extract-game-name.outputs.game-name }}Windows.zip"
+        FILE_NAME="${PROJECTNAME}Windows.zip"
         echo "Looking for file: build/$FILE_NAME"
         if [ -f "build/$FILE_NAME" ]; then
           butler push "build/$FILE_NAME" island-treehouse/${PROJECTNAME}:windows
