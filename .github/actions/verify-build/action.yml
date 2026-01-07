@@ -96,6 +96,8 @@ runs:
       shell: bash
       if: ${{ inputs.web-build == 'true' }}
       run: |
+        echo "files in directory..."
+        echo ls -la build/web-${{ inputs.build-mode }}/
         if [ -d "build/web-${{ inputs.build-mode }}/index.html" ]; then
           echo "Web build successful - directory found"
         else
