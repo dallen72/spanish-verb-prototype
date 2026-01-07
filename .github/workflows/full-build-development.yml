@@ -65,6 +65,15 @@ jobs:
           macos-build: ${{ vars.MACOSBUILD || 'false' }}
           windows-build: ${{ vars.WINDOWSBUILD || 'true' }}
 
+      # Verify Butler authentication
+      - name: Verify Butler Authentication
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        run: |
+          echo "Verifying Butler authentication..."
+          butler whoami || (echo "::error::Butler authentication failed. Check that BUTLER_API_KEY secret is set correctly." && exit 1)
+          echo "Butler authentication successful!"
+
       # Upload to Itch.io channels
       - name: Upload Windows Build to Itch.io
         if: ${{ vars.WINDOWSBUILD == 'true' }}
