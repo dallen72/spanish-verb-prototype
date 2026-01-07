@@ -1,0 +1,134 @@
+# ================================================================================================================
+# BUILD GAME ACTION
+# ================================================================================================================
+# 
+# PURPOSE: Reusable action for building Spanish Verb Game for all platforms
+# USAGE: Called by workflows to create debug or release builds
+# PLATFORMS: Windows, Linux, macOS, Web
+# 
+# This action:
+# - Creates build directories for all platforms
+# - Imports game assets (runs twice to ensure completion)
+# - Builds for all platforms using Godot 4.5
+# - Creates executables/directories for Windows, Linux, and Web
+# - Creates a zip file only for macOS builds
+# - Includes retry logic for reliability
+# 
+# Inputs:
+# - build-mode: 'debug' or 'release' (default: 'debug')
+# - project-name: Project name for file naming (from vars.PROJECTNAME)
+# 
+# Outputs:
+# - build/windows-{mode}/: Directory containing Windows executable (.exe)
+# - build/linux-{mode}/: Directory containing Linux executable (.x86_64)
+# - build/web-{mode}/: Directory containing Web build (index.html)
+# - build/macos-{mode}.zip: Zip file containing macOS app bundle
+# 
+# Dependencies:
+# - Requires barichello/godot-ci:4.5 Docker image
+# - Uses export presets configured in export_presets.cfg
+# ================================================================================================================
+
+name: 'Build Game'
+description: 'Build Spanish Verb Game for all platforms using Godot 4.5'
+
+inputs:
+  build-mode:
+    description: 'Build mode (debug or release)'
+    required: true
+    default: 'debug'
+  project-name:
+    description: 'Project name for file naming'
+    required: true
+  web-build:
+    description: 'Build Web platform (true/false)'
+    required: false
+    default: 'true'
+  linux-build:
+    description: 'Build Linux platform (true/false)'
+    required: false
+    default: 'false'
+  macos-build:
+    description: 'Build macOS platform (true/false)'
+    required: false
+    default: 'false'
+  windows-build:
+    description: 'Build Windows platform (true/false)'
+    required: false
+    default: 'true'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Export Templates
+      shell: bash
+      run: |
+        mkdir -v -p ~/.local/share/godot/export_templates/
+        mkdir -v -p ~/.config/
+        mv /root/.config/godot ~/.config/godot 2>/dev/null || true
+        mv /root/.local/share/godot/export_templates/4.5.stable ~/.local/share/godot/export_templates/4.5.stable 2>/dev/null || true
+
+    - name: Create Build Directories
+      shell: bash
+      run: |
+        mkdir -p build/windows-${{ inputs.build-mode }}
+        mkdir -p build/linux-${{ inputs.build-mode }}
+        mkdir -p build/macos-${{ inputs.build-mode }}
+        mkdir -p build/web-${{ inputs.build-mode }}
+
+    - name: Import Assets
+      shell: bash
+      run: |
+        godot --headless --import
+        godot --headless --import
+
+    - name: Build Windows
+      shell: bash
+      env:
+        PROJECTNAME: ${{ inputs.project-name }}
+      if: ${{ inputs.windows-build == 'true' }}
+      run: |
+        if ! godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Windows Desktop" "build/windows-${{ inputs.build-mode }}/${PROJECTNAME}.exe"; then
+          echo "Export failed, retrying..."
+          godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Windows Desktop" "build/windows-${{ inputs.build-mode }}/${PROJECTNAME}.exe"
+        fi
+        echo "Windows build complete: build/windows-${{ inputs.build-mode }}/"
+
+    - name: Build Linux
+      shell: bash
+      env:
+        PROJECTNAME: ${{ inputs.project-name }}
+      if: ${{ inputs.linux-build == 'true' }}
+      run: |
+        if ! godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Linux/X11" "build/linux-${{ inputs.build-mode }}/${PROJECTNAME}.x86_64"; then
+          echo "Export failed, retrying..."
+          godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Linux/X11" "build/linux-${{ inputs.build-mode }}/${PROJECTNAME}.x86_64"
+        fi
+        echo "Linux build complete: build/linux-${{ inputs.build-mode }}/"
+
+    - name: Build macOS
+      shell: bash
+      env:
+        PROJECTNAME: ${{ inputs.project-name }}
+      if: ${{ inputs.macos-build == 'true' }}
+      run: |
+        if ! godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "macOS" "build/macos-${{ inputs.build-mode }}/${PROJECTNAME}.app"; then
+          echo "Export failed, retrying..."
+          godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "macOS" "build/macos-${{ inputs.build-mode }}/${PROJECTNAME}.app"
+        fi
+        cd build/macos-${{ inputs.build-mode }}
+        zip -r "../macos-${{ inputs.build-mode }}.zip" .
+        cd ../..
+        echo "macOS build complete: build/macos-${{ inputs.build-mode }}.zip"
+
+    - name: Build Web
+      shell: bash
+      env:
+        PROJECTNAME: ${{ inputs.project-name }}
+      if: ${{ inputs.web-build == 'true' }}
+      run: |
+        if ! godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Web" "build/web-${{ inputs.build-mode }}/index.html"; then
+          echo "Export failed, retrying..."
+          godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Web" "build/web-${{ inputs.build-mode }}/index.html"
+        fi
+        echo "Web build complete: build/web-${{ inputs.build-mode }}/"

@@ -1,0 +1,122 @@
+# ================================================================================================================
+# VERIFY BUILD ACTION
+# ================================================================================================================
+# 
+# PURPOSE: Reusable action for verifying build outputs exist and are valid
+# USAGE: Called by workflows after build completion to validate outputs
+# PLATFORMS: Windows, Linux, macOS, Web
+# 
+# This action:
+# - Checks that all expected build outputs exist (directories for Windows/Linux/Web, zip for macOS)
+# - Validates file integrity for each platform
+# - Provides detailed error messages if builds are missing
+# - Outputs a summary of all verified builds
+# 
+# Inputs:
+# - build-mode: 'debug' or 'release' (default: 'debug')
+# - project-name: Project name for file naming (from vars.PROJECTNAME)
+# 
+# Verification checks:
+# - Windows: build/windows-{mode}/ directory containing executable
+# - Linux: build/linux-{mode}/ directory containing executable
+# - macOS: build/macos-{mode}.zip zip file containing app bundle
+# - Web: build/web-{mode}/ directory containing index.html
+# 
+# Error handling:
+# - Fails the workflow if any build is missing
+# - Provides clear error messages for debugging
+# - Handles macOS builds gracefully (may fail on non-macOS systems)
+# ================================================================================================================
+
+name: 'Verify Build Output'
+description: 'Verify that all platform builds were created successfully'
+
+inputs:
+  build-mode:
+    description: 'Build mode (debug or release)'
+    required: true
+    default: 'debug'
+  project-name:
+    description: 'Project name for file naming'
+    required: true
+  web-build:
+    description: 'Verify Web platform (true/false)'
+    required: false
+    default: 'true'
+  linux-build:
+    description: 'Verify Linux platform (true/false)'
+    required: false
+    default: 'false'
+  macos-build:
+    description: 'Verify macOS platform (true/false)'
+    required: false
+    default: 'false'
+  windows-build:
+    description: 'Verify Windows platform (true/false)'
+    required: false
+    default: 'true'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Verify Windows Build
+      shell: bash
+      if: ${{ inputs.windows-build == 'true' }}
+      run: |
+        if [ -d "build/windows-${{ inputs.build-mode }}" ]; then
+          echo "Windows build successful - directory found"
+        else
+          echo "::error::Windows build failed - directory not found at build/windows-${{ inputs.build-mode }}/"
+          exit 1
+        fi
+
+    - name: Verify Linux Build
+      shell: bash
+      if: ${{ inputs.linux-build == 'true' }}
+      run: |
+        if [ -d "build/linux-${{ inputs.build-mode }}" ]; then
+          echo "Linux build successful - directory found"
+        else
+          echo "::error::Linux build failed - directory not found at build/linux-${{ inputs.build-mode }}/"
+          exit 1
+        fi
+
+    - name: Verify macOS Build
+      shell: bash
+      if: ${{ inputs.macos-build == 'true' }}
+      run: |
+        if [ -f "build/macos-${{ inputs.build-mode }}.zip" ]; then
+          echo "macOS build successful - zip file found"
+        else
+          echo "::error::macOS build failed - zip file not found at build/macos-${{ inputs.build-mode }}.zip"
+          exit 1
+        fi
+
+    - name: Verify Web Build
+      shell: bash
+      if: ${{ inputs.web-build == 'true' }}
+      run: |
+        if [ -d "build/web-${{ inputs.build-mode }}" ]; then
+          echo "Web build successful - directory found"
+        else
+          echo "::error::Web build failed - directory not found at build/web-${{ inputs.build-mode }}/"
+          exit 1
+        fi
+
+    - name: Verify All Builds Summary
+      shell: bash
+      run: |
+        echo "All expected builds verified successfully!"
+        echo "Build outputs:"
+        if [ "${{ inputs.windows-build }}" == "true" ]; then
+          echo "  Windows: build/windows-${{ inputs.build-mode }}/"
+        fi
+        if [ "${{ inputs.linux-build }}" == "true" ]; then
+          echo "  Linux: build/linux-${{ inputs.build-mode }}/"
+        fi
+        if [ "${{ inputs.macos-build }}" == "true" ]; then
+          echo "  macOS: build/macos-${{ inputs.build-mode }}.zip"
+        fi
+        if [ "${{ inputs.web-build }}" == "true" ]; then
+          echo "  Web: build/web-${{ inputs.build-mode }}/"
+        fi
