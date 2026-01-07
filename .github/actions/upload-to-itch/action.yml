@@ -64,5 +64,9 @@ runs:
           echo "::error::BUTLER_API_KEY is not set. Please add it as a GitHub secret."
           exit 1
         fi
+        # Debug: Verify API key is set (show first 4 chars only for verification)
+        API_KEY_PREFIX=$(echo "$BUTLER_API_KEY" | cut -c1-4)
+        API_KEY_LENGTH=${#BUTLER_API_KEY}
+        echo "Debug: BUTLER_API_KEY is set (length: ${API_KEY_LENGTH} chars, starts with: ${API_KEY_PREFIX}...)"
         echo "Uploading ${{ inputs.file-path }} to ${{ inputs.game-id }}:${{ inputs.channel }}"
         butler push "${{ inputs.file-path }}" "${{ inputs.game-id }}:${{ inputs.channel }}" ${{ inputs.user-version && format('--userversion {0}', inputs.user-version) || '' }}
