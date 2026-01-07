@@ -88,9 +88,9 @@ runs:
         PROJECTNAME: ${{ inputs.project-name }}
       if: ${{ inputs.windows-build == 'true' }}
       run: |
-        if ! godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Windows Desktop" "build/windows-${{ inputs.build-mode }}/${PROJECTNAME}.exe"; then
+        if ! godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Windows" "build/windows-${{ inputs.build-mode }}/${PROJECTNAME}.exe"; then
           echo "Export failed, retrying..."
-          godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Windows Desktop" "build/windows-${{ inputs.build-mode }}/${PROJECTNAME}.exe"
+          godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Windows" "build/windows-${{ inputs.build-mode }}/${PROJECTNAME}.exe"
         fi
         echo "Windows build complete: build/windows-${{ inputs.build-mode }}/"
 
@@ -100,9 +100,9 @@ runs:
         PROJECTNAME: ${{ inputs.project-name }}
       if: ${{ inputs.linux-build == 'true' }}
       run: |
-        if ! godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Linux/X11" "build/linux-${{ inputs.build-mode }}/${PROJECTNAME}.x86_64"; then
+        if ! godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Linux" "build/linux-${{ inputs.build-mode }}/${PROJECTNAME}.x86_64"; then
           echo "Export failed, retrying..."
-          godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Linux/X11" "build/linux-${{ inputs.build-mode }}/${PROJECTNAME}.x86_64"
+          godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Linux" "build/linux-${{ inputs.build-mode }}/${PROJECTNAME}.x86_64"
         fi
         echo "Linux build complete: build/linux-${{ inputs.build-mode }}/"
 
