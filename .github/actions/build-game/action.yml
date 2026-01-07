@@ -60,6 +60,12 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Install System Dependencies
+      shell: bash
+      run: |
+        apt-get update -qq
+        apt-get install -y -qq libfontconfig1 libfreetype6
+
     - name: Setup Export Templates
       shell: bash
       run: |
