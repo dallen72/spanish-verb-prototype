@@ -96,12 +96,18 @@ runs:
       shell: bash
       if: ${{ inputs.web-build == 'true' }}
       run: |
-        echo "files in directory..."
-        echo ls -la build/web-${{ inputs.build-mode }}/
-        if [ -d "build/web-${{ inputs.build-mode }}/index.html" ]; then
-          echo "Web build successful - directory found"
+        echo "Debug: Checking contents of build/web-${{ inputs.build-mode }}/"
+        echo "Directory exists: $([ -d "build/web-${{ inputs.build-mode }}" ] && echo "yes" || echo "no")"
+        if [ -d "build/web-${{ inputs.build-mode }}" ]; then
+          echo "Files in build/web-${{ inputs.build-mode }}/:"
+          ls -la "build/web-${{ inputs.build-mode }}/" || echo "Directory is empty or cannot be listed"
         else
-          echo "::error::Web build failed - index.html not found at build/web-${{ inputs.build-mode }}/"
+          echo "Directory build/web-${{ inputs.build-mode }}/ does not exist"
+        fi
+        if [ -f "build/web-${{ inputs.build-mode }}/index.html" ]; then
+          echo "Web build successful - index.html found"
+        else
+          echo "::error::Web build failed - index.html not found at build/web-${{ inputs.build-mode }}/index.html"
           exit 1
         fi
 
