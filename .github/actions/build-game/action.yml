@@ -112,9 +112,9 @@ runs:
         PROJECTNAME: ${{ inputs.project-name }}
       if: ${{ inputs.macos-build == 'true' }}
       run: |
-        if ! godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "macOS" "build/macos-${{ inputs.build-mode }}/${PROJECTNAME}.app"; then
+        if ! godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "macOS" "build/macos-${{ inputs.build-mode }}/${PROJECTNAME}.zip"; then
           echo "Export failed, retrying..."
-          godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "macOS" "build/macos-${{ inputs.build-mode }}/${PROJECTNAME}.app"
+          godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "macOS" "build/macos-${{ inputs.build-mode }}/${PROJECTNAME}.zip"
         fi
         cd build/macos-${{ inputs.build-mode }}
         zip -r "../macos-${{ inputs.build-mode }}.zip" .
