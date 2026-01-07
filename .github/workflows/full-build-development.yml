@@ -1,11 +1,40 @@
-name: Upload to Itch.io
+# ================================================================================================================
+# DEVELOPMENT BUILD - MAIN BRANCH
+# ================================================================================================================
+# 
+# PURPOSE: Creates development builds for testing and team access
+# TRIGGER: Runs on every push to main/master branches and pull requests
+# BUILD MODE: Debug builds (faster compilation, includes debug symbols)
+# OUTPUT: Builds uploaded to GitHub artifacts AND Itch.io channels
+# 
+# This workflow:
+# - Builds the game for all platforms (Windows, Linux, macOS, Web)
+# - Uploads build artifacts to GitHub for team download (7-day retention)
+# - Uploads builds to Itch.io channels for testing
+# - Provides immediate feedback on main branch stability
+# 
+# Itch.io Channels:
+# - web: Web build
+# - linux: Linux build  
+# - osx: macOS build
+# - windows: Windows build
+# 
+# Use these builds for:
+# - Internal testing and QA
+# - Demo purposes
+# - Early access for team members
+# ================================================================================================================
+
+name: Build And Push - Development
 on:
   push:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+env:
+  GODOT_VERSION: 4.5
 jobs:
-  upload:
+  build:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     environment: playwright
@@ -13,36 +42,109 @@ jobs:
       image: barichello/godot-ci:4.5
     steps:
     - uses: actions/checkout@v5
-
-    - name: Verify Butler is installed
-      run: butler -V
+      with:
+        lfs: true
+        clean: true  # Force clean checkout
     
-    - name: List build files for debugging
-      run: |
-        echo "Files in build directory:"
-        ls -la build/ || echo "Build directory not found or empty"
-    
-    - name: Upload Web Build
+    - name: Build Web
       env:
-        BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
         PROJECTNAME: ${{ vars.PROJECTNAME }}
         WEBBUILD: ${{ vars.WEBBUILD || 'true' }}
       run: |
         if [ "$WEBBUILD" != "true" ]; then
-          echo "Skipping Web build upload (WEBBUILD=$WEBBUILD)"
+          echo "Skipping Web build (WEBBUILD=$WEBBUILD)"
           exit 0
         fi
-        FILE_NAME="${PROJECTNAME}Web.zip"
-        echo "PROJECTNAME is: $PROJECTNAME"
-        echo "Looking for file: build/$FILE_NAME"
-        if [ -f "build/$FILE_NAME" ]; then
-          butler push "build/$FILE_NAME" island-treehouse/${PROJECTNAME}:web
-        else
-          echo "Warning: $FILE_NAME not found in build directory"
-          echo "Available files:"
-          ls -la build/*.zip 2>/dev/null || echo "No zip files found"
+        echo "Building Web export..."
+        mkdir -p build/web
+        godot --headless --export-release "Web" "build/web/index.html" || godot --headless --export-debug "Web" "build/web/index.html"
+        cd build/web
+        zip -r "../${PROJECTNAME}Web.zip" .
+        cd ../..
+        echo "Web build completed: ${PROJECTNAME}Web.zip"
+    
+    - name: Build Linux
+      env:
+        PROJECTNAME: ${{ vars.PROJECTNAME }}
+        LINUXBUILD: ${{ vars.LINUXBUILD || 'false' }}
+      run: |
+        if [ "$LINUXBUILD" != "true" ]; then
+          echo "Skipping Linux build (LINUXBUILD=$LINUXBUILD)"
+          exit 0
+        fi
+        echo "Building Linux export..."
+        godot --headless --export-release "Linux/X11" "build/linux/${PROJECTNAME}.x86_64" || godot --headless --export-debug "Linux/X11" "build/linux/${PROJECTNAME}.x86_64"
+        cd build/linux
+        zip -r "../${PROJECTNAME}Linux.zip" .
+        cd ../..
+        echo "Linux build completed: ${PROJECTNAME}Linux.zip"
+    
+    - name: Build macOS
+      env:
+        PROJECTNAME: ${{ vars.PROJECTNAME }}
+        MACOSBUILD: ${{ vars.MACOSBUILD || 'false' }}
+      run: |
+        if [ "$MACOSBUILD" != "true" ]; then
+          echo "Skipping macOS build (MACOSBUILD=$MACOSBUILD)"
+          exit 0
+        fi
+        echo "Building macOS export..."
+        godot --headless --export-release "macOS" "build/macos/${PROJECTNAME}.app" || godot --headless --export-debug "macOS" "build/macos/${PROJECTNAME}.app"
+        cd build/macos
+        zip -r "../${PROJECTNAME}MacOS.zip" .
+        cd ../..
+        echo "macOS build completed: ${PROJECTNAME}MacOS.zip"
+    
+    - name: Build Windows
+      env:
+        PROJECTNAME: ${{ vars.PROJECTNAME }}
+        WINDOWSBUILD: ${{ vars.WINDOWSBUILD || 'true' }}
+      run: |
+        if [ "$WINDOWSBUILD" != "true" ]; then
+          echo "Skipping Windows build (WINDOWSBUILD=$WINDOWSBUILD)"
+          exit 0
+        fi
+        echo "Building Windows export..."
+        godot --headless --export-release "Windows Desktop" "build/windows/${PROJECTNAME}.exe" || godot --headless --export-debug "Windows Desktop" "build/windows/${PROJECTNAME}.exe"
+        cd build/windows
+        zip -r "../${PROJECTNAME}Windows.zip" .
+        cd ../..
+        echo "Windows build completed: ${PROJECTNAME}Windows.zip"
+    
+    - name: Verify Build Output
+      env:
+        PROJECTNAME: ${{ vars.PROJECTNAME }}
+      run: |
+        echo "Verifying build outputs..."
+        ls -la build/*.zip || echo "No zip files found"
+        if [ "${{ vars.WEBBUILD || 'true' }}" == "true" ] && [ ! -f "build/${PROJECTNAME}Web.zip" ]; then
+          echo "Error: Web build not found"
           exit 1
         fi
+        if [ "${{ vars.LINUXBUILD || 'false' }}" == "true" ] && [ ! -f "build/${PROJECTNAME}Linux.zip" ]; then
+          echo "Error: Linux build not found"
+          exit 1
+        fi
+        if [ "${{ vars.MACOSBUILD || 'false' }}" == "true" ] && [ ! -f "build/${PROJECTNAME}MacOS.zip" ]; then
+          echo "Error: macOS build not found"
+          exit 1
+        fi
+        if [ "${{ vars.WINDOWSBUILD || 'true' }}" == "true" ] && [ ! -f "build/${PROJECTNAME}Windows.zip" ]; then
+          echo "Error: Windows build not found"
+          exit 1
+        fi
+        echo "All expected builds verified"
+    
+    - name: Verify Butler is installed
+      run: butler -V
+    
+    - name: Upload Web Build to Itch.io
+      if: ${{ vars.WEBBUILD == 'true' }}
+      env:
+        BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        PROJECTNAME: ${{ vars.PROJECTNAME }}
+      run: |
+        butler push "build/${PROJECTNAME}Web.zip" island-treehouse/${PROJECTNAME}:web
     
     - name: Upload Web Build Artifact to GitHub
       if: ${{ vars.WEBBUILD == 'true' }}
@@ -53,26 +155,13 @@ jobs:
         retention-days: 7
         if-no-files-found: ignore
     
-    - name: Upload Linux Build
+    - name: Upload Linux Build to Itch.io
+      if: ${{ vars.LINUXBUILD == 'true' }}
       env:
         BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
         PROJECTNAME: ${{ vars.PROJECTNAME }}
-        LINUXBUILD: ${{ vars.LINUXBUILD || 'false' }}
       run: |
-        if [ "$LINUXBUILD" != "true" ]; then
-          echo "Skipping Linux build upload (LINUXBUILD=$LINUXBUILD)"
-          exit 0
-        fi
-        FILE_NAME="${PROJECTNAME}Linux.zip"
-        echo "Looking for file: build/$FILE_NAME"
-        if [ -f "build/$FILE_NAME" ]; then
-          butler push "build/$FILE_NAME" island-treehouse/${PROJECTNAME}:linux
-        else
-          echo "Warning: $FILE_NAME not found in build directory"
-          echo "Available files:"
-          ls -la build/*.zip 2>/dev/null || echo "No zip files found"
-          exit 1
-        fi
+        butler push "build/${PROJECTNAME}Linux.zip" island-treehouse/${PROJECTNAME}:linux
     
     - name: Upload Linux Build Artifact to GitHub
       if: ${{ vars.LINUXBUILD == 'true' }}
@@ -83,26 +172,13 @@ jobs:
         retention-days: 7
         if-no-files-found: ignore
     
-    - name: Upload macOS Build
+    - name: Upload macOS Build to Itch.io
+      if: ${{ vars.MACOSBUILD == 'true' }}
       env:
         BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
         PROJECTNAME: ${{ vars.PROJECTNAME }}
-        MACOSBUILD: ${{ vars.MACOSBUILD || 'false' }}
       run: |
-        if [ "$MACOSBUILD" != "true" ]; then
-          echo "Skipping macOS build upload (MACOSBUILD=$MACOSBUILD)"
-          exit 0
-        fi
-        FILE_NAME="${PROJECTNAME}MacOS.zip"
-        echo "Looking for file: build/$FILE_NAME"
-        if [ -f "build/$FILE_NAME" ]; then
-          butler push "build/$FILE_NAME" island-treehouse/${PROJECTNAME}:osx
-        else
-          echo "Warning: $FILE_NAME not found in build directory"
-          echo "Available files:"
-          ls -la build/*.zip 2>/dev/null || echo "No zip files found"
-          exit 1
-        fi
+        butler push "build/${PROJECTNAME}MacOS.zip" island-treehouse/${PROJECTNAME}:osx
     
     - name: Upload macOS Build Artifact to GitHub
       if: ${{ vars.MACOSBUILD == 'true' }}
@@ -113,26 +189,13 @@ jobs:
         retention-days: 7
         if-no-files-found: ignore
     
-    - name: Upload Windows Build
+    - name: Upload Windows Build to Itch.io
+      if: ${{ vars.WINDOWSBUILD == 'true' }}
       env:
         BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
         PROJECTNAME: ${{ vars.PROJECTNAME }}
-        WINDOWSBUILD: ${{ vars.WINDOWSBUILD || 'true' }}
       run: |
-        if [ "$WINDOWSBUILD" != "true" ]; then
-          echo "Skipping Windows build upload (WINDOWSBUILD=$WINDOWSBUILD)"
-          exit 0
-        fi
-        FILE_NAME="${PROJECTNAME}Windows.zip"
-        echo "Looking for file: build/$FILE_NAME"
-        if [ -f "build/$FILE_NAME" ]; then
-          butler push "build/$FILE_NAME" island-treehouse/${PROJECTNAME}:windows
-        else
-          echo "Warning: $FILE_NAME not found in build directory"
-          echo "Available files:"
-          ls -la build/*.zip 2>/dev/null || echo "No zip files found"
-          exit 1
-        fi
+        butler push "build/${PROJECTNAME}Windows.zip" island-treehouse/${PROJECTNAME}:windows
     
     - name: Upload Windows Build Artifact to GitHub
       if: ${{ vars.WINDOWSBUILD == 'true' }}
