@@ -63,10 +63,10 @@ runs:
       shell: bash
       if: ${{ inputs.windows-build == 'true' }}
       run: |
-        if [ -d "build/windows-${{ inputs.build-mode }}" ]; then
+        if [ -d "build/windows-${{ inputs.build-mode }}/SpanishVerbGame.exe" ]; then
           echo "Windows build successful - directory found"
         else
-          echo "::error::Windows build failed - directory not found at build/windows-${{ inputs.build-mode }}/"
+          echo "::error::Windows build failed - executable not found at build/windows-${{ inputs.build-mode }}/"
           exit 1
         fi
 
@@ -74,10 +74,10 @@ runs:
       shell: bash
       if: ${{ inputs.linux-build == 'true' }}
       run: |
-        if [ -d "build/linux-${{ inputs.build-mode }}" ]; then
-          echo "Linux build successful - directory found"
+        if [ -d "build/linux-${{ inputs.build-mode }}/SpanishVerbGame.x86_64" ]; then
+          echo "Linux build successful - executable found"
         else
-          echo "::error::Linux build failed - directory not found at build/linux-${{ inputs.build-mode }}/"
+          echo "::error::Linux build failed - executable not found at build/linux-${{ inputs.build-mode }}/"
           exit 1
         fi
 
@@ -85,7 +85,7 @@ runs:
       shell: bash
       if: ${{ inputs.macos-build == 'true' }}
       run: |
-        if [ -f "build/macos-${{ inputs.build-mode }}.zip" ]; then
+        if [ -f "build/macos-${{ inputs.build-mode }}/SpanishVerbGame.zip" ]; then
           echo "macOS build successful - zip file found"
         else
           echo "::error::macOS build failed - zip file not found at build/macos-${{ inputs.build-mode }}.zip"
@@ -96,10 +96,10 @@ runs:
       shell: bash
       if: ${{ inputs.web-build == 'true' }}
       run: |
-        if [ -d "build/web-${{ inputs.build-mode }}" ]; then
+        if [ -d "build/web-${{ inputs.build-mode }}/index.html" ]; then
           echo "Web build successful - directory found"
         else
-          echo "::error::Web build failed - directory not found at build/web-${{ inputs.build-mode }}/"
+          echo "::error::Web build failed - index.html not found at build/web-${{ inputs.build-mode }}/"
           exit 1
         fi
 
@@ -109,14 +109,14 @@ runs:
         echo "All expected builds verified successfully!"
         echo "Build outputs:"
         if [ "${{ inputs.windows-build }}" == "true" ]; then
-          echo "  Windows: build/windows-${{ inputs.build-mode }}/"
+          echo "  Windows: build/windows-${{ inputs.build-mode }}/SpanishVerbGame.exe"
         fi
         if [ "${{ inputs.linux-build }}" == "true" ]; then
-          echo "  Linux: build/linux-${{ inputs.build-mode }}/"
+          echo "  Linux: build/linux-${{ inputs.build-mode }}/SpanishVerbGame.x86_64"
         fi
         if [ "${{ inputs.macos-build }}" == "true" ]; then
-          echo "  macOS: build/macos-${{ inputs.build-mode }}.zip"
+          echo "  macOS: build/macos-${{ inputs.build-mode }}/SpanishVerbGame.zip"
         fi
         if [ "${{ inputs.web-build }}" == "true" ]; then
-          echo "  Web: build/web-${{ inputs.build-mode }}/"
+          echo "  Web: build/web-${{ inputs.build-mode }}/index.html"
         fi
