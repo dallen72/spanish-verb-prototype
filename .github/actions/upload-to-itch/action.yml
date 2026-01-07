@@ -60,8 +60,4 @@ runs:
       env:
         BUTLER_API_KEY: ${{ inputs.api-key }}
       run: |
-        if [ ! -f "${{ inputs.file-path }}" ]; then
-          echo "::error::Build file not found: ${{ inputs.file-path }}"
-          exit 1
-        fi
         butler push "${{ inputs.file-path }}" "${{ inputs.game-id }}:${{ inputs.channel }}" ${{ inputs.user-version && format('--userversion {0}', inputs.user-version) || '' }}
