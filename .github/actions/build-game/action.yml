@@ -88,9 +88,9 @@ runs:
         PROJECTNAME: ${{ inputs.project-name }}
       if: ${{ inputs.windows-build == 'true' }}
       run: |
-        if ! godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Windows" "build/windows-${{ inputs.build-mode }}/${PROJECTNAME}.exe"; then
+        if ! godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Windows Desktop" "build/windows-${{ inputs.build-mode }}/${PROJECTNAME}.exe"; then
           echo "Export failed, retrying..."
-          godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Windows" "build/windows-${{ inputs.build-mode }}/${PROJECTNAME}.exe"
+          godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Windows Desktop" "build/windows-${{ inputs.build-mode }}/${PROJECTNAME}.exe"
         fi
         echo "Windows build complete: build/windows-${{ inputs.build-mode }}/"
 
