@@ -60,6 +60,15 @@ inputs:
 runs:
   using: 'composite'
   steps:
+   
+    - name: Setup Export Templates
+      shell: bash
+      run: |
+        mkdir -v -p ~/.local/share/godot/export_templates/
+        mkdir -v -p ~/.config/
+        mv /root/.config/godot ~/.config/godot
+        mv /root/.local/share/godot/export_templates/4.5.stable ~/.local/share/godot/export_templates/4.5.stable
+
     - name: Create Build Directories
       shell: bash
       run: |
