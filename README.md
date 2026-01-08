@@ -1,9 +1,23 @@
 # Spanish Verb Conjugation Game - Godot Version
 
-refactor manually
+TODO
 
-add to cursorfile stuff you learned you needed to refactor manually because cursor did not do it
+- take note/account for what exactly is working in the app currently
+
+- refactor the directory structure
+
+- refactor manually. right now there are different scenes? for the game modes, make it so that there is one scene for gameplay, with shared background and nodes. but have different scenes for the game area
+
+- add to cursorfile stuff you learned you needed to refactor manually because cursor did not do it
 automatically
+
+- make the buttons and everything else change size with the resizing of the window
+
+- make the buttons fit in the screen
+
+- merge with main
+
+- fix bugs that break gameplay
 
 
 This is a Godot conversion of the HTML Spanish verb conjugation matching game. Players match Spanish pronouns (yo, tu, el, nosotros, vosotros, ellos) with their corresponding verb conjugations.
