@@ -25,7 +25,7 @@
 # - build/macos-{mode}.zip: Zip file containing macOS app bundle
 # 
 # Dependencies:
-# - Requires barichello/godot-ci:4.5 Docker image
+# - Requires ghcr.io/dallen72/godot-ci-extended-islandtreehouse:4.5 Docker image
 # - Uses export presets configured in export_presets.cfg
 # ================================================================================================================
 
@@ -60,20 +60,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Install System Dependencies
-      shell: bash
-      run: |
-        apt-get update -qq
-        apt-get install -y -qq libfontconfig1 libfreetype6
-
-    - name: Setup Export Templates
-      shell: bash
-      run: |
-        mkdir -v -p ~/.local/share/godot/export_templates/
-        mkdir -v -p ~/.config/
-        mv /root/.config/godot ~/.config/godot
-        mv /root/.local/share/godot/export_templates/4.5.stable ~/.local/share/godot/export_templates/4.5.stable
-
     - name: Create Build Directories
       shell: bash
       run: |

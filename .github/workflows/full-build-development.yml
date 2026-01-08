@@ -38,7 +38,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:4.5
+      image: ghcr.io/dallen72/godot-ci-extended-islandtreehouse:4.5
     steps:
       - uses: actions/checkout@v5
         with:
