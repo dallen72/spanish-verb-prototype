@@ -5,8 +5,6 @@ TODO
 - take note/account for what exactly is working in the app currently
 	- can switch between game modes (levels)
 
-- refactor the directory structure
-
 - refactor manually. right now there are different scenes? for the game modes, make it so that there is one scene for gameplay, with shared background and nodes. but have different scenes for the game area
 
 - add to cursorfile stuff you learned you needed to refactor manually because cursor did not do it
