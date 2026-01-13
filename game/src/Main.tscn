@@ -62,6 +62,15 @@ horizontal_alignment = 1
 [node name="ProgressIndicator" parent="HeaderContainer" instance=ExtResource("3_8ec3e")]
 layout_mode = 2
 
+[node name="TopHSeparator" type="HSeparator" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 140.0
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 0
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -189,15 +198,6 @@ horizontal_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 columns = 3
-
-[node name="TopHSeparator" type="HSeparator" parent="."]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_top = 140.0
-offset_bottom = 140.0
-grow_horizontal = 2
-grow_vertical = 0
 
 [node name="Popup" parent="." instance=ExtResource("4_38a0m")]
 grow_horizontal = 2
