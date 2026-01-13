@@ -3,6 +3,7 @@
 TODO
 
 - take note/account for what exactly is working in the app currently
+	- can switch between game modes (levels)
 
 - refactor the directory structure
 
@@ -13,12 +14,20 @@ automatically
 
 - make the buttons and everything else change size with the resizing of the window
 
-- make the buttons fit in the screen
+- simple fixes
+	- need to change what shows on the buttons on the left that are completed for  level 1-1
+	- need to change what shows on the popup button when completing a level
+	- need to change the way progress is shown, maybe have them in a vertical list.
+		- this needs to display the purpose of the game, and be able to visualize how the game progresses
+	- need to make the level buttons fit on the screen
 
 - merge with main
 
-- fix bugs that break gameplay
+- plan - what will be the MVP?
 
+- design
+
+--------------------------------------------------------------------
 
 This is a Godot conversion of the HTML Spanish verb conjugation matching game. Players match Spanish pronouns (yo, tu, el, nosotros, vosotros, ellos) with their corresponding verb conjugations.
 
