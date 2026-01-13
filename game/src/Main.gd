@@ -225,9 +225,9 @@ func get_conjugation_button_by_text(text: String) -> Button:
 			return button
 	return null
 
-func get_pronoun_button_by_name(name: String) -> Button:
+func get_pronoun_button_by_name(button_name: String) -> Button:
 	for button in pronoun_container.get_children():
-		if button is Button and button.name == name:
+		if button is Button and button.name == button_name:
 			return button
 	return null
 
@@ -238,7 +238,7 @@ func _on_game_mode_changed(mode: String):
 	game_mode = mode
 	
 	if mode == "sentence_completion":
-		get_tree().change_scene_to_file("res://SentenceCompletion.tscn")
+		get_tree().change_scene_to_file("res://src/SentenceCompletion.tscn")
 	else:
 		update_game_mode_display()
 		start_new_problem()

@@ -118,5 +118,5 @@ func hide_popup():
 # Game mode switching function
 func _on_game_mode_changed(mode: String):
 	if mode != "sentence_completion":
-		get_tree().change_scene_to_file("res://Main.tscn")
+		get_tree().change_scene_to_file("res://src/Main.tscn")
 	# If mode is sentence_completion, do nothing (already in this scene)
