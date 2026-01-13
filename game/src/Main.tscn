@@ -32,9 +32,8 @@ anchor_right = 1.0
 offset_left = 20.0
 offset_top = 20.0
 offset_right = -20.0
-offset_bottom = 140.0
+offset_bottom = 179.0
 grow_horizontal = 2
-grow_vertical = 0
 
 [node name="TitleSection" type="VBoxContainer" parent="HeaderContainer"]
 layout_mode = 2
@@ -62,16 +61,16 @@ horizontal_alignment = 1
 [node name="GameModeSelector" parent="HeaderContainer/TitleSection" instance=ExtResource("2_vjwby")]
 
 [node name="ProgressIndicator" parent="HeaderContainer" instance=ExtResource("3_8ec3e")]
+custom_minimum_size = Vector2(275, 155)
 layout_mode = 2
 
 [node name="TopHSeparator" type="HSeparator" parent="."]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_top = 140.0
-offset_bottom = 140.0
+offset_top = 196.0
+offset_bottom = 200.0
 grow_horizontal = 2
-grow_vertical = 0
 
 [node name="PronounMatching" parent="." instance=ExtResource("4_vjwby")]
 layout_mode = 0
@@ -79,21 +78,22 @@ anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 0.0
-offset_top = 136.0
-offset_right = 854.0
-offset_bottom = 295.0
+offset_top = 196.0
+offset_right = 1023.0
+offset_bottom = 355.0
 grow_horizontal = 1
 grow_vertical = 1
 
 [node name="SentenceCompletion" parent="." instance=ExtResource("5_8ec3e")]
+visible = false
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 0.0
-offset_top = 136.0
-offset_right = 716.0
-offset_bottom = 359.0
+offset_left = 1.0
+offset_top = 196.0
+offset_right = 1022.0
+offset_bottom = 419.0
 grow_horizontal = 1
 grow_vertical = 1
 

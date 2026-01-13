@@ -33,7 +33,14 @@ theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
 text = "Conjugation"
 horizontal_alignment = 1
 
-[node name="ConjugationDisplay" type="Button" parent="GameArea/ConjugationSection"]
+[node name="ConjugationMarginContainer" type="MarginContainer" parent="GameArea/ConjugationSection"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="ConjugationDisplay" type="Button" parent="GameArea/ConjugationSection/ConjugationMarginContainer"]
 custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
 disabled = true
@@ -52,37 +59,44 @@ theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
 text = "Choose the correct sentence"
 horizontal_alignment = 1
 
-[node name="SentenceGrid" type="GridContainer" parent="GameArea/SentenceSection"]
+[node name="SentenceMarginContainer" type="MarginContainer" parent="GameArea/SentenceSection"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="SentenceGrid" type="GridContainer" parent="GameArea/SentenceSection/SentenceMarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 columns = 2
 
-[node name="sentence_yo" type="Button" parent="GameArea/SentenceSection/SentenceGrid"]
+[node name="sentence_yo" type="Button" parent="GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid"]
 custom_minimum_size = Vector2(250, 60)
 layout_mode = 2
 text = "___ hablo español"
 
-[node name="sentence_tu" type="Button" parent="GameArea/SentenceSection/SentenceGrid"]
+[node name="sentence_tu" type="Button" parent="GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid"]
 custom_minimum_size = Vector2(250, 60)
 layout_mode = 2
 text = "¿___ hablas inglés?"
 
-[node name="sentence_el" type="Button" parent="GameArea/SentenceSection/SentenceGrid"]
+[node name="sentence_el" type="Button" parent="GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid"]
 custom_minimum_size = Vector2(250, 60)
 layout_mode = 2
 text = "___ habla francés"
 
-[node name="sentence_nosotros" type="Button" parent="GameArea/SentenceSection/SentenceGrid"]
+[node name="sentence_nosotros" type="Button" parent="GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid"]
 custom_minimum_size = Vector2(250, 60)
 layout_mode = 2
 text = "___ hablamos mucho"
 
-[node name="sentence_vosotros" type="Button" parent="GameArea/SentenceSection/SentenceGrid"]
+[node name="sentence_vosotros" type="Button" parent="GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid"]
 custom_minimum_size = Vector2(250, 60)
 layout_mode = 2
 text = "¿___ habláis italiano?"
 
-[node name="sentence_ellos" type="Button" parent="GameArea/SentenceSection/SentenceGrid"]
+[node name="sentence_ellos" type="Button" parent="GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid"]
 custom_minimum_size = Vector2(250, 60)
 layout_mode = 2
 text = "___ hablan chino"

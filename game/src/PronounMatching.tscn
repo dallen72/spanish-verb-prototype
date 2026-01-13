@@ -1,19 +1,17 @@
 [gd_scene load_steps=2 format=3 uid="uid://cgnoo36747wsq"]
 
-[ext_resource type="Script" path="res://src/PronounMatching.gd" id="1_pronoun"]
+[ext_resource type="Script" uid="uid://bkxh2snyy1ce6" path="res://src/PronounMatching.gd" id="1_pronoun"]
 
 [node name="VBoxContainer" type="VBoxContainer"]
-script = ExtResource("1_pronoun")
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 50.0
-offset_top = 0.0
 offset_right = -50.0
 offset_bottom = -50.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_pronoun")
 
 [node name="HSeparator" type="HSeparator" parent="."]
 layout_mode = 2
@@ -22,10 +20,12 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/separation = 0
 
 [node name="PronounSection" type="VBoxContainer" parent="GameArea"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.0
 
 [node name="PronounLabel" type="Label" parent="GameArea/PronounSection"]
 layout_mode = 2
@@ -33,37 +33,45 @@ theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
 text = "Spanish Pronouns"
 horizontal_alignment = 1
 
-[node name="PronounGrid" type="GridContainer" parent="GameArea/PronounSection"]
+[node name="PronounMarginContainer" type="MarginContainer" parent="GameArea/PronounSection"]
 layout_mode = 2
-size_flags_horizontal = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+size_flags_horizontal = 8
+
+[node name="PronounGrid" type="GridContainer" parent="GameArea/PronounSection/PronounMarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
 columns = 3
 
-[node name="yo" type="Button" parent="GameArea/PronounSection/PronounGrid"]
+[node name="yo" type="Button" parent="GameArea/PronounSection/PronounMarginContainer/PronounGrid"]
 custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
 text = "yo..."
 
-[node name="tu" type="Button" parent="GameArea/PronounSection/PronounGrid"]
+[node name="tu" type="Button" parent="GameArea/PronounSection/PronounMarginContainer/PronounGrid"]
 custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
 text = "tu..."
 
-[node name="el" type="Button" parent="GameArea/PronounSection/PronounGrid"]
+[node name="el" type="Button" parent="GameArea/PronounSection/PronounMarginContainer/PronounGrid"]
 custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
 text = "el..."
 
-[node name="nosotros" type="Button" parent="GameArea/PronounSection/PronounGrid"]
+[node name="nosotros" type="Button" parent="GameArea/PronounSection/PronounMarginContainer/PronounGrid"]
 custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
 text = "nosotros..."
 
-[node name="vosotros" type="Button" parent="GameArea/PronounSection/PronounGrid"]
+[node name="vosotros" type="Button" parent="GameArea/PronounSection/PronounMarginContainer/PronounGrid"]
 custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
 text = "vosotros..."
 
-[node name="ellos" type="Button" parent="GameArea/PronounSection/PronounGrid"]
+[node name="ellos" type="Button" parent="GameArea/PronounSection/PronounMarginContainer/PronounGrid"]
 custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
 text = "ellos..."
@@ -71,6 +79,7 @@ text = "ellos..."
 [node name="EnglishSection" type="VBoxContainer" parent="GameArea"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.0
 
 [node name="EnglishLabel" type="Label" parent="GameArea/EnglishSection"]
 layout_mode = 2
@@ -78,37 +87,46 @@ theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
 text = "English Pronouns"
 horizontal_alignment = 1
 
-[node name="EnglishGrid" type="GridContainer" parent="GameArea/EnglishSection"]
+[node name="EnglishMarginContainer" type="MarginContainer" parent="GameArea/EnglishSection"]
 layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+size_flags_horizontal = 8
 size_flags_horizontal = 3
+
+[node name="EnglishGrid" type="GridContainer" parent="GameArea/EnglishSection/EnglishMarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
 columns = 3
 
-[node name="yo_eng" type="Button" parent="GameArea/EnglishSection/EnglishGrid"]
+[node name="yo_eng" type="Button" parent="GameArea/EnglishSection/EnglishMarginContainer/EnglishGrid"]
 custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
 text = "I..."
 
-[node name="tu_eng" type="Button" parent="GameArea/EnglishSection/EnglishGrid"]
+[node name="tu_eng" type="Button" parent="GameArea/EnglishSection/EnglishMarginContainer/EnglishGrid"]
 custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
 text = "You..."
 
-[node name="el_eng" type="Button" parent="GameArea/EnglishSection/EnglishGrid"]
+[node name="el_eng" type="Button" parent="GameArea/EnglishSection/EnglishMarginContainer/EnglishGrid"]
 custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
 text = "He/She..."
 
-[node name="nosotros_eng" type="Button" parent="GameArea/EnglishSection/EnglishGrid"]
+[node name="nosotros_eng" type="Button" parent="GameArea/EnglishSection/EnglishMarginContainer/EnglishGrid"]
 custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
 text = "We..."
 
-[node name="vosotros_eng" type="Button" parent="GameArea/EnglishSection/EnglishGrid"]
+[node name="vosotros_eng" type="Button" parent="GameArea/EnglishSection/EnglishMarginContainer/EnglishGrid"]
 custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
 text = "You all..."
 
-[node name="ellos_eng" type="Button" parent="GameArea/EnglishSection/EnglishGrid"]
+[node name="ellos_eng" type="Button" parent="GameArea/EnglishSection/EnglishMarginContainer/EnglishGrid"]
 custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
 text = "They..."
@@ -119,6 +137,7 @@ layout_mode = 2
 [node name="ConjugationSection" type="VBoxContainer" parent="GameArea"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.0
 
 [node name="ConjugationLabel" type="Label" parent="GameArea/ConjugationSection"]
 layout_mode = 2
@@ -126,7 +145,14 @@ theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
 text = "Conjugations"
 horizontal_alignment = 1
 
-[node name="ConjugationGrid" type="GridContainer" parent="GameArea/ConjugationSection"]
+[node name="ConjugationMarginContainer" type="MarginContainer" parent="GameArea/ConjugationSection"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="ConjugationGrid" type="GridContainer" parent="GameArea/ConjugationSection/ConjugationMarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 columns = 3

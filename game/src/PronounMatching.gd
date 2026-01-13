@@ -9,9 +9,9 @@ var game_mode: String = "english_pronouns"  # "english_pronouns" or "spanish_pro
 # UI references
 @onready var pronoun_section: VBoxContainer = $GameArea/PronounSection
 @onready var english_section: VBoxContainer = $GameArea/EnglishSection
-@onready var pronoun_container: GridContainer = $GameArea/PronounSection/PronounGrid
-@onready var english_container: GridContainer = $GameArea/EnglishSection/EnglishGrid
-@onready var conjugation_container: GridContainer = $GameArea/ConjugationSection/ConjugationGrid
+@onready var pronoun_container: GridContainer = $GameArea/PronounSection/PronounMarginContainer/PronounGrid
+@onready var english_container: GridContainer = $GameArea/EnglishSection/EnglishMarginContainer/EnglishGrid
+@onready var conjugation_container: GridContainer = $GameArea/ConjugationSection/ConjugationMarginContainer/ConjugationGrid
 
 # Reference to main script for shared functionality
 var main_script: Node = null
