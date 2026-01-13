@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://b0x8jqyqj0x0r"]
 
-[ext_resource type="Script" uid="uid://ci4ach40catas" path="res://Main.gd" id="1_0x8jq"]
-[ext_resource type="PackedScene" path="res://GameModeSelector.tscn" id="2_3x4y"]
-[ext_resource type="PackedScene" path="res://ProgressIndicator.tscn" id="3_6x7y"]
-[ext_resource type="PackedScene" path="res://Popup.tscn" id="4_7x8y"]
+[ext_resource type="Script" uid="uid://ci4ach40catas" path="res://src/Main.gd" id="1_5qjmp"]
+[ext_resource type="PackedScene" uid="uid://bhnxqi7hgoe7b" path="res://src/GameModeSelector.tscn" id="2_vjwby"]
+[ext_resource type="PackedScene" uid="uid://bop4g007gumea" path="res://src/ProgressIndicator.tscn" id="3_8ec3e"]
+[ext_resource type="PackedScene" uid="uid://dibvxojo3netp" path="res://src/Popup.tscn" id="4_38a0m"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -12,7 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_0x8jq")
+script = ExtResource("1_5qjmp")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
@@ -57,9 +57,9 @@ theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
 text = "Previous Score: 0"
 horizontal_alignment = 1
 
-[node name="GameModeSelector" parent="HeaderContainer/TitleSection" instance=ExtResource("2_3x4y")]
+[node name="GameModeSelector" parent="HeaderContainer/TitleSection" instance=ExtResource("2_vjwby")]
 
-[node name="ProgressIndicator" parent="HeaderContainer" instance=ExtResource("3_6x7y")]
+[node name="ProgressIndicator" parent="HeaderContainer" instance=ExtResource("3_8ec3e")]
 layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -199,6 +199,6 @@ offset_bottom = 140.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="Popup" parent="." instance=ExtResource("4_7x8y")]
+[node name="Popup" parent="." instance=ExtResource("4_38a0m")]
 grow_horizontal = 2
 grow_vertical = 2

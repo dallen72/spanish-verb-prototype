@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://due0cu77lqf53"]
 
-[ext_resource type="Script" uid="uid://clw8hg83mmlby" path="res://SentenceCompletion.gd" id="1_0x8jq"]
-[ext_resource type="PackedScene" path="res://GameModeSelector.tscn" id="2_3x4y"]
-[ext_resource type="PackedScene" path="res://ProgressIndicator.tscn" id="3_6x7y"]
-[ext_resource type="PackedScene" path="res://Popup.tscn" id="4_7x8y"]
+[ext_resource type="Script" uid="uid://clw8hg83mmlby" path="res://src/SentenceCompletion.gd" id="1_dtj7k"]
+[ext_resource type="PackedScene" uid="uid://bhnxqi7hgoe7b" path="res://src/GameModeSelector.tscn" id="2_6usj5"]
+[ext_resource type="PackedScene" uid="uid://bop4g007gumea" path="res://src/ProgressIndicator.tscn" id="3_l3dhy"]
+[ext_resource type="PackedScene" uid="uid://dibvxojo3netp" path="res://src/Popup.tscn" id="4_qchwi"]
 
 [node name="SentenceCompletion" type="Control"]
 layout_mode = 3
@@ -12,7 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_0x8jq")
+script = ExtResource("1_dtj7k")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
@@ -57,9 +57,9 @@ theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
 text = "Previous Score: 0"
 horizontal_alignment = 1
 
-[node name="GameModeSelector" parent="HeaderContainer/TitleSection" instance=ExtResource("2_3x4y")]
+[node name="GameModeSelector" parent="HeaderContainer/TitleSection" instance=ExtResource("2_6usj5")]
 
-[node name="ProgressIndicator" parent="HeaderContainer" instance=ExtResource("3_6x7y")]
+[node name="ProgressIndicator" parent="HeaderContainer" instance=ExtResource("3_l3dhy")]
 layout_mode = 2
 
 [node name="TopHSeparator" type="HSeparator" parent="."]
@@ -155,6 +155,6 @@ custom_minimum_size = Vector2(250, 60)
 layout_mode = 2
 text = "___ hablan chino"
 
-[node name="Popup" parent="." instance=ExtResource("4_7x8y")]
+[node name="Popup" parent="." instance=ExtResource("4_qchwi")]
 grow_horizontal = 2
 grow_vertical = 2
