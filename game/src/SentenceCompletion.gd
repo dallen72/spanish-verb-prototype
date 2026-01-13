@@ -1,67 +1,28 @@
-extends Control
+extends VBoxContainer
 
-# Game state variables
-var previous_score: int = 0
-var completed_verbs: Array = []
-var current_verb: Dictionary = {}
-var total_errors: int = 0
+# Game state variables for sentence completion
 var current_conjugation_for_sentences: String = ""
 var current_pronoun_for_sentences: String = ""
 
-# Verb data is now imported from VerbData.gd
-
 # UI references
-@onready var verb_label: Label = $HeaderContainer/TitleSection/VerbLabel
-@onready var previous_score_label: Label = $HeaderContainer/TitleSection/PreviousScoreLabel
-@onready var game_mode_selector: HBoxContainer = $HeaderContainer/TitleSection/GameModeSelector
-@onready var progress_indicator: Control = $HeaderContainer/ProgressIndicator
-@onready var conjugation_display_button: Button = $VBoxContainer/GameArea/ConjugationSection/ConjugationDisplay
-@onready var sentence_container: GridContainer = $VBoxContainer/GameArea/SentenceSection/SentenceGrid
-@onready var popup: Control = $Popup
+@onready var conjugation_display_button: Button = $GameArea/ConjugationSection/ConjugationDisplay
+@onready var sentence_container: GridContainer = $GameArea/SentenceSection/SentenceGrid
+
+# Reference to main script for shared functionality
+var main_script: Node = null
 
 func _ready():
-	# Initialize the game with a random verb
-	start_new_problem()
-	
-	# Connect game mode selector signal
-	game_mode_selector.game_mode_changed.connect(_on_game_mode_changed)
-	
-	# Set initial mode to sentence completion
-	game_mode_selector.set_initial_mode("sentence_completion")
+	# Get reference to main script (SentenceCompletion VBoxContainer is a child of Main)
+	main_script = get_parent()
 	
 	# Connect sentence button signals
 	for button in sentence_container.get_children():
 		if button is Button:
 			button.pressed.connect(_on_sentence_button_pressed.bind(button))
 
-func start_new_problem():
-	# Select a random verb that hasn't been completed yet
-	current_verb = VerbData.get_random_available_verb(completed_verbs)
+func setup_problem():
+	var current_verb = Global.get_node("GameProgressMaster").get_current_verb()
 	
-	# If all verbs completed, reset and start over
-	if completed_verbs.size() >= VerbData.get_total_verb_count():
-		completed_verbs.clear()
-		current_verb = VerbData.get_random_verb()
-	
-	# Update UI
-	previous_score_label.text = "You got " + str(previous_score) + " wrong on the last problem"
-	update_verb_label()
-	
-	# Reset selection state
-	current_conjugation_for_sentences = ""
-	current_pronoun_for_sentences = ""
-	previous_score = 0
-	
-	# Setup sentence completion mode
-	setup_sentence_completion_mode()
-	
-	# Update progress indicator
-	update_progress_indicator()
-
-func update_verb_label():
-	verb_label.text = "Match the conjugation with the correct sentence for " + current_verb["name"]
-
-func setup_sentence_completion_mode():
 	# Pick a random conjugation to display
 	var pronouns = current_verb["conjugations"].keys()
 	var random_pronoun = pronouns[randi() % pronouns.size()]
@@ -87,36 +48,16 @@ func _on_sentence_button_pressed(button: Button):
 		# Correct match!
 		button.modulate = Color.LIGHT_BLUE
 		button.disabled = true
+		var current_verb = Global.get_node("GameProgressMaster").get_current_verb()
 		button.text = current_verb["sentence_templates"][pronoun].replace("___", current_pronoun_for_sentences)
 		
 		# Mark as completed and move to next problem
-		show_popup()
-		await get_tree().create_timer(2.0).timeout
-		hide_popup()
-		completed_verbs.append(current_verb["name"])
-		start_new_problem()
+		main_script.on_problem_completed()
 	else:
 		# Incorrect match
-		previous_score += 1
-		total_errors += 1
-		update_progress_indicator()
+		main_script.on_error()
 		
 		# Visual feedback for wrong answer
 		button.modulate = Color.RED
 		await get_tree().create_timer(0.5).timeout
 		button.modulate = Color.WHITE
-
-func update_progress_indicator():
-	progress_indicator.update_progress(current_verb, completed_verbs, total_errors)
-
-func show_popup():
-	popup.show_popup()
-
-func hide_popup():
-	popup.hide_popup()
-
-# Game mode switching function
-func _on_game_mode_changed(mode: String):
-	if mode != "sentence_completion":
-		get_tree().change_scene_to_file("res://src/Main.tscn")
-	# If mode is sentence_completion, do nothing (already in this scene)

@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://b0x8jqyqj0x0r"]
+[gd_scene load_steps=7 format=3 uid="uid://b0x8jqyqj0x0r"]
 
 [ext_resource type="Script" uid="uid://ci4ach40catas" path="res://src/Main.gd" id="1_5qjmp"]
 [ext_resource type="PackedScene" uid="uid://bhnxqi7hgoe7b" path="res://src/GameModeSelector.tscn" id="2_vjwby"]
 [ext_resource type="PackedScene" uid="uid://bop4g007gumea" path="res://src/ProgressIndicator.tscn" id="3_8ec3e"]
 [ext_resource type="PackedScene" uid="uid://dibvxojo3netp" path="res://src/Popup.tscn" id="4_38a0m"]
+[ext_resource type="PackedScene" uid="uid://cgnoo36747wsq" path="res://src/PronounMatching.tscn" id="4_vjwby"]
+[ext_resource type="PackedScene" uid="uid://due0cu77lqf53" path="res://src/SentenceCompletion.tscn" id="5_8ec3e"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -71,133 +73,29 @@ offset_bottom = 140.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 50.0
-offset_top = 150.0
-offset_right = -50.0
-offset_bottom = -50.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="PronounMatching" parent="." instance=ExtResource("4_vjwby")]
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 136.0
+offset_right = 854.0
+offset_bottom = 295.0
+grow_horizontal = 1
+grow_vertical = 1
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="GameArea" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PronounSection" type="VBoxContainer" parent="VBoxContainer/GameArea"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="PronounLabel" type="Label" parent="VBoxContainer/GameArea/PronounSection"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
-text = "Spanish Pronouns"
-horizontal_alignment = 1
-
-[node name="PronounGrid" type="GridContainer" parent="VBoxContainer/GameArea/PronounSection"]
-layout_mode = 2
-size_flags_horizontal = 3
-columns = 3
-
-[node name="yo" type="Button" parent="VBoxContainer/GameArea/PronounSection/PronounGrid"]
-custom_minimum_size = Vector2(120, 60)
-layout_mode = 2
-text = "yo..."
-
-[node name="tu" type="Button" parent="VBoxContainer/GameArea/PronounSection/PronounGrid"]
-custom_minimum_size = Vector2(120, 60)
-layout_mode = 2
-text = "tu..."
-
-[node name="el" type="Button" parent="VBoxContainer/GameArea/PronounSection/PronounGrid"]
-custom_minimum_size = Vector2(120, 60)
-layout_mode = 2
-text = "el..."
-
-[node name="nosotros" type="Button" parent="VBoxContainer/GameArea/PronounSection/PronounGrid"]
-custom_minimum_size = Vector2(120, 60)
-layout_mode = 2
-text = "nosotros..."
-
-[node name="vosotros" type="Button" parent="VBoxContainer/GameArea/PronounSection/PronounGrid"]
-custom_minimum_size = Vector2(120, 60)
-layout_mode = 2
-text = "vosotros..."
-
-[node name="ellos" type="Button" parent="VBoxContainer/GameArea/PronounSection/PronounGrid"]
-custom_minimum_size = Vector2(120, 60)
-layout_mode = 2
-text = "ellos..."
-
-[node name="EnglishSection" type="VBoxContainer" parent="VBoxContainer/GameArea"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="EnglishLabel" type="Label" parent="VBoxContainer/GameArea/EnglishSection"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
-text = "English Pronouns"
-horizontal_alignment = 1
-
-[node name="EnglishGrid" type="GridContainer" parent="VBoxContainer/GameArea/EnglishSection"]
-layout_mode = 2
-size_flags_horizontal = 3
-columns = 3
-
-[node name="yo_eng" type="Button" parent="VBoxContainer/GameArea/EnglishSection/EnglishGrid"]
-custom_minimum_size = Vector2(120, 60)
-layout_mode = 2
-text = "I..."
-
-[node name="tu_eng" type="Button" parent="VBoxContainer/GameArea/EnglishSection/EnglishGrid"]
-custom_minimum_size = Vector2(120, 60)
-layout_mode = 2
-text = "You..."
-
-[node name="el_eng" type="Button" parent="VBoxContainer/GameArea/EnglishSection/EnglishGrid"]
-custom_minimum_size = Vector2(120, 60)
-layout_mode = 2
-text = "He/She..."
-
-[node name="nosotros_eng" type="Button" parent="VBoxContainer/GameArea/EnglishSection/EnglishGrid"]
-custom_minimum_size = Vector2(120, 60)
-layout_mode = 2
-text = "We..."
-
-[node name="vosotros_eng" type="Button" parent="VBoxContainer/GameArea/EnglishSection/EnglishGrid"]
-custom_minimum_size = Vector2(120, 60)
-layout_mode = 2
-text = "You all..."
-
-[node name="ellos_eng" type="Button" parent="VBoxContainer/GameArea/EnglishSection/EnglishGrid"]
-custom_minimum_size = Vector2(120, 60)
-layout_mode = 2
-text = "They..."
-
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer/GameArea"]
-layout_mode = 2
-
-[node name="ConjugationSection" type="VBoxContainer" parent="VBoxContainer/GameArea"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ConjugationLabel" type="Label" parent="VBoxContainer/GameArea/ConjugationSection"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
-text = "Conjugations"
-horizontal_alignment = 1
-
-[node name="ConjugationGrid" type="GridContainer" parent="VBoxContainer/GameArea/ConjugationSection"]
-layout_mode = 2
-size_flags_horizontal = 3
-columns = 3
+[node name="SentenceCompletion" parent="." instance=ExtResource("5_8ec3e")]
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 136.0
+offset_right = 716.0
+offset_bottom = 359.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="Popup" parent="." instance=ExtResource("4_38a0m")]
 grow_horizontal = 2
