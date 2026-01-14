@@ -90,8 +90,16 @@ runs:
       shell: bash
       run: |
         cd game
-        # Load project and validate all scripts - will exit with error if scripts have parse errors
-        godot --headless --quit || (echo "::error::Script validation failed - check for parse errors in GDScript files" && exit 1)
+        # Use --check-only to validate script syntax and compilation without running the project
+        # This will catch parse errors, undefined identifiers, and other script issues
+        echo "Validating GDScript files for syntax and compilation errors..."
+        
+        if ! godot --headless --check-only; then
+          echo "::error::Script validation failed - found syntax or compilation errors in GDScript files"
+          exit 1
+        fi
+        
+        echo "✓ Script validation passed - no syntax or compilation errors found"
 
     - name: Build Windows
       shell: bash
