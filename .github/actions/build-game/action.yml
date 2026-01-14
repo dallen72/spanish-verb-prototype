@@ -9,6 +9,7 @@
 # This action:
 # - Creates build directories for all platforms
 # - Imports game assets (runs twice to ensure completion)
+# - Validates all GDScript files for parse errors
 # - Builds for all platforms using Godot 4.5
 # - Creates executables/directories for Windows, Linux, and Web
 # - Creates a zip file only for macOS builds
@@ -72,6 +73,7 @@ runs:
     - name: Create Build Directories
       shell: bash
       run: |
+        cd game
         mkdir -p build/windows-${{ inputs.build-mode }}
         mkdir -p build/linux-${{ inputs.build-mode }}
         mkdir -p build/macos-${{ inputs.build-mode }}
@@ -80,8 +82,24 @@ runs:
     - name: Import Assets
       shell: bash
       run: |
+        cd game
         godot --headless --import
         godot --headless --import
+
+    - name: Validate Scripts
+      shell: bash
+      run: |
+        cd game
+        # Use --check-only to validate script syntax and compilation without running the project
+        # This will catch parse errors, undefined identifiers, and other script issues
+        echo "Validating GDScript files for syntax and compilation errors..."
+        
+        if ! godot --headless --check-only; then
+          echo "::error::Script validation failed - found syntax or compilation errors in GDScript files"
+          exit 1
+        fi
+        
+        echo "✓ Script validation passed - no syntax or compilation errors found"
 
     - name: Build Windows
       shell: bash
@@ -89,11 +107,12 @@ runs:
         PROJECTNAME: ${{ inputs.project-name }}
       if: ${{ inputs.windows-build == 'true' }}
       run: |
+        cd game
         if ! godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Windows Desktop" "build/windows-${{ inputs.build-mode }}/${PROJECTNAME}.exe"; then
           echo "Export failed, retrying..."
           godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Windows Desktop" "build/windows-${{ inputs.build-mode }}/${PROJECTNAME}.exe"
         fi
-        echo "Windows build complete: build/windows-${{ inputs.build-mode }}/"
+        echo "Windows build complete: game/build/windows-${{ inputs.build-mode }}/"
 
     - name: Build Linux
       shell: bash
@@ -101,11 +120,12 @@ runs:
         PROJECTNAME: ${{ inputs.project-name }}
       if: ${{ inputs.linux-build == 'true' }}
       run: |
+        cd game
         if ! godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Linux" "build/linux-${{ inputs.build-mode }}/${PROJECTNAME}.x86_64"; then
           echo "Export failed, retrying..."
           godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Linux" "build/linux-${{ inputs.build-mode }}/${PROJECTNAME}.x86_64"
         fi
-        echo "Linux build complete: build/linux-${{ inputs.build-mode }}/"
+        echo "Linux build complete: game/build/linux-${{ inputs.build-mode }}/"
 
     - name: Build macOS
       shell: bash
@@ -113,6 +133,7 @@ runs:
         PROJECTNAME: ${{ inputs.project-name }}
       if: ${{ inputs.macos-build == 'true' }}
       run: |
+        cd game
         if ! godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "macOS" "build/macos-${{ inputs.build-mode }}/${PROJECTNAME}.zip"; then
           echo "Export failed, retrying..."
           godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "macOS" "build/macos-${{ inputs.build-mode }}/${PROJECTNAME}.zip"
@@ -120,7 +141,7 @@ runs:
         cd build/macos-${{ inputs.build-mode }}
         zip -r "../macos-${{ inputs.build-mode }}.zip" .
         cd ../..
-        echo "macOS build complete: build/macos-${{ inputs.build-mode }}.zip"
+        echo "macOS build complete: game/build/macos-${{ inputs.build-mode }}.zip"
 
     - name: Build Web
       shell: bash
@@ -128,8 +149,9 @@ runs:
         PROJECTNAME: ${{ inputs.project-name }}
       if: ${{ inputs.web-build == 'true' }}
       run: |
+        cd game
         if ! godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Web" "build/web-${{ inputs.build-mode }}/index.html"; then
           echo "Export failed, retrying..."
           godot --headless --verbose ${{ inputs.build-mode == 'debug' && '--export-debug' || '--export-release' }} "Web" "build/web-${{ inputs.build-mode }}/index.html"
         fi
-        echo "Web build complete: build/web-${{ inputs.build-mode }}/"
+        echo "Web build complete: game/build/web-${{ inputs.build-mode }}/"
