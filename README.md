@@ -2,14 +2,9 @@
 
 TODO
 
-- refactor manually. right now there are different scenes? for the game modes, make it so that there is one scene for gameplay, with shared background and nodes. but have different scenes for the game area
-
 - simple fixes
 	- need to change what shows on the popup button when completing a level
-	- need to change the way progress is shown, maybe have them in a vertical list.
-		- this needs to display the purpose of the game, and be able to visualize how the game progresses
-
-- merge with main
+	- have a progress screen that shows bars that increase
 
 - plan - what will be the MVP?
 

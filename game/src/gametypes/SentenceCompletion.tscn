@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://due0cu77lqf53"]
 
-[ext_resource type="Script" uid="uid://clw8hg83mmlby" path="res://src/SentenceCompletion.gd" id="1_dtj7k"]
+[ext_resource type="Script" uid="uid://clw8hg83mmlby" path="res://src/gametypes/SentenceCompletion.gd" id="1_dtj7k"]
 
 [node name="VBoxContainer" type="VBoxContainer"]
 layout_mode = 1
