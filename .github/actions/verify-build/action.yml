@@ -63,10 +63,10 @@ runs:
       shell: bash
       if: ${{ inputs.windows-build == 'true' }}
       run: |
-        if [ -d "build/windows-${{ inputs.build-mode }}/SpanishVerbGame.exe" ]; then
-          echo "Windows build successful - directory found"
+        if [ -f "game/build/windows-${{ inputs.build-mode }}/${{ inputs.project-name }}.exe" ]; then
+          echo "Windows build successful - executable found"
         else
-          echo "::error::Windows build failed - executable not found at build/windows-${{ inputs.build-mode }}/"
+          echo "::error::Windows build failed - executable not found at game/build/windows-${{ inputs.build-mode }}/"
           exit 1
         fi
 
@@ -74,10 +74,10 @@ runs:
       shell: bash
       if: ${{ inputs.linux-build == 'true' }}
       run: |
-        if [ -d "build/linux-${{ inputs.build-mode }}/SpanishVerbGame.x86_64" ]; then
+        if [ -f "game/build/linux-${{ inputs.build-mode }}/${{ inputs.project-name }}.x86_64" ]; then
           echo "Linux build successful - executable found"
         else
-          echo "::error::Linux build failed - executable not found at build/linux-${{ inputs.build-mode }}/"
+          echo "::error::Linux build failed - executable not found at game/build/linux-${{ inputs.build-mode }}/"
           exit 1
         fi
 
@@ -85,10 +85,10 @@ runs:
       shell: bash
       if: ${{ inputs.macos-build == 'true' }}
       run: |
-        if [ -f "build/macos-${{ inputs.build-mode }}/SpanishVerbGame.zip" ]; then
+        if [ -f "game/build/macos-${{ inputs.build-mode }}.zip" ]; then
           echo "macOS build successful - zip file found"
         else
-          echo "::error::macOS build failed - zip file not found at build/macos-${{ inputs.build-mode }}.zip"
+          echo "::error::macOS build failed - zip file not found at game/build/macos-${{ inputs.build-mode }}.zip"
           exit 1
         fi
 
@@ -96,18 +96,18 @@ runs:
       shell: bash
       if: ${{ inputs.web-build == 'true' }}
       run: |
-        echo "Debug: Checking contents of build/web-${{ inputs.build-mode }}/"
-        echo "Directory exists: $([ -d "build/web-${{ inputs.build-mode }}" ] && echo "yes" || echo "no")"
-        if [ -d "build/web-${{ inputs.build-mode }}" ]; then
-          echo "Files in build/web-${{ inputs.build-mode }}/:"
-          ls -la "build/web-${{ inputs.build-mode }}/" || echo "Directory is empty or cannot be listed"
+        echo "Debug: Checking contents of game/build/web-${{ inputs.build-mode }}/"
+        echo "Directory exists: $([ -d "game/build/web-${{ inputs.build-mode }}" ] && echo "yes" || echo "no")"
+        if [ -d "game/build/web-${{ inputs.build-mode }}" ]; then
+          echo "Files in game/build/web-${{ inputs.build-mode }}/:"
+          ls -la "game/build/web-${{ inputs.build-mode }}/" || echo "Directory is empty or cannot be listed"
         else
-          echo "Directory build/web-${{ inputs.build-mode }}/ does not exist"
+          echo "Directory game/build/web-${{ inputs.build-mode }}/ does not exist"
         fi
-        if [ -f "build/web-${{ inputs.build-mode }}/index.html" ]; then
+        if [ -f "game/build/web-${{ inputs.build-mode }}/index.html" ]; then
           echo "Web build successful - index.html found"
         else
-          echo "::error::Web build failed - index.html not found at build/web-${{ inputs.build-mode }}/index.html"
+          echo "::error::Web build failed - index.html not found at game/build/web-${{ inputs.build-mode }}/index.html"
           exit 1
         fi
 
@@ -117,14 +117,14 @@ runs:
         echo "All expected builds verified successfully!"
         echo "Build outputs:"
         if [ "${{ inputs.windows-build }}" == "true" ]; then
-          echo "  Windows: build/windows-${{ inputs.build-mode }}/SpanishVerbGame.exe"
+          echo "  Windows: game/build/windows-${{ inputs.build-mode }}/${{ inputs.project-name }}.exe"
         fi
         if [ "${{ inputs.linux-build }}" == "true" ]; then
-          echo "  Linux: build/linux-${{ inputs.build-mode }}/SpanishVerbGame.x86_64"
+          echo "  Linux: game/build/linux-${{ inputs.build-mode }}/${{ inputs.project-name }}.x86_64"
         fi
         if [ "${{ inputs.macos-build }}" == "true" ]; then
-          echo "  macOS: build/macos-${{ inputs.build-mode }}/SpanishVerbGame.zip"
+          echo "  macOS: game/build/macos-${{ inputs.build-mode }}.zip"
         fi
         if [ "${{ inputs.web-build }}" == "true" ]; then
-          echo "  Web: build/web-${{ inputs.build-mode }}/index.html"
+          echo "  Web: game/build/web-${{ inputs.build-mode }}/index.html"
         fi
