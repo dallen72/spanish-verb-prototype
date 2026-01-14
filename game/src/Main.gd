@@ -1,0 +1,114 @@
+extends Control
+
+# Game state variables
+var game_mode: String = "english_pronouns"  # "english_pronouns", "spanish_pronouns", or "sentence_completion"
+
+# Verb data is now imported from VerbData.gd
+
+# UI references
+@onready var verb_label: Label = $HeaderContainer/TitleSection/VerbLabel
+@onready var previous_score_label: Label = $HeaderContainer/TitleSection/PreviousScoreLabel
+@onready var game_mode_selector: HBoxContainer = $HeaderContainer/TitleSection/GameModeSelector
+@onready var progress_indicator: Control = $HeaderContainer/ProgressIndicator
+@onready var popup: Control = $Popup
+
+# Child scene references
+@onready var pronoun_matching: VBoxContainer = $PronounMatching
+@onready var sentence_completion: VBoxContainer = $SentenceCompletion
+
+func _ready():
+	# Connect game mode selector signal
+	game_mode_selector.game_mode_changed.connect(_on_game_mode_changed)
+	
+	# Set initial visibility of child scenes
+	pronoun_matching.visible = true
+	sentence_completion.visible = false
+	
+	# Initialize pronoun matching with the current game mode (this will set current_verb if needed)
+	if pronoun_matching.has_method("initialize"):
+		pronoun_matching.initialize(game_mode)
+	
+	# Initialize the game with a random verb (this sets current_verb and calls setup_problem on child scenes)
+	start_new_problem()
+
+func start_new_problem():
+	# Select a random verb that hasn't been completed yet
+	var game_progress = Global.get_node("GameProgressMaster")
+	var current_verb = VerbData.get_random_available_verb(game_progress.get_completed_verbs())
+	
+	# If all verbs completed, reset and start over
+	if game_progress.get_completed_verbs().size() >= VerbData.get_total_verb_count():
+		game_progress.clear_completed_verbs()
+		current_verb = VerbData.get_random_verb()
+	
+	# Set the current verb in GameProgressMaster
+	game_progress.set_current_verb(current_verb)
+	
+	# Update UI
+	previous_score_label.text = "You got " + str(game_progress.get_previous_score()) + " wrong on the last problem"
+	update_game_mode_display()
+	
+	# Reset previous score for next problem
+	game_progress.reset_previous_score()
+	
+	# Update progress indicator
+	update_progress_indicator()
+	
+	# Notify child scenes to setup their problem
+	if pronoun_matching and pronoun_matching.has_method("setup_problem"):
+		pronoun_matching.setup_problem()
+	if sentence_completion and sentence_completion.has_method("setup_problem"):
+		sentence_completion.setup_problem()
+
+func update_progress_indicator():
+	var game_progress = Global.get_node("GameProgressMaster")
+	progress_indicator.update_progress(game_progress.get_current_verb(), game_progress.get_completed_verbs(), game_progress.get_total_errors())
+
+func _on_game_mode_changed(mode: String):
+	game_mode = mode
+	
+	# Show/hide child scenes based on game mode
+	if mode == "sentence_completion":
+		pronoun_matching.visible = false
+		sentence_completion.visible = true
+	else:
+		pronoun_matching.visible = true
+		sentence_completion.visible = false
+		# Initialize pronoun matching with the correct game mode
+		if pronoun_matching.has_method("initialize"):
+			pronoun_matching.initialize(mode)
+	
+	update_game_mode_display()
+	start_new_problem()
+
+func update_game_mode_display():
+	var current_verb = Global.get_node("GameProgressMaster").get_current_verb()
+	if game_mode == "english_pronouns":
+		verb_label.text = "Match the English pronoun with the Spanish conjugation for " + current_verb["name"]
+	elif game_mode == "spanish_pronouns":
+		verb_label.text = "Match the Spanish pronoun with the Spanish conjugation for " + current_verb["name"]
+	elif game_mode == "sentence_completion":
+		verb_label.text = "Match the conjugation with the correct sentence for " + current_verb["name"]
+
+# Public methods for child scenes to use
+func on_problem_completed():
+	# Called when a problem is completed
+	show_popup()
+	await get_tree().create_timer(2.0).timeout
+	hide_popup()
+	var game_progress = Global.get_node("GameProgressMaster")
+	game_progress.add_completed_verb(game_progress.get_current_verb()["name"])
+	start_new_problem()
+
+func on_error():
+	# Called when an error is made
+	var game_progress = Global.get_node("GameProgressMaster")
+	game_progress.set_previous_score(game_progress.get_previous_score() + 1)
+	game_progress.increment_total_errors()
+	update_progress_indicator()
+
+func show_popup():
+	popup.show_popup()
+
+func hide_popup():
+	popup.hide_popup()
