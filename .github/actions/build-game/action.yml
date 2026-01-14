@@ -9,6 +9,7 @@
 # This action:
 # - Creates build directories for all platforms
 # - Imports game assets (runs twice to ensure completion)
+# - Validates all GDScript files for parse errors
 # - Builds for all platforms using Godot 4.5
 # - Creates executables/directories for Windows, Linux, and Web
 # - Creates a zip file only for macOS builds
@@ -84,6 +85,13 @@ runs:
         cd game
         godot --headless --import
         godot --headless --import
+
+    - name: Validate Scripts
+      shell: bash
+      run: |
+        cd game
+        # Load project and validate all scripts - will exit with error if scripts have parse errors
+        godot --headless --quit || (echo "::error::Script validation failed - check for parse errors in GDScript files" && exit 1)
 
     - name: Build Windows
       shell: bash

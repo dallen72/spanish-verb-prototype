@@ -8,12 +8,14 @@
 # OUTPUT: Build verification only - no deployment to Itch.io
 # 
 # This workflow:
+# - Validates all GDScript files for parse errors
 # - Builds the game for all platforms (Windows, Linux, macOS, Web)
 # - Verifies that all builds completed successfully
 # - Provides feedback on PR build status
 # - Does NOT upload builds to Itch.io (only main branch pushes do that)
 # 
 # Use this workflow to:
+# - Catch script parse errors before building
 # - Verify PR changes don't break the build
 # - Catch build errors before merging to main
 # - Ensure all platforms compile successfully
