@@ -30,7 +30,7 @@ func setup_problem():
 	current_conjugation_for_sentences = current_verb["conjugations"][random_pronoun]
 	
 	# Set the conjugation display button
-	conjugation_display_button.text = current_conjugation_for_sentences
+	conjugation_display_button.text = current_conjugation_for_sentencess
 	
 	# Reset sentence buttons
 	for button in sentence_container.get_children():
