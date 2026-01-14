@@ -3,7 +3,7 @@
 # ================================================================================================================
 # 
 # PURPOSE: Creates development builds for testing and team access
-# TRIGGER: Runs on every push to main/master branches and pull requests
+# TRIGGER: Runs on every push to main/master branches
 # BUILD MODE: Debug builds (faster compilation, includes debug symbols)
 # OUTPUT: Builds uploaded to GitHub artifacts AND Itch.io channels
 # 
@@ -28,8 +28,6 @@
 name: Build And Push - Development
 on:
   push:
-    branches: [ main, master ]
-  pull_request:
     branches: [ main, master ]
 env:
   GODOT_VERSION: 4.5
