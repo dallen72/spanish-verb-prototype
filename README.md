@@ -4,17 +4,10 @@ TODO
 
 - refactor manually. right now there are different scenes? for the game modes, make it so that there is one scene for gameplay, with shared background and nodes. but have different scenes for the game area
 
-- add to cursorfile stuff you learned you needed to refactor manually because cursor did not do it
-automatically
-
-- make the buttons and everything else change size with the resizing of the window
-
 - simple fixes
-	- need to change what shows on the buttons on the left that are completed for  level 1-1
 	- need to change what shows on the popup button when completing a level
 	- need to change the way progress is shown, maybe have them in a vertical list.
 		- this needs to display the purpose of the game, and be able to visualize how the game progresses
-	- need to make the level buttons fit on the screen
 
 - merge with main
 
