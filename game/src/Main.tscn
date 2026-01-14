@@ -23,7 +23,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.7611405, 0.8249796, 0.9905178, 1)
+color = Color(0.96976644, 0.7619922, 0.817924, 1)
 
 [node name="HeaderContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
