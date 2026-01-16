@@ -72,8 +72,8 @@ func generate_conjugation_buttons(current_verb: Dictionary):
 		var conjugation = conjugations[pronoun]
 		var button = Button.new()
 		button.text = conjugation
-		button.custom_minimum_size = Vector2(144, 72)
-		button.add_theme_font_size_override("font_size", 20)
+		button.custom_minimum_size = Vector2(216, 108)
+		button.add_theme_font_size_override("font_size", 30)
 		button.pressed.connect(_on_conjugation_button_pressed.bind(button))
 		conjugation_values.append({"button": button, "conjugation": conjugation, "pronoun": pronoun})
 	
