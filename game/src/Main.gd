@@ -16,20 +16,118 @@ var game_mode: String = "english_pronouns"  # "english_pronouns", "spanish_prono
 @onready var pronoun_matching: VBoxContainer = $PronounMatching
 @onready var sentence_completion: VBoxContainer = $SentenceCompletion
 
+func _process(_delta):
+	if Input.is_action_just_pressed("ui_cancel"):
+		if OS.is_debug_build():
+			get_tree().quit()
+
 func _ready():
+	# For web builds, also listen for window resize events
+	var is_web = OS.get_name() == "Web" or DisplayServer.get_name() == "web"
+	if is_web:
+		var window = get_window()
+		#if window:
+			# Connect to size_changed signal to handle browser window resizing
+			#window.size_changed.connect(_on_window_size_changed)
+	
 	# Connect game mode selector signal
 	game_mode_selector.game_mode_changed.connect(_on_game_mode_changed)
 	
-	# Set initial visibility of child scenes
-	pronoun_matching.visible = true
-	sentence_completion.visible = false
+	# Adjust viewport size based on available screen/window size
+	# For web builds, wait a frame to let Godot detect the canvas size automatically
+	if is_web:
+		# Wait for the next frame to let Godot automatically detect the canvas size
+		await get_tree().process_frame
+		# Now read the automatically detected size and apply our resolution selection
+		#adjust_viewport_size()
+	else:
+		# For desktop, can adjust immediately
+		adjust_viewport_size()
+
+func _on_window_size_changed():
+	"""
+	Called when the browser window is resized.
+	Re-adjusts the viewport size to fit the new browser window size.
+	"""
+	var is_web = OS.get_name() == "Web" or DisplayServer.get_name() == "web"
+	if is_web:
+		# Wait a frame to ensure we get the accurate new canvas size
+		await get_tree().process_frame
+		adjust_viewport_size()
+
+func adjust_viewport_size():
+	"""
+	Adjusts the viewport size to the largest 16:9 resolution that fits in the available screen/window.
+	For web builds, uses the actual browser viewport size (excluding browser UI).
+	For desktop builds, uses screen size.
+	Resolutions checked (in order): 1920x1080, 1536x864, 1366x768, 1280x720
+	"""
+	var available_size: Vector2i
+	var is_web = OS.get_name() == "Web" or DisplayServer.get_name() == "web"
 	
-	# Initialize pronoun matching with the current game mode (this will set current_verb if needed)
-	if pronoun_matching.has_method("initialize"):
-		pronoun_matching.initialize(game_mode)
+	if is_web:
+		# For web builds, use get_window().size which is what Godot uses internally
+		# With canvasResizePolicy=2, Godot automatically adapts the canvas to the browser window
+		# get_window().size returns the actual canvas size that Godot has set
+		# This is the browser window size excluding browser UI (address bar, tabs, etc.)
+		var window = get_window()
+		if window:
+			# Use window.size - this is what Godot sets based on the browser canvas
+			available_size = window.size
+			
+			# Also try content_scale_size as a more accurate measure
+			if available_size.x <= 0 or available_size.y <= 0:
+				available_size = window.content_scale_size
+		else:
+			available_size = Vector2i(1280, 720)
+		
+		# Final fallback
+		if available_size.x <= 0 or available_size.y <= 0:
+			available_size = Vector2i(1280, 720)
+	else:
+		# For desktop builds, use screen size
+		available_size = DisplayServer.screen_get_size()
 	
-	# Initialize the game with a random verb (this sets current_verb and calls setup_problem on child scenes)
-	start_new_problem()
+	# List of 16:9 resolutions in descending order (largest first)
+	var resolutions = [
+		Vector2i(1920, 1080),
+		Vector2i(1536, 864),
+		Vector2i(1366, 768),
+		Vector2i(1280, 720)
+	]
+	
+	# Find the largest resolution that fits in the available space
+	var selected_resolution = resolutions[resolutions.size() - 1]  # Default to smallest
+	
+	for resolution in resolutions:
+		if resolution.x <= available_size.x and resolution.y <= available_size.y:
+			selected_resolution = resolution
+			break
+	
+	# Set the window/viewport size
+	var window = get_window()
+	var viewport = get_viewport()
+	
+	if window and viewport:
+		if is_web:
+			# For web builds, set viewport to our selected 16:9 resolution
+			# This is what the UI is designed for (fixed positions/sizes)
+			# With stretch mode "viewport", the viewport will scale to fit the canvas
+			# while maintaining 16:9 aspect ratio, ensuring mouse coordinates match
+			viewport.size = selected_resolution
+		else:
+			# For desktop, set window size and center it
+			window.size = selected_resolution
+			var screen_size = DisplayServer.screen_get_size()
+			var centered_position = (screen_size - selected_resolution) / 2
+			window.position = centered_position
+	
+	print("Platform: ", "Web" if is_web else "Desktop")
+	print("Available size: ", available_size.x, "x", available_size.y)
+	print("Selected resolution: ", selected_resolution.x, "x", selected_resolution.y)
+	if is_web and viewport:
+		print("Actual viewport size: ", viewport.size.x, "x", viewport.size.y)
+		print("Visible rect size: ", viewport.get_visible_rect().size.x, "x", viewport.get_visible_rect().size.y)
 
 func start_new_problem():
 	# Select a random verb that hasn't been completed yet
