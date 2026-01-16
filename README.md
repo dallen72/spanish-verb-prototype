@@ -37,6 +37,8 @@ This is a Godot conversion of the HTML Spanish verb conjugation matching game. P
 
 ## Running the Game
 
+### Desktop (Windows/Linux/macOS)
+
 1. Open the project in Godot 4.2+
 2. Run the main scene (`Main.tscn`)
 3. The game window will open at 1024x600 resolution

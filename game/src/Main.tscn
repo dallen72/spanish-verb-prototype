@@ -30,9 +30,9 @@ layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = 20.0
-offset_top = 20.0
+offset_top = 22.0
 offset_right = -20.0
-offset_bottom = 179.0
+offset_bottom = 217.0
 grow_horizontal = 2
 
 [node name="TitleSection" type="VBoxContainer" parent="HeaderContainer"]
@@ -42,6 +42,7 @@ size_flags_horizontal = 3
 [node name="TitleLabel" type="Label" parent="HeaderContainer/TitleSection"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
+theme_override_font_sizes/font_size = 20
 text = "Spanish Verb Conjugation Game"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -49,12 +50,14 @@ vertical_alignment = 1
 [node name="VerbLabel" type="Label" parent="HeaderContainer/TitleSection"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.3, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 20
 text = "Match the conjugation with the pronoun for..."
 horizontal_alignment = 1
 
 [node name="PreviousScoreLabel" type="Label" parent="HeaderContainer/TitleSection"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 20
 text = "Previous Score: 0"
 horizontal_alignment = 1
 
@@ -68,8 +71,8 @@ layout_mode = 2
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_top = 196.0
-offset_bottom = 200.0
+offset_top = 235.0
+offset_bottom = 239.0
 grow_horizontal = 2
 
 [node name="PronounMatching" parent="." instance=ExtResource("4_vjwby")]
@@ -77,10 +80,10 @@ layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 0.0
-offset_top = 196.0
-offset_right = 1023.0
-offset_bottom = 355.0
+offset_left = -1.0
+offset_top = 242.0
+offset_right = 1279.0
+offset_bottom = 583.0
 grow_horizontal = 1
 grow_vertical = 1
 
@@ -91,9 +94,9 @@ anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 1.0
-offset_top = 196.0
-offset_right = 1022.0
-offset_bottom = 419.0
+offset_top = 263.0
+offset_right = 1278.0
+offset_bottom = 628.0
 grow_horizontal = 1
 grow_vertical = 1
 

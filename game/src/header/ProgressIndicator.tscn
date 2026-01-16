@@ -37,6 +37,7 @@ grow_vertical = 2
 [node name="ProgressTitle" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
 text = "Progress"
 horizontal_alignment = 1
 
@@ -46,19 +47,23 @@ layout_mode = 2
 [node name="VerbEndingLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 0.8, 1)
+theme_override_font_sizes/font_size = 20
 text = "Ending: -er"
 
 [node name="CurrentVerbLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 1, 0.8, 1)
+theme_override_font_sizes/font_size = 20
 text = "current verb: Tener"
 
 [node name="TotalErrorsLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.8, 1)
+theme_override_font_sizes/font_size = 20
 text = "Total Errors: 0"
 
 [node name="VerbsCompletedLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 20
 text = "Completed: 0/3"

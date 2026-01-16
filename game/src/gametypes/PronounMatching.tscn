@@ -13,9 +13,6 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_pronoun")
 
-[node name="HSeparator" type="HSeparator" parent="."]
-layout_mode = 2
-
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -36,6 +33,7 @@ theme_override_constants/separation = 4
 [node name="PronounLabel" type="Label" parent="MarginContainer/GameArea/PronounSection"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
+theme_override_font_sizes/font_size = 20
 text = "Spanish Pronouns"
 horizontal_alignment = 1
 
@@ -53,33 +51,39 @@ size_flags_horizontal = 8
 columns = 3
 
 [node name="yo" type="Button" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid"]
-custom_minimum_size = Vector2(120, 60)
+custom_minimum_size = Vector2(144, 72)
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "yo..."
 
 [node name="tu" type="Button" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid"]
-custom_minimum_size = Vector2(120, 60)
+custom_minimum_size = Vector2(144, 72)
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "tu..."
 
 [node name="el" type="Button" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid"]
-custom_minimum_size = Vector2(120, 60)
+custom_minimum_size = Vector2(144, 72)
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "el..."
 
 [node name="nosotros" type="Button" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid"]
-custom_minimum_size = Vector2(120, 60)
+custom_minimum_size = Vector2(144, 72)
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "nosotros..."
 
 [node name="vosotros" type="Button" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid"]
-custom_minimum_size = Vector2(120, 60)
+custom_minimum_size = Vector2(144, 72)
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "vosotros..."
 
 [node name="ellos" type="Button" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid"]
-custom_minimum_size = Vector2(120, 60)
+custom_minimum_size = Vector2(144, 72)
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "ellos..."
 
 [node name="VSeparator" type="VSeparator" parent="MarginContainer/GameArea"]
@@ -92,6 +96,7 @@ size_flags_horizontal = 3
 [node name="ConjugationLabel" type="Label" parent="MarginContainer/GameArea/ConjugationSection"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
+theme_override_font_sizes/font_size = 20
 text = "Conjugations"
 horizontal_alignment = 1
 
