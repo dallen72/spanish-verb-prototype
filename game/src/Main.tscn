@@ -29,19 +29,24 @@ color = Color(0.96976644, 0.7619922, 0.817924, 1)
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_left = 20.0
-offset_top = 20.0
-offset_right = -20.0
-offset_bottom = 179.0
+offset_left = 30.0
+offset_top = 33.0
+offset_right = -30.0
+offset_bottom = 326.0
 grow_horizontal = 2
 
 [node name="TitleSection" type="VBoxContainer" parent="HeaderContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="GameModeSelectorSpacer2" type="Control" parent="HeaderContainer/TitleSection"]
+custom_minimum_size = Vector2(0, 51)
+layout_mode = 2
+
 [node name="TitleLabel" type="Label" parent="HeaderContainer/TitleSection"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
+theme_override_font_sizes/font_size = 30
 text = "Spanish Verb Conjugation Game"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -49,27 +54,33 @@ vertical_alignment = 1
 [node name="VerbLabel" type="Label" parent="HeaderContainer/TitleSection"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.3, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 30
 text = "Match the conjugation with the pronoun for..."
 horizontal_alignment = 1
 
 [node name="PreviousScoreLabel" type="Label" parent="HeaderContainer/TitleSection"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 30
 text = "Previous Score: 0"
 horizontal_alignment = 1
+
+[node name="GameModeSelectorSpacer" type="Control" parent="HeaderContainer/TitleSection"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
 
 [node name="GameModeSelector" parent="HeaderContainer/TitleSection" instance=ExtResource("2_vjwby")]
 
 [node name="ProgressIndicator" parent="HeaderContainer" instance=ExtResource("3_8ec3e")]
-custom_minimum_size = Vector2(275, 155)
+custom_minimum_size = Vector2(413, 233)
 layout_mode = 2
 
 [node name="TopHSeparator" type="HSeparator" parent="."]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_top = 196.0
-offset_bottom = 200.0
+offset_top = 353.0
+offset_bottom = 359.0
 grow_horizontal = 2
 
 [node name="PronounMatching" parent="." instance=ExtResource("4_vjwby")]
@@ -77,10 +88,10 @@ layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 0.0
-offset_top = 196.0
-offset_right = 1023.0
-offset_bottom = 355.0
+offset_left = -2.0
+offset_top = 363.0
+offset_right = 1919.0
+offset_bottom = 875.0
 grow_horizontal = 1
 grow_vertical = 1
 
@@ -90,10 +101,10 @@ layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 1.0
-offset_top = 196.0
-offset_right = 1022.0
-offset_bottom = 419.0
+offset_left = 2.0
+offset_top = 395.0
+offset_right = 1918.0
+offset_bottom = 942.0
 grow_horizontal = 1
 grow_vertical = 1
 

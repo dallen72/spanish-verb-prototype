@@ -10,16 +10,19 @@ script = ExtResource("1_2x3y")
 
 [node name="EnglishPronounModeButton" type="Button" parent="."]
 layout_mode = 2
+theme_override_font_sizes/font_size = 30
 text = "Level 1-1: English Pronouns"
 toggle_mode = true
 button_pressed = true
 
 [node name="SpanishPronounModeButton" type="Button" parent="."]
 layout_mode = 2
+theme_override_font_sizes/font_size = 30
 text = "Level 1-2: Spanish Pronouns"
 toggle_mode = true
 
 [node name="SentenceModeButton" type="Button" parent="."]
 layout_mode = 2
+theme_override_font_sizes/font_size = 30
 text = "Level 3: Sentence Completion"
 toggle_mode = true
