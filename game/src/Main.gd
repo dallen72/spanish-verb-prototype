@@ -28,6 +28,9 @@ func _ready():
 	# Note: Viewport sizing is handled by Godot's stretch system in project settings
 	# Do NOT manually resize the viewport - let Godot scale the game automatically
 	# See project.godot: stretch mode = "canvas_items", aspect = "keep"
+	
+	# Initialize the game on startup
+	call_deferred("start_new_problem")
 
 func start_new_problem():
 	# Select a random verb that hasn't been completed yet

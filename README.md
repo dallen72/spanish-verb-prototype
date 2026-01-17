@@ -2,6 +2,14 @@
 
 TODO
 
+- make pronoun buttons lighter (look like conjugation buttons by default)
+
+- refactor, look at code
+
+- make sure works with English and Spanish gametypes
+
+- fix outline, make look better
+
 - simple fixes
 	- need to change what shows on the popup button when completing a level
 	- have a progress screen that shows bars that increase
