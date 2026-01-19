@@ -140,6 +140,7 @@ func generate_conjugation_buttons(current_verb: Dictionary):
 		button.text = conjugation
 		button.custom_minimum_size = Vector2(216, 108)
 		button.add_theme_font_size_override("font_size", 30)
+		
 		button.pressed.connect(_on_conjugation_button_pressed.bind(button))
 		conjugation_values.append({"button": button, "conjugation": conjugation, "pronoun": pronoun})
 	
@@ -149,6 +150,12 @@ func generate_conjugation_buttons(current_verb: Dictionary):
 	# Add buttons to the grid
 	for item in conjugation_values:
 		conjugation_container.add_child(item["button"])
+	
+	# Set conjugation button reference for all pronoun buttons
+	# Use the first conjugation button as reference
+	if conjugation_values.size() > 0:
+		var first_conjugation_button = conjugation_values[0]["button"]
+		call_deferred("_set_all_pronoun_button_color_references", first_conjugation_button)
 
 func convert_pronoun_buttons():
 	"""Converts existing Button nodes to PronounButton instances."""
@@ -185,6 +192,12 @@ func convert_pronoun_buttons():
 		# Add to container at the same index to preserve order
 		pronoun_container.add_child(new_button)
 		pronoun_container.move_child(new_button, index)
+	
+	# Set color references for all pronoun buttons if conjugation buttons exist
+	if conjugation_container.get_child_count() > 0:
+		var first_conjugation = conjugation_container.get_child(0)
+		if first_conjugation is Button:
+			call_deferred("_set_all_pronoun_button_color_references", first_conjugation)
 
 func reset_pronoun_buttons(current_verb: Dictionary):
 	"""Resets all pronoun buttons to unmatched state."""
@@ -333,6 +346,26 @@ func get_pronoun_button_by_name(button_name: String) -> PronounButton:
 		if button is PronounButton and button.name == button_name:
 			return button
 	return null
+
+func _set_pronoun_button_color_reference(pronoun_button: PronounButton):
+	"""Sets the conjugation button reference for a pronoun button."""
+	# Get the first conjugation button as reference
+	if conjugation_container.get_child_count() > 0:
+		var first_conjugation = conjugation_container.get_child(0)
+		if first_conjugation is Button:
+			pronoun_button.set_conjugation_button_reference(first_conjugation)
+			# Update the state to apply the colors
+			if pronoun_button.is_unmatched():
+				pronoun_button.set_state(PronounButton.State.UNMATCHED)
+
+func _set_all_pronoun_button_color_references(conjugation_button: Button):
+	"""Sets the conjugation button reference for all pronoun buttons."""
+	for button in pronoun_container.get_children():
+		if button is PronounButton:
+			button.set_conjugation_button_reference(conjugation_button)
+			# Update the state to apply the colors
+			if button.is_unmatched():
+				button.set_state(PronounButton.State.UNMATCHED)
 
 func setup_glow_effects():
 	"""Sets up glow effects using the GlowEffect script."""
