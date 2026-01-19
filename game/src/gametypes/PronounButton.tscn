@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqxh3snyy2ce7"]
+
+[ext_resource type="Script" path="res://src/gametypes/PronounButton.gd" id="1_pronoun_btn"]
+
+[node name="PronounButton" type="Button"]
+custom_minimum_size = Vector2(216, 108)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+script = ExtResource("1_pronoun_btn")

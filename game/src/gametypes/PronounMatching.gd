@@ -29,11 +29,8 @@ func _ready():
 	# Get reference to main script (PronounMatching is a child of Main)
 	main_script = get_parent()
 	
-	# Convert existing pronoun buttons to PronounButton instances
-	convert_pronoun_buttons()
-	
-	# Pronoun buttons will be disabled by their state machine
-	# No need to disable them here - the state machine handles it
+	# Pronoun buttons are now PronounButton instances from the scene
+	# No conversion needed - they're already the right type
 	
 	# Create glow effect handler
 	glow_effect = Node.new()
@@ -157,54 +154,12 @@ func generate_conjugation_buttons(current_verb: Dictionary):
 		var first_conjugation_button = conjugation_values[0]["button"]
 		call_deferred("_set_all_pronoun_button_color_references", first_conjugation_button)
 
-func convert_pronoun_buttons():
-	"""Converts existing Button nodes to PronounButton instances."""
-	var buttons_to_convert = []
-	
-	# Collect all buttons with their indices to preserve order
-	for i in range(pronoun_container.get_child_count()):
-		var button = pronoun_container.get_child(i)
-		if button is Button and not button is PronounButton:
-			buttons_to_convert.append({"button": button, "index": i})
-	
-	# Convert each button (in reverse order to preserve indices)
-	buttons_to_convert.reverse()
-	for item in buttons_to_convert:
-		var old_button = item["button"]
-		var index = item["index"]
-		var pronoun_name = old_button.name
-		var button_text = old_button.text
-		var custom_min_size = old_button.custom_minimum_size
-		var font_size = old_button.get_theme_font_size("font_size")
-		
-		# Remove old button
-		pronoun_container.remove_child(old_button)
-		old_button.queue_free()
-		
-		# Create new PronounButton
-		var new_button = PronounButton.new()
-		new_button.name = pronoun_name
-		new_button.text = button_text
-		new_button.custom_minimum_size = custom_min_size
-		new_button.add_theme_font_size_override("font_size", font_size)
-		new_button.pronoun_name = pronoun_name
-		
-		# Add to container at the same index to preserve order
-		pronoun_container.add_child(new_button)
-		pronoun_container.move_child(new_button, index)
-	
-	# Set color references for all pronoun buttons if conjugation buttons exist
-	if conjugation_container.get_child_count() > 0:
-		var first_conjugation = conjugation_container.get_child(0)
-		if first_conjugation is Button:
-			call_deferred("_set_all_pronoun_button_color_references", first_conjugation)
+# Removed convert_pronoun_buttons() - buttons are now PronounButton instances from the scene
 
 func reset_pronoun_buttons(current_verb: Dictionary):
 	"""Resets all pronoun buttons to unmatched state."""
 	for button in pronoun_container.get_children():
 		if button is PronounButton:
-			button.set_state(PronounButton.State.UNMATCHED)
-			button.disabled = true  # Keep disabled - users don't click pronouns
 			var pronoun = button.name
 			if game_mode == "english_pronouns":
 				# Use English phrases
@@ -212,6 +167,8 @@ func reset_pronoun_buttons(current_verb: Dictionary):
 			else:  # spanish_pronouns
 				# Use Spanish pronouns
 				button.text = pronoun + "..."
+			# Set state to unmatched (this handles disabled state automatically)
+			button.set_state(PronounButton.State.UNMATCHED)
 
 func select_pronoun(pronoun_name: String):
 	"""Selects a pronoun automatically (not from user click)."""
