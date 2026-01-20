@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cgnoo36747wsq"]
 
-[ext_resource type="Script" uid="uid://bkxh2snyy1ce6" path="res://src/gametypes/PronounMatching.gd" id="1_pronoun"]
-[ext_resource type="PackedScene" uid="uid://bqxh3snyy2ce7" path="res://src/gametypes/PronounButton.tscn" id="2_pronoun_btn_ellos"]
+[ext_resource type="Script" uid="uid://bkxh2snyy1ce6" path="res://src/gametypes/pronounmatching/PronounMatching.gd" id="1_pronoun"]
+[ext_resource type="PackedScene" uid="uid://bqxh3snyy2ce7" path="res://src/gametypes/pronounmatching/PronounButton.tscn" id="2_pronoun_btn_ellos"]
 
 [node name="VBoxContainer" type="VBoxContainer"]
 anchors_preset = 15
