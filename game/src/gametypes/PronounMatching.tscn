@@ -1,11 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://cgnoo36747wsq"]
+[gd_scene load_steps=3 format=3 uid="uid://cgnoo36747wsq"]
 
 [ext_resource type="Script" uid="uid://bkxh2snyy1ce6" path="res://src/gametypes/PronounMatching.gd" id="1_pronoun"]
-[ext_resource type="PackedScene" uid="uid://bqxh3snyy2ce7" path="res://src/gametypes/PronounButton.tscn" id="2_pronoun_btn_yo"]
-[ext_resource type="PackedScene" uid="uid://bqxh3snyy2ce7" path="res://src/gametypes/PronounButton.tscn" id="2_pronoun_btn_tu"]
-[ext_resource type="PackedScene" uid="uid://bqxh3snyy2ce7" path="res://src/gametypes/PronounButton.tscn" id="2_pronoun_btn_el"]
-[ext_resource type="PackedScene" uid="uid://bqxh3snyy2ce7" path="res://src/gametypes/PronounButton.tscn" id="2_pronoun_btn_nosotros"]
-[ext_resource type="PackedScene" uid="uid://bqxh3snyy2ce7" path="res://src/gametypes/PronounButton.tscn" id="2_pronoun_btn_vosotros"]
 [ext_resource type="PackedScene" uid="uid://bqxh3snyy2ce7" path="res://src/gametypes/PronounButton.tscn" id="2_pronoun_btn_ellos"]
 
 [node name="VBoxContainer" type="VBoxContainer"]
@@ -56,28 +51,28 @@ layout_mode = 2
 size_flags_horizontal = 8
 columns = 3
 
-[node name="yo" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_yo")]
-pronoun_name = "yo"
+[node name="yo" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
+layout_mode = 2
 text = "yo..."
 
-[node name="tu" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_tu")]
-pronoun_name = "tu"
+[node name="tu" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
+layout_mode = 2
 text = "tu..."
 
-[node name="el" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_el")]
-pronoun_name = "el"
+[node name="el" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
+layout_mode = 2
 text = "el..."
 
-[node name="nosotros" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_nosotros")]
-pronoun_name = "nosotros"
+[node name="nosotros" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
+layout_mode = 2
 text = "nosotros..."
 
-[node name="vosotros" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_vosotros")]
-pronoun_name = "vosotros"
+[node name="vosotros" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
+layout_mode = 2
 text = "vosotros..."
 
 [node name="ellos" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
-pronoun_name = "ellos"
+layout_mode = 2
 text = "ellos..."
 
 [node name="VSeparator" type="VSeparator" parent="MarginContainer/GameArea"]

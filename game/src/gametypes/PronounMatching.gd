@@ -138,6 +138,24 @@ func generate_conjugation_buttons(current_verb: Dictionary):
 		button.custom_minimum_size = Vector2(216, 108)
 		button.add_theme_font_size_override("font_size", 30)
 		
+		# Apply shared colors from Global so conjugation buttons and pronoun buttons match
+		if Engine.has_singleton("Global"):
+			var root = Engine.get_singleton("Global")
+			if root and root.has_node("GameProgressMaster"):
+				var gp = root.get_node("GameProgressMaster")
+				if gp and gp.has_method("get_conjugation_button_colors"):
+					var colors = gp.get_conjugation_button_colors()
+					if colors.has("bg_color"):
+						var style := StyleBoxFlat.new()
+						style.bg_color = colors["bg_color"]
+						style.corner_radius_top_left = 4
+						style.corner_radius_top_right = 4
+						style.corner_radius_bottom_left = 4
+						style.corner_radius_bottom_right = 4
+						button.add_theme_stylebox_override("normal", style)
+					if colors.has("font_color"):
+						button.add_theme_color_override("font_color", colors["font_color"])
+		
 		button.pressed.connect(_on_conjugation_button_pressed.bind(button))
 		conjugation_values.append({"button": button, "conjugation": conjugation, "pronoun": pronoun})
 	
@@ -147,12 +165,6 @@ func generate_conjugation_buttons(current_verb: Dictionary):
 	# Add buttons to the grid
 	for item in conjugation_values:
 		conjugation_container.add_child(item["button"])
-	
-	# Set conjugation button reference for all pronoun buttons
-	# Use the first conjugation button as reference
-	if conjugation_values.size() > 0:
-		var first_conjugation_button = conjugation_values[0]["button"]
-		call_deferred("_set_all_pronoun_button_color_references", first_conjugation_button)
 
 # Removed convert_pronoun_buttons() - buttons are now PronounButton instances from the scene
 
@@ -272,12 +284,15 @@ func show_match(pronoun_button: PronounButton, conjugation_button: Button):
 	
 	# Get conjugation text and update pronoun button text
 	var conjugation_text = conjugation_button.text
-	var english_phrase = ""
+	var english_phrase := ""
 	if game_mode == "english_pronouns":
 		var game_progress = Global.get_node("GameProgressMaster")
-		var current_verb = game_progress.get_current_verb()
-		english_phrase = current_verb["english_phrases"][pronoun_button.pronoun_name]
-	
+		var current_verb: Dictionary = game_progress.get_current_verb()
+		var english_phrases: Dictionary = current_verb.get("english_phrases", {})
+		# Use get() to avoid invalid key access and ensure we only index a Dictionary
+		if english_phrases is Dictionary:
+			english_phrase = english_phrases.get(pronoun_button.pronoun_name, "")
+
 	pronoun_button.update_text_for_match(conjugation_text, game_mode, english_phrase)
 	
 	# Mark conjugation button as matched
@@ -303,26 +318,6 @@ func get_pronoun_button_by_name(button_name: String) -> PronounButton:
 		if button is PronounButton and button.name == button_name:
 			return button
 	return null
-
-func _set_pronoun_button_color_reference(pronoun_button: PronounButton):
-	"""Sets the conjugation button reference for a pronoun button."""
-	# Get the first conjugation button as reference
-	if conjugation_container.get_child_count() > 0:
-		var first_conjugation = conjugation_container.get_child(0)
-		if first_conjugation is Button:
-			pronoun_button.set_conjugation_button_reference(first_conjugation)
-			# Update the state to apply the colors
-			if pronoun_button.is_unmatched():
-				pronoun_button.set_state(PronounButton.State.UNMATCHED)
-
-func _set_all_pronoun_button_color_references(conjugation_button: Button):
-	"""Sets the conjugation button reference for all pronoun buttons."""
-	for button in pronoun_container.get_children():
-		if button is PronounButton:
-			button.set_conjugation_button_reference(conjugation_button)
-			# Update the state to apply the colors
-			if button.is_unmatched():
-				button.set_state(PronounButton.State.UNMATCHED)
 
 func setup_glow_effects():
 	"""Sets up glow effects using the GlowEffect script."""

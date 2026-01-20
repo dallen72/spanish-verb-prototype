@@ -11,91 +11,73 @@ enum State {
 var current_state: State = State.UNMATCHED
 var pronoun_name: String = ""
 
-# Reference to a conjugation button to get default colors
-var conjugation_button_reference: Button = null
-
-func set_conjugation_button_reference(ref_button: Button):
-	"""Sets a reference to a conjugation button to match its colors."""
-	conjugation_button_reference = ref_button
-
-func get_conjugation_button_colors() -> Dictionary:
-	"""Gets the default colors from conjugation buttons."""
-	var colors = {
-		"bg_color": Color(0.2, 0.2, 0.2, 0.8),  # Default fallback
-		"font_color": Color(0.8, 0.8, 0.8, 1.0)  # Default fallback
+static func _get_global_button_colors() -> Dictionary:
+	# Fetch shared button colors from the Global autoload (GameProgressMaster)
+	var result := {
+		"bg_color": Color(0.2, 0.2, 0.2, 0.8),
+		"font_color": Color(0.8, 0.8, 0.8, 1.0),
+		"disabled_font_color": Color(0.6, 0.6, 0.6, 1.0),
 	}
-	
-	if conjugation_button_reference:
-		# Get the normal style from the conjugation button
-		var normal_style = conjugation_button_reference.get_theme_stylebox("normal")
-		if normal_style:
-			if normal_style is StyleBoxFlat:
-				colors["bg_color"] = normal_style.bg_color
-			elif normal_style.has_method("get_bg_color"):
-				colors["bg_color"] = normal_style.get_bg_color()
-		
-		# Get font color from conjugation button
-		var font_color = conjugation_button_reference.get_theme_color("font_color")
-		if font_color:
-			colors["font_color"] = font_color
-	else:
-		# Try to get from theme directly
-		var normal_style = get_theme_stylebox("normal")
-		if normal_style and normal_style is StyleBoxFlat:
-			colors["bg_color"] = normal_style.bg_color
-		
-		var font_color = get_theme_color("font_color")
-		if font_color:
-			colors["font_color"] = font_color
-	
-	return colors
+	if Engine.has_singleton("Global"):
+		var root = Engine.get_singleton("Global")
+		if root and root.has_node("GameProgressMaster"):
+			var gp = root.get_node("GameProgressMaster")
+			if gp and gp.has_method("get_conjugation_button_colors"):
+				var colors = gp.get_conjugation_button_colors()
+				if colors.has("bg_color"):
+					result["bg_color"] = colors["bg_color"]
+				if colors.has("font_color"):
+					result["font_color"] = colors["font_color"]
+					result["disabled_font_color"] = colors["font_color"].darkened(0.2)
+	return result
 
 func _ready():
 	# Set initial state to unmatched
-	# Wait a frame to ensure theme is loaded
+	# Wait a frame to ensure theme and globals are ready
 	call_deferred("set_state", State.UNMATCHED)
 
 func set_state(new_state: State):
 	"""Updates the button state and appearance."""
 	current_state = new_state
+	var colors = _get_global_button_colors()
 	
 	match current_state:
 		State.UNMATCHED:
-			# Unmatched: match conjugation button appearance (brown background, brown text)
+			# Unmatched: use shared brown background and text color, ignore clicks
 			modulate = Color.WHITE
-			disabled = true  # Disabled to prevent clicks
-			mouse_filter = Control.MOUSE_FILTER_IGNORE  # Also ignore clicks
+			disabled = true
+			mouse_filter = Control.MOUSE_FILTER_IGNORE
 			
-			# Get conjugation button colors
-			var colors = get_conjugation_button_colors()
-			
-			# Override disabled style to match conjugation button normal style
 			var disabled_style = StyleBoxFlat.new()
 			disabled_style.bg_color = colors["bg_color"]
-			disabled_style.border_color = Color(0.4, 0.4, 0.4, 1.0)
-			disabled_style.border_width_left = 2
-			disabled_style.border_width_top = 2
-			disabled_style.border_width_right = 2
-			disabled_style.border_width_bottom = 2
 			disabled_style.corner_radius_top_left = 4
 			disabled_style.corner_radius_top_right = 4
 			disabled_style.corner_radius_bottom_left = 4
 			disabled_style.corner_radius_bottom_right = 4
 			add_theme_stylebox_override("disabled", disabled_style)
 			
-			# Override font color to match conjugation button text color (brown)
 			add_theme_color_override("font_color", colors["font_color"])
-			add_theme_color_override("font_disabled_color", colors["font_color"])
+			add_theme_color_override("font_disabled_color", colors["disabled_font_color"])
 		
 		State.SELECTED:
 			# Selected: green color, ignore mouse clicks
 			modulate = Color.GREEN
-			disabled = false  # Keep enabled so it looks normal
-			mouse_filter = Control.MOUSE_FILTER_IGNORE  # But ignore clicks
+			disabled = false
+			mouse_filter = Control.MOUSE_FILTER_IGNORE
 		
 		State.COMPLETED:
-			# Completed: light blue color, disabled, text updated
-			modulate = Color.LIGHT_BLUE
+			# Completed: keep same shared font colors, but use a lighter background
+			var completed_style = StyleBoxFlat.new()
+			completed_style.bg_color = colors["bg_color"].lightened(0.3)
+			completed_style.corner_radius_top_left = 4
+			completed_style.corner_radius_top_right = 4
+			completed_style.corner_radius_bottom_left = 4
+			completed_style.corner_radius_bottom_right = 4
+			add_theme_stylebox_override("disabled", completed_style)
+
+			add_theme_color_override("font_color", colors["font_color"])
+			add_theme_color_override("font_disabled_color", colors["disabled_font_color"])
+
 			disabled = true
 			mouse_filter = Control.MOUSE_FILTER_IGNORE
 
