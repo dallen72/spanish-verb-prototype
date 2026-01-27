@@ -1,0 +1,101 @@
+# ================================================================================================================
+# DEVELOPMENT BUILD - MAIN BRANCH
+# ================================================================================================================
+# 
+# PURPOSE: Creates development builds for testing and team access
+# TRIGGER: Runs on every push to main/master branches
+# BUILD MODE: Debug builds (faster compilation, includes debug symbols)
+# OUTPUT: Builds uploaded to GitHub artifacts AND Itch.io channels
+# 
+# This workflow:
+# - Builds the game for all platforms (Windows, Linux, macOS, Web)
+# - Uploads build artifacts to GitHub for team download (7-day retention)
+# - Uploads builds to Itch.io channels for testing
+# - Provides immediate feedback on main branch stability
+# 
+# Itch.io Channels:
+# - web: Web build
+# - linux: Linux build  
+# - osx: macOS build
+# - windows: Windows build
+# 
+# Use these builds for:
+# - Internal testing and QA
+# - Demo purposes
+# - Early access for team members
+# ================================================================================================================
+
+name: Build And Push - Development
+on:
+  push:
+    branches: [ main, master ]
+env:
+  GODOT_VERSION: 4.5
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/dallen72/godot-ci-extended:4.5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          clean: true  # Force clean checkout
+      
+      - name: Build Full Game (Debug)
+        uses: ./.github/actions/build-game
+        with:
+          build-mode: debug
+          project-name: ${{ vars.PROJECTNAME }}
+          web-build: ${{ vars.WEBBUILD || 'true' }}
+          linux-build: ${{ vars.LINUXBUILD || 'false' }}
+          macos-build: ${{ vars.MACOSBUILD || 'false' }}
+          windows-build: ${{ vars.WINDOWSBUILD || 'true' }}
+      
+      - name: Verify Build Output
+        uses: ./.github/actions/verify-build
+        with:
+          build-mode: debug
+          project-name: ${{ vars.PROJECTNAME }}
+          web-build: ${{ vars.WEBBUILD || 'true' }}
+          linux-build: ${{ vars.LINUXBUILD || 'false' }}
+          macos-build: ${{ vars.MACOSBUILD || 'false' }}
+          windows-build: ${{ vars.WINDOWSBUILD || 'true' }}
+
+      # Upload to Itch.io channels
+      - name: Upload Windows Build to Itch.io
+        if: ${{ vars.WINDOWSBUILD == 'true' }}
+        uses: ./.github/actions/upload-to-itch
+        with:
+          file-path: game/build/windows-debug/
+          channel: windows
+          game-id: island-treehouse/${{ vars.PROJECTNAME }}
+          api-key: ${{ secrets.BUTLER_API_KEY }}
+
+      - name: Upload Web Build to Itch.io
+        if: ${{ vars.WEBBUILD == 'true' }}
+        uses: ./.github/actions/upload-to-itch
+        with:
+          file-path: game/build/web-debug/
+          channel: web
+          game-id: island-treehouse/${{ vars.PROJECTNAME }}
+          api-key: ${{ secrets.BUTLER_API_KEY }}
+
+      - name: Upload Linux Build to Itch.io
+        if: ${{ vars.LINUXBUILD == 'true' }}
+        uses: ./.github/actions/upload-to-itch
+        with:
+          file-path: game/build/linux-debug/
+          channel: linux
+          game-id: island-treehouse/${{ vars.PROJECTNAME }}
+          api-key: ${{ secrets.BUTLER_API_KEY }}
+
+      - name: Upload macOS Build to Itch.io
+        if: ${{ vars.MACOSBUILD == 'true' }}
+        uses: ./.github/actions/upload-to-itch
+        with:
+          file-path: game/build/macos-debug.zip
+          channel: osx
+          game-id: island-treehouse/${{ vars.PROJECTNAME }}
+          api-key: ${{ secrets.BUTLER_API_KEY }}
+

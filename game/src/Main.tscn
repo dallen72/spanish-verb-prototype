@@ -1,0 +1,113 @@
+[gd_scene load_steps=7 format=3 uid="uid://b0x8jqyqj0x0r"]
+
+[ext_resource type="Script" uid="uid://ci4ach40catas" path="res://src/Main.gd" id="1_5qjmp"]
+[ext_resource type="PackedScene" uid="uid://bhnxqi7hgoe7b" path="res://src/header/GameModeSelector.tscn" id="2_vjwby"]
+[ext_resource type="PackedScene" uid="uid://bop4g007gumea" path="res://src/header/ProgressIndicator.tscn" id="3_8ec3e"]
+[ext_resource type="PackedScene" uid="uid://dibvxojo3netp" path="res://src/Popup.tscn" id="4_38a0m"]
+[ext_resource type="PackedScene" uid="uid://cgnoo36747wsq" path="res://src/gametypes/PronounMatching.tscn" id="4_vjwby"]
+[ext_resource type="PackedScene" uid="uid://due0cu77lqf53" path="res://src/gametypes/SentenceCompletion.tscn" id="5_8ec3e"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5qjmp")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.96976644, 0.7619922, 0.817924, 1)
+
+[node name="HeaderContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 30.0
+offset_top = 33.0
+offset_right = -30.0
+offset_bottom = 326.0
+grow_horizontal = 2
+
+[node name="TitleSection" type="VBoxContainer" parent="HeaderContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GameModeSelectorSpacer2" type="Control" parent="HeaderContainer/TitleSection"]
+custom_minimum_size = Vector2(0, 51)
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="HeaderContainer/TitleSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
+theme_override_font_sizes/font_size = 30
+text = "Spanish Verb Conjugation Game"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VerbLabel" type="Label" parent="HeaderContainer/TitleSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 30
+text = "Match the conjugation with the pronoun for..."
+horizontal_alignment = 1
+
+[node name="PreviousScoreLabel" type="Label" parent="HeaderContainer/TitleSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 30
+text = "Previous Score: 0"
+horizontal_alignment = 1
+
+[node name="GameModeSelectorSpacer" type="Control" parent="HeaderContainer/TitleSection"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="GameModeSelector" parent="HeaderContainer/TitleSection" instance=ExtResource("2_vjwby")]
+
+[node name="ProgressIndicator" parent="HeaderContainer" instance=ExtResource("3_8ec3e")]
+custom_minimum_size = Vector2(413, 233)
+layout_mode = 2
+
+[node name="TopHSeparator" type="HSeparator" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 353.0
+offset_bottom = 359.0
+grow_horizontal = 2
+
+[node name="PronounMatching" parent="." instance=ExtResource("4_vjwby")]
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = -2.0
+offset_top = 363.0
+offset_right = 1919.0
+offset_bottom = 875.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="SentenceCompletion" parent="." instance=ExtResource("5_8ec3e")]
+visible = false
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 2.0
+offset_top = 395.0
+offset_right = 1918.0
+offset_bottom = 942.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="Popup" parent="." instance=ExtResource("4_38a0m")]
+grow_horizontal = 2
+grow_vertical = 2

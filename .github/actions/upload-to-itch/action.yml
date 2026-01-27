@@ -1,0 +1,63 @@
+# ================================================================================================================
+# UPLOAD TO ITCH.IO ACTION
+# ================================================================================================================
+# 
+# PURPOSE: Reusable action for uploading builds to Itch.io using Butler
+# USAGE: Called by workflows to distribute builds to Itch.io channels
+# PLATFORMS: Any platform build zip file
+# 
+# This action:
+# - Uploads build zip files to specified Itch.io channels
+# - Uses Butler for reliable uploads with progress tracking
+# - Supports optional user version tagging
+# - Handles all Itch.io channel types (web, linux, osx, windows)
+# 
+# Inputs:
+# - file-path: Path to the build zip file to upload (required)
+# - channel: Itch.io channel name (e.g., web, windows, linux, osx) (required)
+# - game-id: Itch.io game identifier (required)
+# - user-version: Optional version tag for the upload
+# - api-key: Butler API key (required)
+# 
+# Required Secrets:
+# - BUTLER_API_KEY: Butler API key for Itch.io authentication (passed via api-key input)
+# 
+# Common channel names:
+# - web: Web builds
+# - windows: Windows builds
+# - linux: Linux builds
+# - osx: macOS builds
+# 
+# Dependencies:
+# - Requires Butler to be configured in the Docker image
+# ================================================================================================================
+
+name: 'Upload to Itch.io'
+description: 'Upload a build zip file to Itch.io using Butler'
+
+inputs:
+  file-path:
+    description: 'Path to the zip file to upload'
+    required: true
+  channel:
+    description: 'Itch.io channel name (e.g., web, windows, linux, osx)'
+    required: true
+  game-id:
+    description: 'Itch.io game identifier (e.g., island-treehouse/spanish-verb-helper)'
+    required: true
+  user-version:
+    description: 'Optional user version for the upload'
+    required: false
+  api-key:
+    description: 'Butler API key'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Upload to Itch.io
+      shell: bash
+      env:
+        BUTLER_API_KEY: ${{ inputs.api-key }}
+      run: |
+        butler push "${{ inputs.file-path }}" "${{ inputs.game-id }}:${{ inputs.channel }}" ${{ inputs.user-version && format('--userversion {0}', inputs.user-version) || '' }}

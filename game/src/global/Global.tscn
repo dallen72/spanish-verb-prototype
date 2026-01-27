@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ccaako28nhai8"]
+
+[ext_resource type="Script" uid="uid://kb3q73k7yk20" path="res://src/global/game_progress_master.gd" id="1_w77sj"]
+
+[node name="Global" type="Node2D"]
+
+[node name="GameProgressMaster" type="Node" parent="."]
+script = ExtResource("1_w77sj")
