@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b0x8jqyqj0x0r"]
+[gd_scene load_steps=8 format=3 uid="uid://b0x8jqyqj0x0r"]
 
 [ext_resource type="Script" uid="uid://ci4ach40catas" path="res://src/Main.gd" id="1_5qjmp"]
 [ext_resource type="PackedScene" uid="uid://bhnxqi7hgoe7b" path="res://src/header/GameModeSelector.tscn" id="2_vjwby"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dibvxojo3netp" path="res://src/ui/Popup.tscn" id="4_38a0m"]
 [ext_resource type="PackedScene" uid="uid://cgnoo36747wsq" path="res://src/gametypes/pronounmatching/PronounMatching.tscn" id="4_vjwby"]
 [ext_resource type="PackedScene" uid="uid://due0cu77lqf53" path="res://src/gametypes/sentencecompletion/SentenceCompletion.tscn" id="5_8ec3e"]
+[ext_resource type="PackedScene" uid="uid://c8kj3mq2npx1a" path="res://src/ui/ProgressScreen.tscn" id="6_progress"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -109,5 +110,9 @@ grow_horizontal = 1
 grow_vertical = 1
 
 [node name="Popup" parent="." instance=ExtResource("4_38a0m")]
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProgressScreen" parent="." instance=ExtResource("6_progress")]
 grow_horizontal = 2
 grow_vertical = 2

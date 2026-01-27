@@ -11,6 +11,7 @@ var game_mode: String = "english_pronouns"  # "english_pronouns", "spanish_prono
 @onready var game_mode_selector: HBoxContainer = $HeaderContainer/TitleSection/GameModeSelector
 @onready var progress_indicator: Control = $HeaderContainer/ProgressIndicator
 @onready var popup: Control = $Popup
+@onready var progress_screen: Control = $ProgressScreen
 
 # Child scene references
 @onready var pronoun_matching: VBoxContainer = $PronounMatching
@@ -24,13 +25,20 @@ func _process(_delta):
 func _ready():
 	# Connect game mode selector signal
 	game_mode_selector.game_mode_changed.connect(_on_game_mode_changed)
-	
+
 	# Note: Viewport sizing is handled by Godot's stretch system in project settings
 	# Do NOT manually resize the viewport - let Godot scale the game automatically
 	# See project.godot: stretch mode = "canvas_items", aspect = "keep"
-	
-	# Initialize the game on startup
-	call_deferred("start_new_problem")
+
+	# Initialize the game on startup - show progress screen first
+	call_deferred("_show_initial_progress_and_start")
+
+func _show_initial_progress_and_start():
+	# Show progress screen for 3 seconds at game start
+	progress_screen.show_progress_screen()
+	await get_tree().create_timer(3.0).timeout
+	progress_screen.hide_progress_screen()
+	start_new_problem()
 
 func start_new_problem():
 	# Select a random verb that hasn't been completed yet
@@ -94,11 +102,21 @@ func update_game_mode_display():
 # Public methods for child scenes to use
 func on_problem_completed():
 	# Called when a problem is completed
+	# First show the popup
 	show_popup()
 	await get_tree().create_timer(2.0).timeout
 	hide_popup()
+
+	# Mark verb as completed before showing progress
 	var game_progress = Global.get_node("GameProgressMaster")
 	game_progress.add_completed_verb(game_progress.get_current_verb()["name"])
+
+	# Show progress screen for 3 seconds
+	progress_screen.show_progress_screen()
+	await get_tree().create_timer(3.0).timeout
+	progress_screen.hide_progress_screen()
+
+	# Start next problem
 	start_new_problem()
 
 func on_error():
