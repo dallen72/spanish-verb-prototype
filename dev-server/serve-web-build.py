@@ -102,7 +102,7 @@ def main():
     if not build_dir:
         print("❌ Error: Could not find web build directory!")
         print("\nPlease either:")
-        print(f"  1. Export a web build to game/build/web-{args.mode}/")
+        print(f"  1. Export a web build to dev-server/build/web-{args.mode}/")
         print(f"  2. Use --build-dir to specify the path to your web build")
         print("\nTo export a web build in Godot:")
         print("  1. Open the project in Godot")
