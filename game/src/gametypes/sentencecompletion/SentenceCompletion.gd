@@ -5,8 +5,8 @@ var current_conjugation_for_sentences: String = ""
 var current_pronoun_for_sentences: String = ""
 
 # UI references
-@onready var conjugation_display_button: Button = $GameArea/ConjugationSection/ConjugationMarginContainer/ConjugationDisplay
-@onready var sentence_container: GridContainer = $GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid
+@onready var conjugation_display_button: Button = $MarginContainer/GameArea/ConjugationSection/ConjugationMarginContainer/ConjugationDisplay
+@onready var sentence_container: GridContainer = $MarginContainer/GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid
 
 # Reference to main script for shared functionality
 var main_script: Node = null

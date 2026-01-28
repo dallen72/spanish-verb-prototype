@@ -6,16 +6,16 @@ var game_mode: String = "english_pronouns"  # "english_pronouns", "spanish_prono
 # Verb data is now imported from VerbData.gd
 
 # UI references
-@onready var verb_label: Label = $HeaderContainer/TitleSection/VerbLabel
-@onready var previous_score_label: Label = $HeaderContainer/TitleSection/PreviousScoreLabel
-@onready var game_mode_selector: HBoxContainer = $HeaderContainer/TitleSection/GameModeSelector
-@onready var progress_indicator: Control = $HeaderContainer/ProgressIndicator
+@onready var verb_label: Label = $HeaderContainer/HBoxContainer/TitleSection/VerbLabel
+@onready var previous_score_label: Label = $HeaderContainer/HBoxContainer/TitleSection/PreviousScoreLabel
+@onready var game_mode_selector: HBoxContainer = $HeaderContainer/HBoxContainer/TitleSection/GameModeSelector
+@onready var progress_indicator: Control = $HeaderContainer/HBoxContainer/ProgressIndicator
 @onready var popup: Control = $Popup
 @onready var progress_screen: Control = $ProgressScreen
 
 # Child scene references
-@onready var pronoun_matching: VBoxContainer = $PronounMatching
-@onready var sentence_completion: VBoxContainer = $SentenceCompletion
+@onready var pronoun_matching: VBoxContainer = $PanelContainer/PronounMatching
+@onready var sentence_completion: VBoxContainer = $PanelContainer/SentenceCompletion
 
 func _process(_delta):
 	if Input.is_action_just_pressed("ui_cancel"):

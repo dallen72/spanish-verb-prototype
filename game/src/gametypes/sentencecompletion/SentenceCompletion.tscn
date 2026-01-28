@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://clw8hg83mmlby" path="res://src/gametypes/sentencecompletion/SentenceCompletion.gd" id="1_dtj7k"]
 
-
 [node name="VBoxContainer" type="VBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,93 +13,97 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dtj7k")
 
-[node name="GameArea" type="HBoxContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_top = 30
+
+[node name="GameArea" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ConjugationSection" type="VBoxContainer" parent="GameArea"]
+[node name="ConjugationSection" type="VBoxContainer" parent="MarginContainer/GameArea"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ConjugationLabel" type="Label" parent="GameArea/ConjugationSection"]
+[node name="ConjugationLabel" type="Label" parent="MarginContainer/GameArea/ConjugationSection"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 30
 text = "Conjugation"
 horizontal_alignment = 1
 
-[node name="ConjugationMarginContainer" type="MarginContainer" parent="GameArea/ConjugationSection"]
+[node name="ConjugationMarginContainer" type="MarginContainer" parent="MarginContainer/GameArea/ConjugationSection"]
 layout_mode = 2
 theme_override_constants/margin_left = 30
 theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 30
 
-[node name="ConjugationDisplay" type="Button" parent="GameArea/ConjugationSection/ConjugationMarginContainer"]
+[node name="ConjugationDisplay" type="Button" parent="MarginContainer/GameArea/ConjugationSection/ConjugationMarginContainer"]
 custom_minimum_size = Vector2(360, 180)
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 disabled = true
 text = "hablo"
 
-[node name="VSeparator" type="VSeparator" parent="GameArea"]
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/GameArea"]
 layout_mode = 2
 
-[node name="SentenceSection" type="VBoxContainer" parent="GameArea"]
+[node name="SentenceSection" type="VBoxContainer" parent="MarginContainer/GameArea"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SentenceLabel" type="Label" parent="GameArea/SentenceSection"]
+[node name="SentenceLabel" type="Label" parent="MarginContainer/GameArea/SentenceSection"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 30
 text = "Choose the correct sentence"
 horizontal_alignment = 1
 
-[node name="SentenceMarginContainer" type="MarginContainer" parent="GameArea/SentenceSection"]
+[node name="SentenceMarginContainer" type="MarginContainer" parent="MarginContainer/GameArea/SentenceSection"]
 layout_mode = 2
 theme_override_constants/margin_left = 30
 theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 30
 
-[node name="SentenceGrid" type="GridContainer" parent="GameArea/SentenceSection/SentenceMarginContainer"]
+[node name="SentenceGrid" type="GridContainer" parent="MarginContainer/GameArea/SentenceSection/SentenceMarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 columns = 2
 
-[node name="sentence_yo" type="Button" parent="GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid"]
+[node name="sentence_yo" type="Button" parent="MarginContainer/GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid"]
 custom_minimum_size = Vector2(450, 108)
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "___ hablo español"
 
-[node name="sentence_tu" type="Button" parent="GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid"]
+[node name="sentence_tu" type="Button" parent="MarginContainer/GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid"]
 custom_minimum_size = Vector2(450, 108)
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "¿___ hablas inglés?"
 
-[node name="sentence_el" type="Button" parent="GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid"]
+[node name="sentence_el" type="Button" parent="MarginContainer/GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid"]
 custom_minimum_size = Vector2(450, 108)
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "___ habla francés"
 
-[node name="sentence_nosotros" type="Button" parent="GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid"]
+[node name="sentence_nosotros" type="Button" parent="MarginContainer/GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid"]
 custom_minimum_size = Vector2(450, 108)
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "___ hablamos mucho"
 
-[node name="sentence_vosotros" type="Button" parent="GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid"]
+[node name="sentence_vosotros" type="Button" parent="MarginContainer/GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid"]
 custom_minimum_size = Vector2(450, 108)
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "¿___ habláis italiano?"
 
-[node name="sentence_ellos" type="Button" parent="GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid"]
+[node name="sentence_ellos" type="Button" parent="MarginContainer/GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid"]
 custom_minimum_size = Vector2(450, 108)
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
