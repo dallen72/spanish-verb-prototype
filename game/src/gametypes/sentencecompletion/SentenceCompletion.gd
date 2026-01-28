@@ -13,7 +13,7 @@ var main_script: Node = null
 
 func _ready():
 	# Get reference to main script (SentenceCompletion VBoxContainer is a child of Main)
-	main_script = get_parent()
+	main_script = get_parent().get_parent()
 	
 	# Connect sentence button signals
 	for button in sentence_container.get_children():

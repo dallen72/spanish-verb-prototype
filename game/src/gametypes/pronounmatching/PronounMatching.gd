@@ -25,7 +25,7 @@ var conjugation_buttons: Dictionary = {}  # conjugation_text -> Button
 
 func _ready():
 	# Get reference to main script (PronounMatching is a child of Main)
-	main_script = get_parent()
+	main_script = get_parent().get_parent()
 	
 	# Create domain model session
 	session = PronounMatchSession.new()
