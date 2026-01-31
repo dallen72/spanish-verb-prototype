@@ -1,4 +1,4 @@
-extends HBoxContainer
+extends HFlowContainer
 
 # Signals for communicating with parent scenes
 signal game_mode_changed(mode: String)

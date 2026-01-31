@@ -41,11 +41,12 @@ grow_horizontal = 2
 layout_mode = 2
 
 [node name="TitleSection" type="VBoxContainer" parent="HeaderContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 20
 
-[node name="GameModeSelectorSpacer2" type="Control" parent="HeaderContainer/HBoxContainer/TitleSection"]
-custom_minimum_size = Vector2(0, 51)
+[node name="Spacer" type="Control" parent="HeaderContainer/HBoxContainer/TitleSection"]
 layout_mode = 2
 
 [node name="TitleLabel" type="Label" parent="HeaderContainer/HBoxContainer/TitleSection"]
@@ -57,11 +58,13 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="VerbLabel" type="Label" parent="HeaderContainer/HBoxContainer/TitleSection"]
+custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 30
 text = "Match the conjugation with the pronoun for..."
 horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="PreviousScoreLabel" type="Label" parent="HeaderContainer/HBoxContainer/TitleSection"]
 layout_mode = 2
@@ -70,11 +73,9 @@ theme_override_font_sizes/font_size = 30
 text = "Previous Score: 0"
 horizontal_alignment = 1
 
-[node name="GameModeSelectorSpacer" type="Control" parent="HeaderContainer/HBoxContainer/TitleSection"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-
 [node name="GameModeSelector" parent="HeaderContainer/HBoxContainer/TitleSection" instance=ExtResource("2_vjwby")]
+layout_mode = 2
+theme_override_constants/h_separation = 20
 
 [node name="ProgressIndicator" parent="HeaderContainer/HBoxContainer" instance=ExtResource("3_8ec3e")]
 custom_minimum_size = Vector2(413, 233)
@@ -96,6 +97,7 @@ offset_left = 30.0
 offset_top = 370.0
 offset_right = -30.0
 offset_bottom = 879.0
+grow_horizontal = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
 layout_mode = 2

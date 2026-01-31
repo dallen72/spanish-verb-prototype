@@ -5,10 +5,10 @@
 [node name="ProgressIndicator" type="Control"]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 3
-anchor_right = 0.39100003
+anchor_right = 0.208
 anchor_bottom = 0.28500003
-offset_right = -0.3840332
-offset_bottom = -1.5258789e-05
+offset_right = 0.63998413
+offset_bottom = -3.0517578e-05
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_4x5y")

@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://cebhf40jdtln0" path="res://src/gametypes/pronounmatching/PronounButton.gd" id="1_pronoun_btn"]
 
 [node name="PronounButton" type="Button"]
-custom_minimum_size = Vector2(216, 108)
+custom_minimum_size = Vector2(200, 100)
+offset_right = 200.0
+offset_bottom = 100.0
 theme_override_font_sizes/font_size = 30
 script = ExtResource("1_pronoun_btn")

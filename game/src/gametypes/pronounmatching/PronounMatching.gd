@@ -7,9 +7,10 @@ extends VBoxContainer
 var session: PronounMatchSession = null
 
 # UI references
+@onready var margin_container = $MarginContainer
 @onready var pronoun_section: VBoxContainer = $MarginContainer/GameArea/PronounSection
 @onready var pronoun_label: Label = $MarginContainer/GameArea/PronounSection/PronounLabel
-@onready var pronoun_container: GridContainer = $MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid
+@onready var pronoun_container: FlowContainer = $MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid
 @onready var conjugation_container: GridContainer = $MarginContainer/GameArea/ConjugationSection/ConjugationMarginContainer/ConjugationGrid
 @onready var conjugation_margin_container: MarginContainer = $MarginContainer/GameArea/ConjugationSection/ConjugationMarginContainer
 
@@ -26,6 +27,20 @@ var conjugation_buttons: Dictionary = {}  # conjugation_text -> Button
 func _ready():
 	# Get reference to main script (PronounMatching is a child of Main)
 	main_script = get_parent().get_parent()
+	
+	var window_size = DisplayServer.window_get_size()
+	print("debug, window_size: " + str(window_size))
+	if (window_size.x < 1764):		
+		print("debug, window is smaller, inside pronoun script")
+		# get the theme property separation of the titlesection and set the theme override to 4
+		pronoun_container.add_theme_constant_override("margin_left", 0)
+		pronoun_container.add_theme_constant_override("margin_right", 0)
+		pronoun_container.add_theme_constant_override("margin_top", 0)
+		pronoun_container.add_theme_constant_override("margin_bottom", 0)
+		margin_container.add_theme_constant_override("margin_left", 0)
+		margin_container.add_theme_constant_override("margin_right", 0)
+		margin_container.add_theme_constant_override("margin_top", 0)
+		margin_container.add_theme_constant_override("margin_bottom", 0)
 	
 	# Create domain model session
 	session = PronounMatchSession.new()
