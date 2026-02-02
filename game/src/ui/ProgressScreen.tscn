@@ -1,27 +1,36 @@
 [gd_scene load_steps=2 format=3 uid="uid://c8kj3mq2npx1a"]
 
-[ext_resource type="Script" path="res://src/ui/ProgressScreen.gd" id="1_progress"]
+[ext_resource type="Script" uid="uid://lqb7lnc7cyeq" path="res://src/ui/ProgressScreen.gd" id="1_progress"]
 
 [node name="ProgressScreen" type="Control"]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-visible = false
 script = ExtResource("1_progress")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="SlidingPanel" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 1890.0
+offset_bottom = 1050.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Background" type="ColorRect" parent="SlidingPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.1, 0.1, 0.15, 0.95)
+color = Color(0.101960786, 0.101960786, 0.14901961, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="SlidingPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -33,7 +42,7 @@ offset_bottom = -50.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TitleLabel" type="Label" parent="VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="SlidingPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 48
@@ -41,10 +50,37 @@ text = "Your Progress"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="VBoxContainer"]
+[node name="Spacer" type="Control" parent="SlidingPanel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
-[node name="ChartContainer" type="Control" parent="VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="SlidingPanel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="CenterContainer" type="CenterContainer" parent="SlidingPanel/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="FlowContainer" type="FlowContainer" parent="SlidingPanel/VBoxContainer/ScrollContainer/CenterContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 12
+
+[node name="ButtonsColumn" type="VBoxContainer" parent="SlidingPanel/VBoxContainer/ScrollContainer/CenterContainer/FlowContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="IconsColumn" type="VBoxContainer" parent="SlidingPanel/VBoxContainer/ScrollContainer/CenterContainer/FlowContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ContinueSpacer" type="Control" parent="SlidingPanel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="ContinueButton" type="Button" parent="SlidingPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Continue"
