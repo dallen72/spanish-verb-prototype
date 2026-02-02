@@ -34,11 +34,10 @@ func _ready():
 	call_deferred("_show_initial_progress_and_start")
 
 func _show_initial_progress_and_start():
-	# Show progress screen for 3 seconds at game start
+	# Show intro/progress screen; wait for user to click Continue (slide-out then signal)
 	progress_screen.show_progress_screen()
-	await get_tree().create_timer(3.0).timeout
-	progress_screen.hide_progress_screen()
 	start_new_problem()
+	await progress_screen.progress_screen_closed
 
 func start_new_problem():
 	# Select a random verb that hasn't been completed yet
@@ -102,19 +101,12 @@ func update_game_mode_display():
 # Public methods for child scenes to use
 func on_problem_completed():
 	# Called when a problem is completed
-	# First show the popup
-	show_popup()
-	await get_tree().create_timer(2.0).timeout
-	hide_popup()
-
-	# Mark verb as completed before showing progress
 	var game_progress = Global.get_node("GameProgressMaster")
 	game_progress.add_completed_verb(game_progress.get_current_verb()["name"])
 
-	# Show progress screen for 3 seconds
+	# Show progress screen (slides in from left); wait for user to click Continue
 	progress_screen.show_progress_screen()
-	await get_tree().create_timer(3.0).timeout
-	progress_screen.hide_progress_screen()
+	await progress_screen.progress_screen_closed
 
 	# Start next problem
 	start_new_problem()
