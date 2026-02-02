@@ -7,7 +7,12 @@ extends Control
 @onready var verbs_completed_label: Label = $VBoxContainer/VerbsCompletedLabel
 
 # Public methods for updating progress display
-func update_progress(current_verb: Dictionary, completed_verbs: Array, total_errors: int):
+func update_progress():
+	var game_progress = Global.get_node("GameProgressMaster")
+	var current_verb = game_progress.get_current_verb()
+	var completed_verbs = game_progress.get_verbs_completed_for_excercise()
+	var total_errors = game_progress.get_total_errors()
+	
 	# Update verb ending (first)
 	verb_ending_label.text = "Ending: -" + current_verb["ending"]
 	

@@ -51,10 +51,10 @@ func _show_initial_progress_and_start():
 func start_new_problem():
 	# Select a random verb that hasn't been completed yet
 	var game_progress = Global.get_node("GameProgressMaster")
-	var current_verb = VerbData.get_random_available_verb(game_progress.get_completed_verbs(game_progress.current_excercise))
+	var current_verb = game_progress.get_random_available_verb()
 	
 	# If all verbs completed, reset and start over
-	if game_progress.get_completed_verbs(game_progress.current_excercise).size() >= VerbData.get_total_verb_count():
+	if game_progress.get_verbs_completed_for_excercise().size() >= VerbData.get_total_verb_count():
 		game_progress.clear_completed_verbs()
 		current_verb = VerbData.get_random_verb()
 	
@@ -78,8 +78,9 @@ func start_new_problem():
 		sentence_completion.setup_problem()
 
 func update_progress_indicator():
+	
 	var game_progress = Global.get_node("GameProgressMaster")
-	progress_indicator.update_progress(game_progress.get_current_verb(), game_progress.get_completed_verbs(game_progress.current_excercise), game_progress.get_total_errors())
+	progress_indicator.update_progress()
 
 func _on_game_mode_changed(mode: String):
 	game_mode = mode

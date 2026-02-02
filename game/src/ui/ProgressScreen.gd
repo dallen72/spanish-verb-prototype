@@ -37,7 +37,7 @@ func _build_verb_list():
 	for verb_data in VerbData.VERB_LIST:
 		var verb_name: String = verb_data["name"]
 		for excercise in ExerciseData.EXERCISE_LIST:
-			var completed_verbs = game_progress.get_completed_verbs(excercise["excercise_name"])
+			var completed_verbs = game_progress.get_verbs_completed_for_excercise()
 			var is_completed: bool = verb_name in completed_verbs
 
 			# Button showing verb name

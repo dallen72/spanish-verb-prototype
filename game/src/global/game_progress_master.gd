@@ -68,11 +68,16 @@ func add_completed_verb(excercise_name: String, verb_name: String):
 			if not excercise.verbs.has(verb_name):
 				excercise.append("verb_name")
 
-func get_completed_verbs(excercise_name: String) -> Array:
+func get_verbs_completed_for_excercise(excercise_name: String = "") -> Array:
+	var game_progress = Global.get_node("GameProgressMaster")
 	if completed_verbs.has(excercise_name):	
 		return completed_verbs[excercise_name]
-	else:
+	elif completed_verbs.size() == 0:
 		return []
+	elif excercise_name == "":
+		return completed_verbs[game_progress.current_excercise]
+	else:
+		return [] #TODO: should this branch be here?
 
 func clear_completed_verbs():
 	completed_verbs.clear()
@@ -97,3 +102,18 @@ func get_excercise_data(excercise_name: String) -> Array[String]:
 		return completed_verbs["excercise_name"] if completed_verbs["excercise_name"] == null else []
 	else:
 		return []
+
+func _get_available_verbs() -> Array:
+	var available = []
+	for verb in VerbData.VERB_LIST:
+		if not verb["name"] in completed_verbs:
+			available.append(verb)
+	return available
+
+func get_random_available_verb() -> Dictionary:
+	var available = _get_available_verbs()
+	if available.size() > 0:
+		return available[randi() % available.size()]
+	else:
+		# All verbs completed, return random verb
+		return VerbData.get_random_verb()

@@ -85,7 +85,7 @@ func initialize(game_mode_value: String):
 	
 	# If current_verb is empty, set it now
 	if current_verb.is_empty():
-		current_verb = VerbData.get_random_available_verb(game_progress.get_completed_verbs())
+		current_verb = game_progress.get_random_available_verb()
 		if game_progress.get_completed_verbs().size() >= VerbData.get_total_verb_count():
 			game_progress.clear_completed_verbs()
 			current_verb = VerbData.get_random_verb()
@@ -114,11 +114,7 @@ func setup_initial_problem():
 	
 	# If current_verb is empty, set it now
 	if current_verb.is_empty():
-		current_verb = VerbData.get_random_available_verb(game_progress.get_completed_verbs(game_progress.current_excercise))
-		if game_progress.get_completed_verbs(game_progress.current_excercise).size() >= VerbData.get_total_verb_count():
-			game_progress.clear_completed_verbs()
-			current_verb = VerbData.get_random_verb()
-		game_progress.set_current_verb(current_verb)
+		current_verb = game_progress.get_random_available_verb()
 	
 	# Update label text based on game mode
 	if game_mode_value == "english_pronouns":

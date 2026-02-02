@@ -92,21 +92,6 @@ const VERB_LIST = [
 static func get_random_verb() -> Dictionary:
 	return VERB_LIST[randi() % VERB_LIST.size()]
 
-static func get_available_verbs(completed_verbs: Array) -> Array:
-	var available = []
-	for verb in VERB_LIST:
-		if not verb["name"] in completed_verbs:
-			available.append(verb)
-	return available
-
-static func get_random_available_verb(completed_verbs: Array) -> Dictionary:
-	var available = get_available_verbs(completed_verbs)
-	if available.size() > 0:
-		return available[randi() % available.size()]
-	else:
-		# All verbs completed, return random verb
-		return get_random_verb()
-
 static func get_verb_by_name(name: String) -> Dictionary:
 	for verb in VERB_LIST:
 		if verb["name"] == name:
