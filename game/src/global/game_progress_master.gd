@@ -1,8 +1,9 @@
 extends Node
 
 # Game state variables - accessible globally
+var current_excercise: String
 var current_verb: Dictionary = {}
-var completed_verbs: Array = []
+var completed_verbs: Dictionary = {}
 var total_errors: int = 0
 var previous_score: int = 0
 
@@ -61,12 +62,17 @@ func get_current_verb() -> Dictionary:
 func set_current_verb(verb: Dictionary):
 	current_verb = verb
 
-func add_completed_verb(verb_name: String):
-	if not completed_verbs.has(verb_name):
-		completed_verbs.append(verb_name)
+func add_completed_verb(excercise_name: String, verb_name: String):
+	for excercise in completed_verbs:
+		if excercise["name"] == excercise_name:	
+			if not excercise.verbs.has(verb_name):
+				excercise.append("verb_name")
 
-func get_completed_verbs() -> Array:
-	return completed_verbs
+func get_completed_verbs(excercise_name: String) -> Array:
+	if completed_verbs.has(excercise_name):	
+		return completed_verbs[excercise_name]
+	else:
+		return []
 
 func clear_completed_verbs():
 	completed_verbs.clear()
@@ -85,3 +91,9 @@ func get_previous_score() -> int:
 
 func reset_previous_score():
 	previous_score = 0
+
+func get_excercise_data(excercise_name: String) -> Array[String]:
+	if completed_verbs.size() > 0:
+		return completed_verbs["excercise_name"] if completed_verbs["excercise_name"] == null else []
+	else:
+		return []

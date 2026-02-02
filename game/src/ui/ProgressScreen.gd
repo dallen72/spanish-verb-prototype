@@ -33,36 +33,37 @@ func _build_verb_list():
 		child.queue_free()
 
 	var game_progress = Global.get_node("GameProgressMaster")
-	var completed_verbs = game_progress.get_completed_verbs()
 
 	for verb_data in VerbData.VERB_LIST:
 		var verb_name: String = verb_data["name"]
-		var is_completed: bool = verb_name in completed_verbs
+		for excercise in ExerciseData.EXERCISE_LIST:
+			var completed_verbs = game_progress.get_completed_verbs(excercise["excercise_name"])
+			var is_completed: bool = verb_name in completed_verbs
 
-		# Button showing verb name
-		var btn = Button.new()
-		btn.text = verb_name
-		btn.custom_minimum_size = Vector2(ROW_ITEM_SIZE, 40)
-		btn.flat = false
-		buttons_column.add_child(btn)
+			# Button showing verb name
+			var btn = Button.new()
+			btn.text = verb_name
+			btn.custom_minimum_size = Vector2(ROW_ITEM_SIZE, 40)
+			btn.flat = false
+			buttons_column.add_child(btn)
 
-		# Icon when completed, or same-size spacer when not (keeps rows aligned)
-		var icon_size = Vector2(ROW_ITEM_SIZE, 40)
-		if is_completed:
-			var tex_rect = TextureRect.new()
-			tex_rect.custom_minimum_size = icon_size
-			tex_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-			tex_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-			var icon_path = ExerciseData.get_icon_path(verb_name)
-			var tex = load(icon_path) as Texture2D
-			if tex:
-				tex_rect.texture = tex
-			tex_rect.modulate = COMPLETED_ICON_MODULATE
-			icons_column.add_child(tex_rect)
-		else:
-			var spacer = Control.new()
-			spacer.custom_minimum_size = icon_size
-			icons_column.add_child(spacer)
+			# Icon when completed, or same-size spacer when not (keeps rows aligned)
+			var icon_size = Vector2(ROW_ITEM_SIZE, 40)
+			if is_completed:
+				var tex_rect = TextureRect.new()
+				tex_rect.custom_minimum_size = icon_size
+				tex_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+				tex_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				var icon_path = excercise.icon_path
+				var tex = load(icon_path) as Texture2D
+				if tex:
+					tex_rect.texture = tex
+				tex_rect.modulate = COMPLETED_ICON_MODULATE
+				icons_column.add_child(tex_rect)
+			else:
+				var spacer = Control.new()
+				spacer.custom_minimum_size = icon_size
+				icons_column.add_child(spacer)
 
 func _on_continue_pressed():
 	# Slide panel to the left off screen

@@ -114,8 +114,8 @@ func setup_initial_problem():
 	
 	# If current_verb is empty, set it now
 	if current_verb.is_empty():
-		current_verb = VerbData.get_random_available_verb(game_progress.get_completed_verbs())
-		if game_progress.get_completed_verbs().size() >= VerbData.get_total_verb_count():
+		current_verb = VerbData.get_random_available_verb(game_progress.get_completed_verbs(game_progress.current_excercise))
+		if game_progress.get_completed_verbs(game_progress.current_excercise).size() >= VerbData.get_total_verb_count():
 			game_progress.clear_completed_verbs()
 			current_verb = VerbData.get_random_verb()
 		game_progress.set_current_verb(current_verb)
@@ -160,12 +160,16 @@ func setup_problem():
 # ===== UI Update Methods (called by domain model signals) =====
 
 func _on_session_started(verb_data: Dictionary, game_mode_value: String):
+	var game_progress = Global.get_node("GameProgressMaster")
 	"""Called when a new session starts."""
 	# Update label text
 	if game_mode_value == "english_pronouns":
 		pronoun_label.text = "English Pronouns"
+		game_progress.current_excercise = "english_pronoun_matching"
 	else:
 		pronoun_label.text = "Spanish Pronouns"
+		game_progress.current_excercise = "spanish_pronoun_matching"
+
 
 func _on_session_pronoun_selected(pronoun: String, english_phrase: String):
 	"""Updates UI when a pronoun is selected in the domain model."""

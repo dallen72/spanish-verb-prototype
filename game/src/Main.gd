@@ -23,7 +23,6 @@ func _process(_delta):
 		if OS.is_debug_build():
 			get_tree().quit()
 
-const WINDOW_SCRIPT := preload("res://WindowScript.gd")
 
 func _ready():
 	var window_size = DisplayServer.window_get_size()
@@ -52,10 +51,10 @@ func _show_initial_progress_and_start():
 func start_new_problem():
 	# Select a random verb that hasn't been completed yet
 	var game_progress = Global.get_node("GameProgressMaster")
-	var current_verb = VerbData.get_random_available_verb(game_progress.get_completed_verbs())
+	var current_verb = VerbData.get_random_available_verb(game_progress.get_completed_verbs(game_progress.current_excercise))
 	
 	# If all verbs completed, reset and start over
-	if game_progress.get_completed_verbs().size() >= VerbData.get_total_verb_count():
+	if game_progress.get_completed_verbs(game_progress.current_excercise).size() >= VerbData.get_total_verb_count():
 		game_progress.clear_completed_verbs()
 		current_verb = VerbData.get_random_verb()
 	
@@ -80,7 +79,7 @@ func start_new_problem():
 
 func update_progress_indicator():
 	var game_progress = Global.get_node("GameProgressMaster")
-	progress_indicator.update_progress(game_progress.get_current_verb(), game_progress.get_completed_verbs(), game_progress.get_total_errors())
+	progress_indicator.update_progress(game_progress.get_current_verb(), game_progress.get_completed_verbs(game_progress.current_excercise), game_progress.get_total_errors())
 
 func _on_game_mode_changed(mode: String):
 	game_mode = mode
@@ -112,7 +111,7 @@ func update_game_mode_display():
 func on_problem_completed():
 	# Called when a problem is completed
 	var game_progress = Global.get_node("GameProgressMaster")
-	game_progress.add_completed_verb(game_progress.get_current_verb()["name"])
+	game_progress.add_completed_verb(game_progress.get_current_excercise(), game_progress.get_current_verb()["name"])
 
 	# Show progress screen (slides in from left); wait for user to click Continue
 	progress_screen.show_progress_screen()
