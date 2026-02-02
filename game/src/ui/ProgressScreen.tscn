@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://lqb7lnc7cyeq" path="res://src/ui/ProgressScreen.gd" id="1_progress"]
 
 [node name="ProgressScreen" type="Control"]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -61,20 +60,11 @@ size_flags_vertical = 3
 [node name="CenterContainer" type="CenterContainer" parent="SlidingPanel/VBoxContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
+size_flags_vertical = 2
 
-[node name="FlowContainer" type="FlowContainer" parent="SlidingPanel/VBoxContainer/ScrollContainer/CenterContainer"]
+[node name="ListWrapper" type="VBoxContainer" parent="SlidingPanel/VBoxContainer/ScrollContainer/CenterContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/h_separation = 24
-theme_override_constants/v_separation = 12
-
-[node name="ButtonsColumn" type="VBoxContainer" parent="SlidingPanel/VBoxContainer/ScrollContainer/CenterContainer/FlowContainer"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="IconsColumn" type="VBoxContainer" parent="SlidingPanel/VBoxContainer/ScrollContainer/CenterContainer/FlowContainer"]
-layout_mode = 2
-theme_override_constants/separation = 12
 
 [node name="ContinueSpacer" type="Control" parent="SlidingPanel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)

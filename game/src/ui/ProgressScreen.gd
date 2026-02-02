@@ -14,38 +14,33 @@ const COMPLETED_ICON_MODULATE := Color(0.2, 0.8, 0.3, 1.0)
 
 # UI references
 var sliding_panel: Control
-var buttons_column: VBoxContainer
-var icons_column: VBoxContainer
 var continue_button: Button
+var VerbListWrapper: VBoxContainer
 
 func _ready():
 	sliding_panel = $SlidingPanel
-	buttons_column = $SlidingPanel/VBoxContainer/ScrollContainer/CenterContainer/FlowContainer/ButtonsColumn
-	icons_column = $SlidingPanel/VBoxContainer/ScrollContainer/CenterContainer/FlowContainer/IconsColumn
 	continue_button = $SlidingPanel/VBoxContainer/ContinueButton
+	VerbListWrapper = %ListWrapper
 	continue_button.pressed.connect(_on_continue_pressed)
-	_build_verb_list()
 
 func _build_verb_list():
-	for child in buttons_column.get_children():
-		child.queue_free()
-	for child in icons_column.get_children():
-		child.queue_free()
+	# remove buttons in list
 
 	var game_progress = Global.get_node("GameProgressMaster")
 
 	for verb_data in VerbData.VERB_LIST:
 		var verb_name: String = verb_data["name"]
-		for excercise in ExerciseData.EXERCISE_LIST:
-			var completed_verbs = game_progress.get_verbs_completed_for_excercise()
-			var is_completed: bool = verb_name in completed_verbs
+		var btn = Button.new()
+		btn.text = verb_name
+		btn.custom_minimum_size = Vector2(ROW_ITEM_SIZE, 40)
+		btn.flat = false
+		var flow_container = FlowContainer.new()
+		flow_container.add_child(btn)
 
-			# Button showing verb name
-			var btn = Button.new()
-			btn.text = verb_name
-			btn.custom_minimum_size = Vector2(ROW_ITEM_SIZE, 40)
-			btn.flat = false
-			buttons_column.add_child(btn)
+		var icons_column = Container.new()
+		for excercise in ExerciseData.EXERCISE_LIST:
+			var completed_verbs = game_progress.get_verbs_completed_for_excercise(excercise["excercise_name"])
+			var is_completed: bool = verb_name in completed_verbs
 
 			# Icon when completed, or same-size spacer when not (keeps rows aligned)
 			var icon_size = Vector2(ROW_ITEM_SIZE, 40)
@@ -60,10 +55,11 @@ func _build_verb_list():
 					tex_rect.texture = tex
 				tex_rect.modulate = COMPLETED_ICON_MODULATE
 				icons_column.add_child(tex_rect)
-			else:
-				var spacer = Control.new()
-				spacer.custom_minimum_size = icon_size
-				icons_column.add_child(spacer)
+				
+		if (icons_column != null):
+			flow_container.add_child(icons_column)
+		VerbListWrapper.add_child(flow_container)
+
 
 func _on_continue_pressed():
 	# Slide panel to the left off screen
