@@ -3,7 +3,8 @@ extends Control
 # Game state variables
 var game_mode: String = "english_pronouns"  # "english_pronouns", "spanish_pronouns", or "sentence_completion"
 
-# Verb data is now imported from VerbData.gd
+const WIDTH_WHEN_EXERCISE_BUTTONS_WRAP: int = 1764
+const TITLE_SECTION_SEPARATION_FOR_SMALL_SCREENS: int = 4
 
 # UI references
 @onready var verb_label: Label = $HeaderContainer/HBoxContainer/TitleSection/VerbLabel
@@ -25,23 +26,25 @@ func _process(_delta):
 
 
 func _ready():
-	var window_size = DisplayServer.window_get_size()
-	print_debug("debug, window_size: " + str(window_size))
-	if (window_size.x < 1764):		
-		# get the theme property separation of the titlesection and set the theme override to 4
-		title_section.add_theme_constant_override("separation", 4)
-
+	_init_ui()
+	_connect_signals()
+	# Initialize the game on startup - show progress screen first
+	call_deferred("_show_initial_progress_and_start")
 	
-	# Connect game mode selector signal
+func _connect_signals():	
 	game_mode_selector.game_mode_changed.connect(_on_game_mode_changed)
 	Global.get_node("Signals").problem_completed.connect(on_problem_completed)
+	
+func _init_ui():
+	var window_size = DisplayServer.window_get_size()
+	print_debug("debug, window_size: " + str(window_size))
+	if (window_size.x < WIDTH_WHEN_EXERCISE_BUTTONS_WRAP):
+		# get the theme property separation of the titlesection and set the theme override to 4
+		title_section.add_theme_constant_override("separation", TITLE_SECTION_SEPARATION_FOR_SMALL_SCREENS)
 
 	# Note: Viewport sizing is handled by Godot's stretch system in project settings
 	# Do NOT manually resize the viewport - let Godot scale the game automatically
 	# See project.godot: stretch mode = "canvas_items", aspect = "keep"
-
-	# Initialize the game on startup - show progress screen first
-	call_deferred("_show_initial_progress_and_start")
 
 func _show_initial_progress_and_start():
 	# Show intro/progress screen; wait for user to click Continue (slide-out then signal)
@@ -126,9 +129,3 @@ func on_wrong_selection():
 	game_progress.set_previous_score(game_progress.get_previous_score() + 1)
 	game_progress.increment_total_errors()
 	update_progress_indicator()
-
-func show_popup():
-	popup.show_popup()
-
-func hide_popup():
-	popup.hide_popup()

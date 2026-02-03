@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bhnxqi7hgoe7b"]
 
-[ext_resource type="Script" uid="uid://ctmfqfre5oqc8" path="res://src/header/GameModeSelector.gd" id="1_2x3y"]
+[ext_resource type="Script" uid="uid://ctmfqfre5oqc8" path="res://src/ui/header/GameModeSelector.gd" id="1_2x3y"]
 
 [node name="GameModeSelector" type="HFlowContainer"]
 offset_right = 738.0
