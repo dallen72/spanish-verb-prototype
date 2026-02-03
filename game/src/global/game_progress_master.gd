@@ -97,12 +97,6 @@ func get_previous_score() -> int:
 func reset_previous_score():
 	previous_score = 0
 
-func get_excercise_data(excercise_name: String) -> Array[String]:
-	if completed_verbs.size() > 0:
-		return completed_verbs["excercise_name"] if completed_verbs["excercise_name"] == null else []
-	else:
-		return []
-
 func _get_available_verbs() -> Array:
 	var available = []
 	for verb in VerbData.VERB_LIST:

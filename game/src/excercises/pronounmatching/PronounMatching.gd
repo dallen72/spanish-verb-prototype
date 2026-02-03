@@ -148,7 +148,7 @@ func setup_problem():
 
 # ===== UI Update Methods (called by domain model signals) =====
 
-func _on_session_started(verb_data: Dictionary, game_mode_value: String):
+func _on_session_started(game_mode_value: String):
 	var game_progress = Global.get_node("GameProgressMaster")
 	"""Called when a new session starts."""
 	# Update label text
@@ -160,7 +160,7 @@ func _on_session_started(verb_data: Dictionary, game_mode_value: String):
 		game_progress.current_excercise = "spanish_pronoun_matching"
 
 
-func _on_session_pronoun_selected(pronoun: String, english_phrase: String):
+func _on_session_pronoun_selected(pronoun: String):
 	"""Updates UI when a pronoun is selected in the domain model."""
 	var button = pronoun_buttons.get(pronoun)
 	if not button or not button is PronounButton:
@@ -192,7 +192,7 @@ func _on_session_match_made(pronoun: String, conjugation: String, english_phrase
 		conjugation_button.modulate = Color.LIGHT_BLUE
 		conjugation_button.disabled = true
 
-func _on_session_match_failed(pronoun: String, conjugation: String):
+func _on_session_match_failed():
 	"""Handles UI feedback when a match fails."""
 	# Notify main script of error
 	Global.get_node("Signals").emit_signal("wrong_selection")
@@ -285,7 +285,7 @@ func _on_conjugation_button_pressed(button: Button):
 	var conjugation = button.text
 	
 	# Forward match attempt to domain model
-	var match_result = session.attempt_match(conjugation)
+	session.attempt_match(conjugation)
 	
 	# If no pronoun is selected, just highlight the conjugation
 	if session.selected_pronoun.is_empty():

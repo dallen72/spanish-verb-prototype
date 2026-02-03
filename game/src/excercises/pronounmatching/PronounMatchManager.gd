@@ -12,10 +12,10 @@ var matched_pairs: Array[Dictionary] = []  # Array of {pronoun: String, conjugat
 var available_pronouns: Array[String] = []  # Pronouns not yet matched
 
 # Signals for UI to observe state changes
-signal pronoun_selected(pronoun: String, english_phrase: String)
+signal pronoun_selected(pronoun: String)
 signal match_made(pronoun: String, conjugation: String, english_phrase: String)
-signal match_failed(pronoun: String, conjugation: String)
-signal session_started(verb_data: Dictionary, game_mode: String)
+signal match_failed(conjugation: String)
+signal session_started(game_mode: String)
 
 func start_problem(verb: Dictionary, mode: String):
 	"""Initializes a new matching session with a verb and game mode."""
@@ -34,7 +34,7 @@ func start_problem(verb: Dictionary, mode: String):
 	if available_pronouns.size() > 0:
 		select_pronoun(available_pronouns[0])
 	
-	session_started.emit(verb_data, game_mode)
+	session_started.emit(game_mode)
 
 func select_pronoun(pronoun: String):
 	"""Selects a pronoun for matching. Returns true if successful."""
@@ -42,13 +42,8 @@ func select_pronoun(pronoun: String):
 		return false
 	
 	selected_pronoun = pronoun
-	var english_phrase := ""
-	if game_mode == "english_pronouns" and verb_data.has("english_phrases"):
-		var phrases = verb_data.get("english_phrases", {})
-		if phrases is Dictionary:
-			english_phrase = phrases.get(pronoun, "")
 	
-	pronoun_selected.emit(pronoun, english_phrase)
+	pronoun_selected.emit(pronoun)
 	return true
 
 func attempt_match(conjugation: String) -> bool:
@@ -64,7 +59,7 @@ func attempt_match(conjugation: String) -> bool:
 	
 	var correct_conjugation = verb_data["conjugations"].get(selected_pronoun, "")
 	if conjugation != correct_conjugation:
-		match_failed.emit(selected_pronoun, conjugation)
+		match_failed.emit(conjugation)
 		return false
 	
 	# Correct match!
