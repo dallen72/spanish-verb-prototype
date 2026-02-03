@@ -1,5 +1,5 @@
 extends RefCounted
-class_name PronounMatchSession
+class_name PronounMatchManager
 
 # Domain model for pronoun matching game logic
 # This class contains NO UI dependencies - pure game logic only
@@ -15,10 +15,9 @@ var available_pronouns: Array[String] = []  # Pronouns not yet matched
 signal pronoun_selected(pronoun: String, english_phrase: String)
 signal match_made(pronoun: String, conjugation: String, english_phrase: String)
 signal match_failed(pronoun: String, conjugation: String)
-signal session_completed()
 signal session_started(verb_data: Dictionary, game_mode: String)
 
-func start_session(verb: Dictionary, mode: String):
+func start_problem(verb: Dictionary, mode: String):
 	"""Initializes a new matching session with a verb and game mode."""
 	verb_data = verb
 	game_mode = mode
@@ -90,7 +89,7 @@ func attempt_match(conjugation: String) -> bool:
 	
 	# Check if session is complete
 	if is_complete():
-		session_completed.emit()
+		Global.get_node("Signals").emit_signal("problem_completed")
 		selected_pronoun = ""
 	else:
 		# Select next available pronoun

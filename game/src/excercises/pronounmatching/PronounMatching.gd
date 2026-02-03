@@ -4,7 +4,7 @@ extends VBoxContainer
 # This class handles UI presentation and delegates game logic to PronounMatchSession
 
 # Domain model - contains all game logic
-var session: PronounMatchSession = null
+var session: PronounMatchManager = null
 
 # UI references
 @onready var margin_container = $MarginContainer
@@ -23,9 +23,9 @@ var conjugation_buttons: Dictionary = {}  # conjugation_text -> Button
 
 func _ready():
 	var window_size = DisplayServer.window_get_size()
-	print("debug, window_size: " + str(window_size))
+	print_debug("debug, window_size: " + str(window_size))
 	if (window_size.x < 1764):		
-		print("debug, window is smaller, inside pronoun script")
+		print_debug("debug, window is smaller, inside pronoun script")
 		# get the theme property separation of the titlesection and set the theme override to 4
 		pronoun_container.add_theme_constant_override("margin_left", 0)
 		pronoun_container.add_theme_constant_override("margin_right", 0)
@@ -37,7 +37,7 @@ func _ready():
 		margin_container.add_theme_constant_override("margin_bottom", 0)
 	
 	# Create domain model session
-	session = PronounMatchSession.new()
+	session = PronounMatchManager.new()
 	_connect_session_signals()
 	
 	# Create glow effect handler
@@ -58,7 +58,6 @@ func _connect_session_signals():
 	session.pronoun_selected.connect(_on_session_pronoun_selected)
 	session.match_made.connect(_on_session_match_made)
 	session.match_failed.connect(_on_session_match_failed)
-	session.session_completed.connect(_on_session_completed)
 	session.session_started.connect(_on_session_started)
 
 func _initialize_pronoun_buttons():
@@ -95,7 +94,7 @@ func initialize(game_mode_value: String):
 	reset_pronoun_buttons(current_verb, game_mode_value)
 	
 	# Start new session
-	session.start_session(current_verb, game_mode_value)
+	session.start_problem(current_verb, game_mode_value)
 
 func setup_initial_problem():
 	"""Sets up the initial problem when the scene loads."""
@@ -121,7 +120,7 @@ func setup_initial_problem():
 	
 	# Start session
 	if session:
-		session.start_session(current_verb, game_mode_value)
+		session.start_problem(current_verb, game_mode_value)
 
 func setup_problem():
 	"""Sets up a new problem (called by Main when starting new problem)."""
@@ -142,7 +141,7 @@ func setup_problem():
 	
 	# Start new session
 	if session:
-		session.start_session(current_verb, game_mode_value)
+		session.start_problem(current_verb, game_mode_value)
 	
 	# Update glow effects after conjugations are loaded
 	call_deferred("setup_glow_effects")
@@ -200,10 +199,6 @@ func _on_session_match_failed(pronoun: String, conjugation: String):
 	
 	# Clear conjugation selection visual feedback
 	clear_conjugation_selections()
-
-func _on_session_completed():
-	"""Handles UI when the session is completed."""
-	Global.get_node("Signals").emit_signal("problem_completed")
 
 # ===== UI Helper Methods =====
 

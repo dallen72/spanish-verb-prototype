@@ -26,7 +26,7 @@ func _process(_delta):
 
 func _ready():
 	var window_size = DisplayServer.window_get_size()
-	print("debug, window_size: " + str(window_size))
+	print_debug("debug, window_size: " + str(window_size))
 	if (window_size.x < 1764):		
 		# get the theme property separation of the titlesection and set the theme override to 4
 		title_section.add_theme_constant_override("separation", 4)
@@ -34,6 +34,7 @@ func _ready():
 	
 	# Connect game mode selector signal
 	game_mode_selector.game_mode_changed.connect(_on_game_mode_changed)
+	Global.get_node("Signals").problem_completed.connect(on_problem_completed)
 
 	# Note: Viewport sizing is handled by Godot's stretch system in project settings
 	# Do NOT manually resize the viewport - let Godot scale the game automatically
@@ -78,8 +79,6 @@ func start_new_problem():
 		sentence_completion.setup_problem()
 
 func update_progress_indicator():
-	
-	var game_progress = Global.get_node("GameProgressMaster")
 	progress_indicator.update_progress()
 
 func _on_game_mode_changed(mode: String):
@@ -112,7 +111,7 @@ func update_game_mode_display():
 func on_problem_completed():
 	# Called when a problem is completed
 	var game_progress = Global.get_node("GameProgressMaster")
-	game_progress.add_completed_verb(game_progress.get_current_excercise(), game_progress.get_current_verb()["name"])
+	game_progress.add_completed_verb()
 
 	# Show progress screen (slides in from left); wait for user to click Continue
 	progress_screen.show_progress_screen()

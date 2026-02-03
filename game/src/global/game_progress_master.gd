@@ -62,10 +62,10 @@ func get_current_verb() -> Dictionary:
 func set_current_verb(verb: Dictionary):
 	current_verb = verb
 
-func add_completed_verb(excercise_name: String, verb_name: String):
+func add_completed_verb():
 	for excercise in completed_verbs:
-		if excercise["name"] == excercise_name:	
-			if not excercise.verbs.has(verb_name):
+		if excercise["name"] == current_excercise:	
+			if not excercise.verbs.has(current_verb["name"]):
 				excercise.append("verb_name")
 
 func get_verbs_completed_for_excercise(excercise_name: String = "") -> Array:
