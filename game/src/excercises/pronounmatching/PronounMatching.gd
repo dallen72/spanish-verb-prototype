@@ -14,9 +14,6 @@ var session: PronounMatchSession = null
 @onready var conjugation_container: GridContainer = $MarginContainer/GameArea/ConjugationSection/ConjugationMarginContainer/ConjugationGrid
 @onready var conjugation_margin_container: MarginContainer = $MarginContainer/GameArea/ConjugationSection/ConjugationMarginContainer
 
-# Reference to main script for shared functionality
-var main_script: Node = null
-
 # Glow effect handler
 var glow_effect: GlowEffect = null
 
@@ -25,9 +22,6 @@ var pronoun_buttons: Dictionary = {}  # pronoun_name -> PronounButton
 var conjugation_buttons: Dictionary = {}  # conjugation_text -> Button
 
 func _ready():
-	# Get reference to main script (PronounMatching is a child of Main)
-	main_script = get_parent().get_parent()
-	
 	var window_size = DisplayServer.window_get_size()
 	print("debug, window_size: " + str(window_size))
 	if (window_size.x < 1764):		
@@ -202,16 +196,14 @@ func _on_session_match_made(pronoun: String, conjugation: String, english_phrase
 func _on_session_match_failed(pronoun: String, conjugation: String):
 	"""Handles UI feedback when a match fails."""
 	# Notify main script of error
-	if main_script and main_script.has_method("on_error"):
-		main_script.on_error()
+	Global.get_node("Signals").emit_signal("wrong_selection")
 	
 	# Clear conjugation selection visual feedback
 	clear_conjugation_selections()
 
 func _on_session_completed():
 	"""Handles UI when the session is completed."""
-	if main_script and main_script.has_method("on_problem_completed"):
-		main_script.on_problem_completed()
+	Global.get_node("Signals").emit_signal("problem_completed")
 
 # ===== UI Helper Methods =====
 

@@ -121,7 +121,7 @@ func on_problem_completed():
 	# Start next problem
 	start_new_problem()
 
-func on_error():
+func on_wrong_selection():
 	# Called when an error is made
 	var game_progress = Global.get_node("GameProgressMaster")
 	game_progress.set_previous_score(game_progress.get_previous_score() + 1)

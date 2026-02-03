@@ -8,13 +8,7 @@ var current_pronoun_for_sentences: String = ""
 @onready var conjugation_display_button: Button = $MarginContainer/GameArea/ConjugationSection/ConjugationMarginContainer/ConjugationDisplay
 @onready var sentence_container: GridContainer = $MarginContainer/GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid
 
-# Reference to main script for shared functionality
-var main_script: Node = null
-
 func _ready():
-	# Get reference to main script (SentenceCompletion VBoxContainer is a child of Main)
-	main_script = get_parent().get_parent()
-	
 	# Connect sentence button signals
 	for button in sentence_container.get_children():
 		if button is Button:
@@ -52,10 +46,10 @@ func _on_sentence_button_pressed(button: Button):
 		button.text = current_verb["sentence_templates"][pronoun].replace("___", current_pronoun_for_sentences)
 		
 		# Mark as completed and move to next problem
-		main_script.on_problem_completed()
+		Global.get_node("Signals").emit_signal("problem_completed")
 	else:
 		# Incorrect match
-		main_script.on_error()
+		Global.get_node("Signals").emit_signal("wrong_selection")
 		
 		# Visual feedback for wrong answer
 		button.modulate = Color.RED
