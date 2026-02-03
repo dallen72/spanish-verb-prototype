@@ -154,10 +154,10 @@ func _on_session_started(game_mode_value: String):
 	# Update label text
 	if game_mode_value == "english_pronouns":
 		pronoun_label.text = "English Pronouns"
-		game_progress.current_excercise = "english_pronoun_matching"
+		game_progress.current_exercise = game_progress.get_excercise("english_pronoun_matching")
 	else:
 		pronoun_label.text = "Spanish Pronouns"
-		game_progress.current_excercise = "spanish_pronoun_matching"
+		game_progress.current_exercise = game_progress.get_excercise("spanish_pronoun_matching")
 
 
 func _on_session_pronoun_selected(pronoun: String):

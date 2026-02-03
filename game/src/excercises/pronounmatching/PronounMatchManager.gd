@@ -1,6 +1,6 @@
 extends RefCounted
 class_name PronounMatchManager
-
+#TODO: why is there a pronounmatchmanager.gd and a pronounmatching.gd file, both of them?
 # Domain model for pronoun matching game logic
 # This class contains NO UI dependencies - pure game logic only
 
@@ -81,6 +81,8 @@ func attempt_match(conjugation: String) -> bool:
 	available_pronouns.erase(selected_pronoun)
 	
 	match_made.emit(selected_pronoun, conjugation, english_phrase)
+
+	Global.get_node("Signals").emit_signal("problem_completed")
 	
 	# Check if session is complete
 	if is_complete():

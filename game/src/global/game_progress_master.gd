@@ -1,7 +1,8 @@
 extends Node
 
 # Game state variables - accessible globally
-var current_excercise: String
+var current_exercise: Exercise
+var game_exercises: Array[Exercise]
 var current_verb: Dictionary = {}
 var completed_verbs: Dictionary = {}
 var total_errors: int = 0
@@ -12,9 +13,26 @@ var conjugation_button_bg_color: Color = Color(0.2, 0.2, 0.2, 0.8)
 var conjugation_button_font_color: Color = Color(0.8, 0.8, 0.8, 1.0)
 var conjugation_button_colors_initialized: bool = false
 
+## TODO: state machine
+
+# state machine for gamestate
+# INIT
+# LOADING_GAME_DATA
+# VIEWING_PROGRESS
+# DOING_EXERCISE
+# SAVING_PROGRESS
+# SWITCHING_EXERCISES
+
 func _ready():
 	# Initialize shared button colors when the game loads
 	_init_conjugation_button_colors()
+	call_deferred("_init_exercises")
+	
+func _init_exercises():
+	for exercise_data in Exercise.EXERCISE_LIST:
+		var exercise = Exercise.new()
+		exercise.name = exercise_data.exercise_name
+		
 
 func _init_conjugation_button_colors():
 	if conjugation_button_colors_initialized:
@@ -63,10 +81,8 @@ func set_current_verb(verb: Dictionary):
 	current_verb = verb
 
 func add_completed_verb():
-	for excercise in completed_verbs:
-		if excercise["name"] == current_excercise:	
-			if not excercise.verbs.has(current_verb["name"]):
-				excercise.append("verb_name")
+	if not current_exercise.completed_verbs.has(current_verb["name"]):
+		current_exercise.completed_verbs.append(current_verb)
 
 func get_verbs_completed_for_excercise(excercise_name: String = "") -> Array:
 	var game_progress = Global.get_node("GameProgressMaster")
@@ -75,7 +91,7 @@ func get_verbs_completed_for_excercise(excercise_name: String = "") -> Array:
 	elif completed_verbs.size() == 0:
 		return []
 	elif excercise_name == "":
-		return completed_verbs[game_progress.current_excercise]
+		return current_exercise.completed_verbs
 	else:
 		return [] #TODO: should this branch be here?
 
@@ -111,3 +127,8 @@ func get_random_available_verb() -> Dictionary:
 	else:
 		# All verbs completed, return random verb
 		return VerbData.get_random_verb()
+
+func get_excercise(verb_name):
+	for exercise in game_exercises:
+		if exercise.name == verb_name:
+			return exercise

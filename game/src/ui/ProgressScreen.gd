@@ -24,8 +24,9 @@ func _ready():
 	continue_button.pressed.connect(_on_continue_pressed)
 
 func _build_verb_list():
-	# remove buttons in list
-
+	for child in VerbListWrapper.get_children():
+		child.queue_free()
+		
 	var game_progress = Global.get_node("GameProgressMaster")
 
 	for verb_data in VerbData.VERB_LIST:
@@ -38,8 +39,8 @@ func _build_verb_list():
 		flow_container.add_child(btn)
 
 		var icons_column = Container.new()
-		for excercise in ExerciseData.EXERCISE_LIST:
-			var completed_verbs = game_progress.get_verbs_completed_for_excercise(excercise["excercise_name"])
+		for excercise in Exercise.EXERCISE_LIST:
+			var completed_verbs = game_progress.get_verbs_completed_for_excercise(excercise.exercise_name)
 			var is_completed: bool = verb_name in completed_verbs
 
 			# Icon when completed, or same-size spacer when not (keeps rows aligned)
@@ -59,6 +60,7 @@ func _build_verb_list():
 		if (icons_column != null):
 			flow_container.add_child(icons_column)
 		VerbListWrapper.add_child(flow_container)
+	print("debug")
 
 
 func _on_continue_pressed():
