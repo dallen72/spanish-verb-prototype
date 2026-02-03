@@ -11,7 +11,6 @@ const TITLE_SECTION_SEPARATION_FOR_SMALL_SCREENS: int = 4
 @onready var previous_score_label: Label = $HeaderContainer/HBoxContainer/TitleSection/PreviousScoreLabel
 @onready var game_mode_selector: HFlowContainer = $HeaderContainer/HBoxContainer/TitleSection/GameModeSelector
 @onready var progress_indicator: Control = $HeaderContainer/HBoxContainer/ProgressIndicator
-@onready var popup: Control = $Popup
 @onready var progress_screen: Control = $ProgressScreen
 @onready var title_section: VBoxContainer = %TitleSection
 
@@ -19,18 +18,29 @@ const TITLE_SECTION_SEPARATION_FOR_SMALL_SCREENS: int = 4
 @onready var pronoun_matching: VBoxContainer = %PronounMatching
 @onready var sentence_completion: VBoxContainer = %SentenceCompletion
 
+enum GameState {
+	INIT,
+}
+
+var previous_state: GameState
+var current_state: GameState
+
 func _process(_delta):
 	if Input.is_action_just_pressed("ui_cancel"):
 		if OS.is_debug_build():
 			get_tree().quit()
 
+	
 
 func _ready():
+	previous_state = GameState.INIT
+	current_state = GameState.INIT
 	_init_ui()
 	_connect_signals()
 	# Initialize the game on startup - show progress screen first
 	call_deferred("_show_initial_progress_and_start")
-	
+		
+		
 func _connect_signals():	
 	game_mode_selector.game_mode_changed.connect(_on_game_mode_changed)
 	Global.get_node("Signals").problem_completed.connect(on_problem_completed)
@@ -64,6 +74,7 @@ func start_new_problem():
 	
 	# Set the current verb in GameProgressMaster
 	game_progress.set_current_verb(current_verb)
+	game_progress.current_exercise = game_progress.get_exercise_where_name_is("english_pronoun_matching")
 	
 	# Update UI
 	previous_score_label.text = "You got " + str(game_progress.get_previous_score()) + " wrong on the last problem"
@@ -86,17 +97,22 @@ func update_progress_indicator():
 
 func _on_game_mode_changed(mode: String):
 	game_mode = mode
+	var game_progress = Global.get_node("GameProgressMaster")
 	
 	# Show/hide child scenes based on game mode
 	if mode == "sentence_completion":
 		pronoun_matching.visible = false
 		sentence_completion.visible = true
+		game_progress.current_exercise = game_progress.get_exercise("sentence_completion")
 	else:
 		pronoun_matching.visible = true
 		sentence_completion.visible = false
 		# Initialize pronoun matching with the correct game mode
 		if pronoun_matching.has_method("initialize"):
 			pronoun_matching.initialize(mode)
+		
+		## TODO: spanish or english based on what it is
+		game_progress.current_exercise = game_progress.get_exercise("spanish_pronoun_matching")
 	
 	update_game_mode_display()
 	start_new_problem()

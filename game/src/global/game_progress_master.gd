@@ -132,3 +132,8 @@ func get_excercise(verb_name):
 	for exercise in game_exercises:
 		if exercise.name == verb_name:
 			return exercise
+			
+func get_exercise_where_name_is(exercise_name):
+	for exercise in game_exercises:
+		if exercise.exercise_name == exercise_name:
+			return exercise
