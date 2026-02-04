@@ -1,7 +1,7 @@
 extends HFlowContainer
 
 # Signals for communicating with parent scenes
-signal game_mode_changed(mode: String)
+signal exercise_changed(mode: String)
 
 # UI references
 @onready var english_pronoun_mode_button: Button = $EnglishPronounModeButton
@@ -48,7 +48,7 @@ func set_mode(mode: String):
 	sentence_mode_button.button_pressed = (mode == "sentence_completion")
 	
 	# Emit signal to parent
-	game_mode_changed.emit(mode)
+	exercise_changed.emit(mode)
 
 # Public method to set initial mode (useful when instantiating)
 func set_initial_mode(mode: String):

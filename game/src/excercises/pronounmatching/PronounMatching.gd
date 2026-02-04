@@ -68,7 +68,7 @@ func _initialize_pronoun_buttons():
 			button.pronoun_name = button.name
 			pronoun_buttons[button.name] = button
 
-func initialize(game_mode_value: String):
+func initialize(exercise_value: String):
 	"""Initializes the game with a specific game mode."""
 	if not session:
 		return
@@ -85,21 +85,21 @@ func initialize(game_mode_value: String):
 		game_progress.set_current_verb(current_verb)
 	
 	# Update label text based on game mode
-	if game_mode_value == "english_pronouns":
+	if exercise_value == "english_pronouns":
 		pronoun_label.text = "English Pronouns"
 	else:  # spanish_pronouns
 		pronoun_label.text = "Spanish Pronouns"
 	
 	# Reset pronoun buttons with the correct game mode
-	reset_pronoun_buttons(current_verb, game_mode_value)
+	reset_pronoun_buttons(current_verb, exercise_value)
 	
 	# Start new session
-	session.start_problem(current_verb, game_mode_value)
+	session.start_problem(current_verb, exercise_value)
 
 func setup_initial_problem():
 	"""Sets up the initial problem when the scene loads."""
 	# Ensure we have a game mode (default to english_pronouns)
-	var game_mode_value = "english_pronouns"
+	var exercise_value = "english_pronouns"
 	
 	# Ensure current_verb is set
 	var game_progress = Global.get_node("GameProgressMaster")
@@ -110,17 +110,17 @@ func setup_initial_problem():
 		current_verb = game_progress.get_random_available_verb()
 	
 	# Update label text based on game mode
-	if game_mode_value == "english_pronouns":
+	if exercise_value == "english_pronouns":
 		pronoun_label.text = "English Pronouns"
 	else:  # spanish_pronouns
 		pronoun_label.text = "Spanish Pronouns"
 	
 	# Reset pronoun buttons with the correct game mode
-	reset_pronoun_buttons(current_verb, game_mode_value)
+	reset_pronoun_buttons(current_verb, exercise_value)
 	
 	# Start session
 	if session:
-		session.start_problem(current_verb, game_mode_value)
+		session.start_problem(current_verb, exercise_value)
 
 func setup_problem():
 	"""Sets up a new problem (called by Main when starting new problem)."""
@@ -128,31 +128,31 @@ func setup_problem():
 	var current_verb = game_progress.get_current_verb()
 	
 	# Determine game mode (use existing session mode or default)
-	var game_mode_value = "english_pronouns"
-	if session and session.game_mode != "":
-		game_mode_value = session.game_mode
+	var exercise_value = "english_pronouns"
+	if session and session.exercise != "":
+		exercise_value = session.exercise
 	
 	# Clear and regenerate conjugation buttons
 	clear_conjugation_buttons()
 	generate_conjugation_buttons(current_verb)
 	
 	# Reset pronoun buttons
-	reset_pronoun_buttons(current_verb, game_mode_value)
+	reset_pronoun_buttons(current_verb, exercise_value)
 	
 	# Start new session
 	if session:
-		session.start_problem(current_verb, game_mode_value)
+		session.start_problem(current_verb, exercise_value)
 	
 	# Update glow effects after conjugations are loaded
 	call_deferred("setup_glow_effects")
 
 # ===== UI Update Methods (called by domain model signals) =====
 
-func _on_session_started(game_mode_value: String):
+func _on_session_started(exercise_value: String):
 	var game_progress = Global.get_node("GameProgressMaster")
 	"""Called when a new session starts."""
 	# Update label text
-	if game_mode_value == "english_pronouns":
+	if exercise_value == "english_pronouns":
 		pronoun_label.text = "English Pronouns"
 		game_progress.current_exercise = game_progress.get_excercise("english_pronoun_matching")
 	else:
@@ -169,10 +169,10 @@ func _on_session_pronoun_selected(pronoun: String):
 	# Clear previous pronoun selection
 	for btn in pronoun_buttons.values():
 		if btn.is_selected():
-			btn.set_state(PronounButton.State.UNMATCHED)
+			btn.set_state(PronounButton.ButtonState.UNMATCHED)
 	
 	# Set the selected pronoun
-	button.set_state(PronounButton.State.SELECTED)
+	button.set_state(PronounButton.ButtonState.SELECTED)
 	
 	# Update glow effect
 	update_glow_for_selected_pronoun()
@@ -184,8 +184,8 @@ func _on_session_match_made(pronoun: String, conjugation: String, english_phrase
 	
 	if pronoun_button and pronoun_button is PronounButton:
 		# Update pronoun button to completed state
-		pronoun_button.set_state(PronounButton.State.COMPLETED)
-		pronoun_button.update_text_for_match(conjugation, session.game_mode, english_phrase)
+		pronoun_button.set_state(PronounButton.ButtonState.COMPLETED)
+		pronoun_button.update_text_for_match(conjugation, session.exercise, english_phrase)
 	
 	if conjugation_button:
 		# Mark conjugation button as matched
@@ -253,14 +253,14 @@ func generate_conjugation_buttons(current_verb: Dictionary):
 	for item in conjugation_values:
 		conjugation_container.add_child(item["button"])
 
-func reset_pronoun_buttons(current_verb: Dictionary, game_mode_value: String):
+func reset_pronoun_buttons(current_verb: Dictionary, exercise_value: String):
 	"""Resets all pronoun buttons to unmatched state."""
 	for pronoun_name in pronoun_buttons.keys():
 		var button = pronoun_buttons[pronoun_name]
 		if not button or not button is PronounButton:
 			continue
 		
-		if game_mode_value == "english_pronouns":
+		if exercise_value == "english_pronouns":
 			# Use English phrases
 			var english_phrases = current_verb.get("english_phrases", {})
 			if english_phrases is Dictionary:
@@ -271,7 +271,7 @@ func reset_pronoun_buttons(current_verb: Dictionary, game_mode_value: String):
 			button.text = pronoun_name + "..."
 		
 		# Set state to unmatched
-		button.set_state(PronounButton.State.UNMATCHED)
+		button.set_state(PronounButton.ButtonState.UNMATCHED)
 
 func _on_conjugation_button_pressed(button: Button):
 	"""Handles conjugation button clicks - forwards to domain model."""

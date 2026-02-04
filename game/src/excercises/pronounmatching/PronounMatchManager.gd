@@ -6,7 +6,7 @@ class_name PronounMatchManager
 
 # Game state
 var verb_data: Dictionary = {}
-var game_mode: String = "english_pronouns"  # "english_pronouns" or "spanish_pronouns"
+var exercise: String = "english_pronouns"  # "english_pronouns" or "spanish_pronouns"
 var selected_pronoun: String = ""
 var matched_pairs: Array[Dictionary] = []  # Array of {pronoun: String, conjugation: String, english_phrase: String}
 var available_pronouns: Array[String] = []  # Pronouns not yet matched
@@ -15,12 +15,12 @@ var available_pronouns: Array[String] = []  # Pronouns not yet matched
 signal pronoun_selected(pronoun: String)
 signal match_made(pronoun: String, conjugation: String, english_phrase: String)
 signal match_failed(conjugation: String)
-signal session_started(game_mode: String)
+signal session_started(exercise: String)
 
 func start_problem(verb: Dictionary, mode: String):
 	"""Initializes a new matching session with a verb and game mode."""
 	verb_data = verb
-	game_mode = mode
+	exercise = mode
 	selected_pronoun = ""
 	matched_pairs.clear()
 	available_pronouns.clear()
@@ -34,7 +34,7 @@ func start_problem(verb: Dictionary, mode: String):
 	if available_pronouns.size() > 0:
 		select_pronoun(available_pronouns[0])
 	
-	session_started.emit(game_mode)
+	session_started.emit(exercise)
 
 func select_pronoun(pronoun: String):
 	"""Selects a pronoun for matching. Returns true if successful."""
@@ -64,7 +64,7 @@ func attempt_match(conjugation: String) -> bool:
 	
 	# Correct match!
 	var english_phrase := ""
-	if game_mode == "english_pronouns" and verb_data.has("english_phrases"):
+	if exercise == "english_pronouns" and verb_data.has("english_phrases"):
 		var phrases = verb_data.get("english_phrases", {})
 		if phrases is Dictionary:
 			english_phrase = phrases.get(selected_pronoun, "")
@@ -124,7 +124,7 @@ func get_correct_conjugation_for(pronoun: String) -> String:
 
 func get_english_phrase_for(pronoun: String) -> String:
 	"""Returns the English phrase for a given pronoun (if in english_pronouns mode)."""
-	if game_mode != "english_pronouns" or not verb_data.has("english_phrases"):
+	if exercise != "english_pronouns" or not verb_data.has("english_phrases"):
 		return ""
 	
 	var phrases = verb_data.get("english_phrases", {})

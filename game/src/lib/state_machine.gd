@@ -6,6 +6,10 @@ class_name StateMachine
 var current_state: State
 var states: Dictionary = {}
 
+var state_transition_queue: Array[State] = []
+
+#FIFO (First In, First Out) in GDScript is typically implemented using a Godot Array as a queue, where items are added to the back using push_back() and removed from the front using pop_front(). For a more efficient, dedicated FIFO structure, you can
+
 func _ready():
 	assert(initial_state, "Initial state not set")
 
@@ -18,11 +22,17 @@ func _ready():
 	current_state.enter()
 
 func _process(delta: float):
-	if current_state:
+	if not state_transition_queue.is_empty():
+		if current_state:
+			current_state.exit()
+
+		current_state = state_transition_queue.pop_front()
+		current_state.enter()
+	elif (current_state and current_state != initial_state):
 		current_state.update(delta)
 
 func _physics_update(delta: float):
-	if current_state:
+	if current_state and current_state != initial_state:
 		current_state.physics_update(delta)
 
 func _on_state_transition(state, new_state_name):
@@ -35,8 +45,4 @@ func _on_state_transition(state, new_state_name):
 		assert(false, "State transition rejected: %s not found" % new_state_name.to_lower())
 		return
 
-	if current_state:
-		current_state.exit()
-
-	current_state = new_state
-	current_state.enter()
+	state_transition_queue.push_back(new_state)

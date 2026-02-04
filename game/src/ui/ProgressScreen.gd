@@ -21,7 +21,9 @@ func _ready():
 	sliding_panel = $SlidingPanel
 	continue_button = $SlidingPanel/VBoxContainer/ContinueButton
 	VerbListWrapper = %ListWrapper
+	
 	continue_button.pressed.connect(_on_continue_pressed)
+	Global.get_node("Signals").hide_progress_screen.connect(hide_progress_screen)
 
 func _build_verb_list():
 	for child in VerbListWrapper.get_children():
@@ -63,13 +65,15 @@ func _build_verb_list():
 	print("debug")
 
 
+# TODO: make the connect on line 24 connect to the global signal
 func _on_continue_pressed():
-	# Slide panel to the left off screen
+	Global.get_node("Signals").emit_signal("continue_button_pressed")
+
+func hide_progress_screen():
+# Slide panel to the left off screen
 	var tween = create_tween()
 	tween.tween_property(sliding_panel, "position:x", -CONTENT_WIDTH, SLIDE_DURATION).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
-	tween.finished.connect(_on_slide_finished)
-
-func _on_slide_finished():
+	await tween.finished
 	visible = false
 	_reset_panel_position()
 	progress_screen_closed.emit()
@@ -85,11 +89,6 @@ func show_progress_screen():
 	sliding_panel.position.x = -CONTENT_WIDTH
 	var tween = create_tween()
 	tween.tween_property(sliding_panel, "position:x", MARGIN, SLIDE_DURATION).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
-
-func hide_progress_screen():
-	visible = false
-	_reset_panel_position()
-	progress_screen_closed.emit()
 
 func show_progress_screen_with_timer(duration: float = 3.0):
 	show_progress_screen()

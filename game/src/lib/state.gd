@@ -1,7 +1,7 @@
 extends Node
 class_name State
 
-#TODO: put this in a utils folder and extend it for use in this project. do the same with the sate machine.
+@warning_ignore("unused_signal")
 signal Transitioned
 
 func enter():

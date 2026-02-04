@@ -13,26 +13,16 @@ var conjugation_button_bg_color: Color = Color(0.2, 0.2, 0.2, 0.8)
 var conjugation_button_font_color: Color = Color(0.8, 0.8, 0.8, 1.0)
 var conjugation_button_colors_initialized: bool = false
 
-## TODO: state machine
-
-# state machine for gamestate
-# INIT
-# LOADING_GAME_DATA
-# VIEWING_PROGRESS
-# DOING_EXERCISE
-# SAVING_PROGRESS
-# SWITCHING_EXERCISES
-
 func _ready():
 	# Initialize shared button colors when the game loads
 	_init_conjugation_button_colors()
-	call_deferred("_init_exercises")
+	_init_exercises()
 	
 func _init_exercises():
 	for exercise_data in Exercise.EXERCISE_LIST:
 		var exercise = Exercise.new()
 		exercise.name = exercise_data.exercise_name
-		
+		game_exercises.append(exercise)
 
 func _init_conjugation_button_colors():
 	if conjugation_button_colors_initialized:
@@ -85,7 +75,6 @@ func add_completed_verb():
 		current_exercise.completed_verbs.append(current_verb)
 
 func get_verbs_completed_for_excercise(excercise_name: String = "") -> Array:
-	var game_progress = Global.get_node("GameProgressMaster")
 	if completed_verbs.has(excercise_name):	
 		return completed_verbs[excercise_name]
 	elif completed_verbs.size() == 0:
@@ -128,6 +117,12 @@ func get_random_available_verb() -> Dictionary:
 		# All verbs completed, return random verb
 		return VerbData.get_random_verb()
 
+func get_current_exercise():
+	if current_exercise == null:
+		return get_exercise_where_name_is("english_pronoun_matching")
+	else:
+		return current_exercise
+
 func get_excercise(verb_name):
 	for exercise in game_exercises:
 		if exercise.name == verb_name:
@@ -137,3 +132,19 @@ func get_exercise_where_name_is(exercise_name):
 	for exercise in game_exercises:
 		if exercise.exercise_name == exercise_name:
 			return exercise
+
+func init_new_problem():
+	# Select a random verb that hasn't been completed yet
+	current_verb = get_random_available_verb()
+	
+	# If all verbs completed, reset and start over
+	if get_verbs_completed_for_excercise().size() >= VerbData.get_total_verb_count():
+		clear_completed_verbs()
+		current_verb = VerbData.get_random_verb()
+	
+	# Set the current verb in GameProgressMaster
+	set_current_verb(current_verb)
+		
+	# Reset previous score for next problem
+	reset_previous_score()
+		
