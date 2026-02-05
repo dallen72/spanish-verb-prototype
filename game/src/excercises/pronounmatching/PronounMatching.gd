@@ -76,12 +76,12 @@ func initialize(exercise_value: String):
 	var game_progress = Global.get_node("GameProgressMaster")
 	var current_verb = game_progress.get_current_verb()
 	
-	# If current_verb is empty, set it now
-	if current_verb.is_empty():
+	# If current_verb is not set, set it now
+	if current_verb == null:
 		current_verb = game_progress.get_random_available_verb()
-		if game_progress.get_completed_verbs().size() >= VerbData.get_total_verb_count():
+		if game_progress.get_completed_verbs().size() >= VerbDataAccess.get_total_verb_count():
 			game_progress.clear_completed_verbs()
-			current_verb = VerbData.get_random_verb()
+			current_verb = VerbDataAccess.get_random_verb()
 		game_progress.set_current_verb(current_verb)
 	
 	# Update label text based on game mode
@@ -105,8 +105,8 @@ func setup_initial_problem():
 	var game_progress = Global.get_node("GameProgressMaster")
 	var current_verb = game_progress.get_current_verb()
 	
-	# If current_verb is empty, set it now
-	if current_verb.is_empty():
+	# If current_verb is not set, set it now
+	if current_verb == null:
 		current_verb = game_progress.get_random_available_verb()
 	
 	# Update label text based on game mode
@@ -208,12 +208,12 @@ func clear_conjugation_buttons():
 		child.queue_free()
 	conjugation_buttons.clear()
 
-func generate_conjugation_buttons(current_verb: Dictionary):
+func generate_conjugation_buttons(current_verb: Verb):
 	"""Generates conjugation buttons from verb data."""
-	if not current_verb.has("conjugations"):
+	if current_verb == null or current_verb.conjugations.is_empty():
 		return
 	
-	var conjugations = current_verb["conjugations"]
+	var conjugations = current_verb.conjugations
 	var conjugation_values = []
 	
 	# Create buttons for each conjugation
@@ -253,20 +253,18 @@ func generate_conjugation_buttons(current_verb: Dictionary):
 	for item in conjugation_values:
 		conjugation_container.add_child(item["button"])
 
-func reset_pronoun_buttons(current_verb: Dictionary, exercise_value: String):
+func reset_pronoun_buttons(current_verb: Verb, exercise_value: String):
 	"""Resets all pronoun buttons to unmatched state."""
 	for pronoun_name in pronoun_buttons.keys():
 		var button = pronoun_buttons[pronoun_name]
 		if not button or not button is PronounButton:
 			continue
 		
-		if exercise_value == "english_pronouns":
+		if exercise_value == "english_pronouns" and current_verb != null:
 			# Use English phrases
-			var english_phrases = current_verb.get("english_phrases", {})
-			if english_phrases is Dictionary:
-				var phrase = english_phrases.get(pronoun_name, "")
-				button.text = phrase + "..." if phrase != "" else pronoun_name + "..."
-		else:  # spanish_pronouns
+			var phrase = current_verb.english_phrases.get(pronoun_name, "")
+			button.text = phrase + "..." if phrase != "" else pronoun_name + "..."
+		else:
 			# Use Spanish pronouns
 			button.text = pronoun_name + "..."
 		

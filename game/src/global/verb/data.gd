@@ -1,12 +1,14 @@
+extends RefCounted
 class_name VerbData
 
-# Static verb data - no instance needed, just reference VerbData.VERB_LIST
+# Raw verb definitions (name, conjugations, english_phrases, sentence_templates, ending).
+# Parsed into Verb instances via VerbDataAccess.
 const VERB_LIST = [
 	{
 		"name": "Tener",
 		"conjugations": {
 			"yo": "tengo",
-			"tu": "tienes", 
+			"tu": "tienes",
 			"el": "tiene",
 			"nosotros": "tenemos",
 			"vosotros": "tenéis",
@@ -35,7 +37,7 @@ const VERB_LIST = [
 		"conjugations": {
 			"yo": "hablo",
 			"tu": "hablas",
-			"el": "habla", 
+			"el": "habla",
 			"nosotros": "hablamos",
 			"vosotros": "hablais",
 			"ellos": "hablan"
@@ -64,7 +66,7 @@ const VERB_LIST = [
 			"yo": "vivo",
 			"tu": "vives",
 			"el": "vive",
-			"nosotros": "vivimos", 
+			"nosotros": "vivimos",
 			"vosotros": "vivis",
 			"ellos": "viven"
 		},
@@ -87,16 +89,3 @@ const VERB_LIST = [
 		"ending": "ir"
 	}
 ]
-
-# Static utility functions for working with verb data
-static func get_random_verb() -> Dictionary:
-	return VERB_LIST[randi() % VERB_LIST.size()]
-
-static func get_verb_by_name(name: String) -> Dictionary:
-	for verb in VERB_LIST:
-		if verb["name"] == name:
-			return verb
-	return {}
-
-static func get_total_verb_count() -> int:
-	return VERB_LIST.size()

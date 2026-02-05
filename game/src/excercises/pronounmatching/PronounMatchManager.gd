@@ -5,7 +5,7 @@ class_name PronounMatchManager
 # This class contains NO UI dependencies - pure game logic only
 
 # Game state
-var verb_data: Dictionary = {}
+var verb_data: Verb = null
 var exercise: String = "english_pronouns"  # "english_pronouns" or "spanish_pronouns"
 var selected_pronoun: String = ""
 var matched_pairs: Array[Dictionary] = []  # Array of {pronoun: String, conjugation: String, english_phrase: String}
@@ -17,7 +17,7 @@ signal match_made(pronoun: String, conjugation: String, english_phrase: String)
 signal match_failed(conjugation: String)
 signal session_started(exercise: String)
 
-func start_problem(verb: Dictionary, mode: String):
+func start_problem(verb: Verb, mode: String):
 	"""Initializes a new matching session with a verb and game mode."""
 	verb_data = verb
 	exercise = mode
@@ -26,8 +26,8 @@ func start_problem(verb: Dictionary, mode: String):
 	available_pronouns.clear()
 	
 	# Initialize available pronouns from verb data
-	if verb_data.has("conjugations"):
-		for pronoun in verb_data["conjugations"].keys():
+	if verb_data and verb_data.conjugations.size() > 0:
+		for pronoun in verb_data.conjugations.keys():
 			available_pronouns.append(pronoun)
 	
 	# Select the first pronoun automatically
@@ -54,20 +54,18 @@ func attempt_match(conjugation: String) -> bool:
 	if selected_pronoun.is_empty():
 		return false
 	
-	if not verb_data.has("conjugations"):
+	if not verb_data or verb_data.conjugations.is_empty():
 		return false
 	
-	var correct_conjugation = verb_data["conjugations"].get(selected_pronoun, "")
+	var correct_conjugation = verb_data.conjugations.get(selected_pronoun, "")
 	if conjugation != correct_conjugation:
 		match_failed.emit(conjugation)
 		return false
 	
 	# Correct match!
 	var english_phrase := ""
-	if exercise == "english_pronouns" and verb_data.has("english_phrases"):
-		var phrases = verb_data.get("english_phrases", {})
-		if phrases is Dictionary:
-			english_phrase = phrases.get(selected_pronoun, "")
+	if exercise == "english_pronouns" and verb_data.english_phrases.size() > 0:
+		english_phrase = verb_data.english_phrases.get(selected_pronoun, "")
 	
 	# Record the match
 	var match_pair = {
@@ -82,8 +80,6 @@ func attempt_match(conjugation: String) -> bool:
 	
 	match_made.emit(selected_pronoun, conjugation, english_phrase)
 
-	Global.get_node("Signals").emit_signal("problem_completed")
-	
 	# Check if session is complete
 	if is_complete():
 		Global.get_node("Signals").emit_signal("problem_completed")
@@ -118,19 +114,15 @@ func is_complete() -> bool:
 
 func get_correct_conjugation_for(pronoun: String) -> String:
 	"""Returns the correct conjugation for a given pronoun."""
-	if not verb_data.has("conjugations"):
+	if not verb_data or verb_data.conjugations.is_empty():
 		return ""
-	return verb_data["conjugations"].get(pronoun, "")
+	return verb_data.conjugations.get(pronoun, "")
 
 func get_english_phrase_for(pronoun: String) -> String:
 	"""Returns the English phrase for a given pronoun (if in english_pronouns mode)."""
-	if exercise != "english_pronouns" or not verb_data.has("english_phrases"):
+	if exercise != "english_pronouns" or not verb_data or verb_data.english_phrases.is_empty():
 		return ""
-	
-	var phrases = verb_data.get("english_phrases", {})
-	if phrases is Dictionary:
-		return phrases.get(pronoun, "")
-	return ""
+	return verb_data.english_phrases.get(pronoun, "")
 
 func get_matched_pair_for(pronoun: String) -> Dictionary:
 	"""Returns the match pair for a given pronoun, or empty dict if not matched."""
@@ -141,6 +133,6 @@ func get_matched_pair_for(pronoun: String) -> Dictionary:
 
 func get_all_pronouns() -> Array[String]:
 	"""Returns all pronouns for the current verb."""
-	if not verb_data.has("conjugations"):
+	if not verb_data or verb_data.conjugations.is_empty():
 		return []
-	return verb_data["conjugations"].keys()
+	return verb_data.conjugations.keys()

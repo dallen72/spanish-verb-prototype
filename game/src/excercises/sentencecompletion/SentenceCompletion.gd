@@ -15,13 +15,15 @@ func _ready():
 			button.pressed.connect(_on_sentence_button_pressed.bind(button))
 
 func setup_problem():
-	var current_verb = Global.get_node("GameProgressMaster").get_current_verb()
+	var current_verb: Verb = Global.get_node("GameProgressMaster").get_current_verb()
+	if current_verb == null:
+		return
 	
 	# Pick a random conjugation to display
-	var pronouns = current_verb["conjugations"].keys()
+	var pronouns = current_verb.conjugations.keys()
 	var random_pronoun = pronouns[randi() % pronouns.size()]
 	current_pronoun_for_sentences = random_pronoun
-	current_conjugation_for_sentences = current_verb["conjugations"][random_pronoun]
+	current_conjugation_for_sentences = current_verb.conjugations[random_pronoun]
 	
 	# Set the conjugation display button
 	conjugation_display_button.text = current_conjugation_for_sentences
@@ -32,7 +34,7 @@ func setup_problem():
 			button.disabled = false
 			button.modulate = Color.WHITE
 			var pronoun = button.name.replace("sentence_", "")
-			button.text = current_verb["sentence_templates"][pronoun]
+			button.text = current_verb.sentence_templates[pronoun]
 
 func _on_sentence_button_pressed(button: Button):
 	var pronoun = button.name.replace("sentence_", "")
@@ -42,8 +44,9 @@ func _on_sentence_button_pressed(button: Button):
 		# Correct match!
 		button.modulate = Color.LIGHT_BLUE
 		button.disabled = true
-		var current_verb = Global.get_node("GameProgressMaster").get_current_verb()
-		button.text = current_verb["sentence_templates"][pronoun].replace("___", current_pronoun_for_sentences)
+		var current_verb: Verb = Global.get_node("GameProgressMaster").get_current_verb()
+		if current_verb != null:
+			button.text = current_verb.sentence_templates[pronoun].replace("___", current_pronoun_for_sentences)
 		
 		# Mark as completed and move to next problem
 		Global.get_node("Signals").emit_signal("problem_completed")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b0x8jqyqj0x0r"]
+[gd_scene load_steps=15 format=3 uid="uid://b0x8jqyqj0x0r"]
 
 [ext_resource type="Script" uid="uid://ci4ach40catas" path="res://src/main/Main.gd" id="1_5qjmp"]
 [ext_resource type="Texture2D" uid="uid://gs2pwhy6vtko" path="res://assets/hispanic-woman-in-a-shop.png" id="2_fh42b"]
@@ -13,7 +13,6 @@
 [ext_resource type="PackedScene" uid="uid://c8kj3mq2npx1a" path="res://src/ui/ProgressScreen.tscn" id="6_progress"]
 [ext_resource type="Script" uid="uid://4hcyi7q7fo8n" path="res://src/main/gamestates/doing_excercise.gd" id="6_rahfo"]
 [ext_resource type="Script" uid="uid://nl72iu2ysixg" path="res://src/main/gamestates/updating_progress.gd" id="7_4bm33"]
-[ext_resource type="Script" uid="uid://j72ll3rl0ejk" path="res://src/main/gamestates/switching_excercises.gd" id="8_afpya"]
 [ext_resource type="Script" uid="uid://c4hxsbas0vasm" path="res://src/main/ui_manager.gd" id="9_f4teq"]
 
 [node name="Main" type="Control"]
@@ -43,9 +42,6 @@ script = ExtResource("6_rahfo")
 
 [node name="UpdatingProgress" type="Node" parent="StateMachine"]
 script = ExtResource("7_4bm33")
-
-[node name="SwitchingExcercises" type="Node" parent="StateMachine"]
-script = ExtResource("8_afpya")
 
 [node name="UIManager" type="Node" parent="."]
 unique_name_in_owner = true

@@ -40,16 +40,16 @@ func _on_exercise_changed(mode: String):
 	if mode == "sentence_completion":
 		pronoun_matching.visible = false
 		sentence_completion.visible = true
-		game_progress.current_exercise = game_progress.get_exercise("sentence_completion")
+		game_progress.current_exercise = game_progress.get_exercise_where_name_is("sentence_completion")
 	else:
 		pronoun_matching.visible = true
 		sentence_completion.visible = false
-		# Initialize pronoun matching with the correct game mode
 		if pronoun_matching.has_method("initialize"):
 			pronoun_matching.initialize(mode)
-		
-		## TODO: spanish or english based on what it is
-		game_progress.current_exercise = game_progress.get_exercise("spanish_pronoun_matching")
+		if mode == "english_pronouns":
+			game_progress.current_exercise = game_progress.get_exercise_where_name_is("english_pronoun_matching")
+		else:
+			game_progress.current_exercise = game_progress.get_exercise_where_name_is("spanish_pronoun_matching")
 	
 	update_exercise_display()
 	game_progress.init_new_problem()
@@ -67,13 +67,15 @@ func init_ui():
 
 
 func update_exercise_display():
-	var current_verb = Global.get_node("GameProgressMaster").get_current_verb()
-	if game_progress.current_exercise.name == "english_pronouns":
-		verb_label.text = "Match the English pronoun with the Spanish conjugation for " + current_verb["name"]
-	elif game_progress.current_exercise.name == "spanish_pronouns":
-		verb_label.text = "Match the Spanish pronoun with the Spanish conjugation for " + current_verb["name"]
-	elif game_progress.current_exercise.name == "sentence_completion":
-		verb_label.text = "Match the conjugation with the correct sentence for " + current_verb["name"]
+	var current_verb: Verb = Global.get_node("GameProgressMaster").get_current_verb()
+	var verb_name: String = current_verb.name if current_verb else ""
+	if game_progress.current_exercise != null:
+		if game_progress.current_exercise.name == "english_pronoun_matching":
+			verb_label.text = "Match the English pronoun with the Spanish conjugation for " + verb_name
+		elif game_progress.current_exercise.name == "spanish_pronoun_matching":
+			verb_label.text = "Match the Spanish pronoun with the Spanish conjugation for " + verb_name
+		elif game_progress.current_exercise.name == "sentence_completion":
+			verb_label.text = "Match the conjugation with the correct sentence for " + verb_name
 
 
 func update_progress_indicator():

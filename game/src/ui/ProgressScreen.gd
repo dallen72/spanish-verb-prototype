@@ -31,8 +31,8 @@ func _build_verb_list():
 		
 	var game_progress = Global.get_node("GameProgressMaster")
 
-	for verb_data in VerbData.VERB_LIST:
-		var verb_name: String = verb_data["name"]
+	for verb_obj in VerbDataAccess.get_all_verbs():
+		var verb_name: String = verb_obj.name
 		var btn = Button.new()
 		btn.text = verb_name
 		btn.custom_minimum_size = Vector2(ROW_ITEM_SIZE, 40)
@@ -41,8 +41,8 @@ func _build_verb_list():
 		flow_container.add_child(btn)
 
 		var icons_column = Container.new()
-		for excercise in Exercise.EXERCISE_LIST:
-			var completed_verbs = game_progress.get_verbs_completed_for_excercise(excercise.exercise_name)
+		for excercise in ExerciseDataAccess.get_exercise_list():
+			var completed_verbs = game_progress.get_verbs_completed_for_excercise(excercise.name)
 			var is_completed: bool = verb_name in completed_verbs
 
 			# Icon when completed, or same-size spacer when not (keeps rows aligned)
@@ -62,7 +62,6 @@ func _build_verb_list():
 		if (icons_column != null):
 			flow_container.add_child(icons_column)
 		VerbListWrapper.add_child(flow_container)
-	print("debug")
 
 
 # TODO: make the connect on line 24 connect to the global signal
