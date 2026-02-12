@@ -1,6 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://bop4g007gumea"]
 
-[ext_resource type="Script" uid="uid://bf6wfy5lrak4c" path="res://src/ui/header/ProgressIndicator.gd" id="1_4x5y"]
+[ext_resource type="Script" uid="uid://bf6wfy5lrak4c" path="res://src/main/gameplay/gameprogress/ui/header/ProgressIndicator.gd" id="1_4x5y"]
+
 
 [node name="ProgressIndicator" type="Control"]
 custom_minimum_size = Vector2(400, 0)
