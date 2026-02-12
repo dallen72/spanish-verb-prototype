@@ -41,7 +41,7 @@ func _build_verb_list():
 		flow_container.add_child(btn)
 
 		var icons_column = Container.new()
-		for excercise in ExerciseDataAccess.get_exercise_list():
+		for excercise in ExerciseDataAccess.fetch_exercise_list():
 			var completed_verbs = game_progress.get_verbs_completed_for_excercise(excercise.name)
 			var is_completed: bool = verb_name in completed_verbs
 

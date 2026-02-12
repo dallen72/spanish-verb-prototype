@@ -19,7 +19,7 @@ func _ready():
 	_init_exercises()
 	
 func _init_exercises():
-	game_exercises = ExerciseDataAccess.get_exercise_list()
+	game_exercises = ExerciseDataAccess.fetch_exercise_list()
 
 func _init_conjugation_button_colors():
 	if conjugation_button_colors_initialized:
