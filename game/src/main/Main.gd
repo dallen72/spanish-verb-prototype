@@ -1,6 +1,5 @@
 extends Control
 
-# TODO: get from an enum
 var initial_exercise: String = ExerciseDataAccess.get_exercise_list()[0].name
 
 @onready var game_progress = Global.get_node("GameProgressMaster")
@@ -13,10 +12,3 @@ func _process(_delta):
 	
 func _ready():
 	%UIManager.init_ui()
-
-
-func on_wrong_selection():
-	# Called when an error is made
-	game_progress.set_previous_score(game_progress.get_previous_score() + 1)
-	game_progress.increment_total_errors()
-	%UIManager.update_progress_indicator()
