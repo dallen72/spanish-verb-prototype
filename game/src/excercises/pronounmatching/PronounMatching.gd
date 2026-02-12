@@ -78,10 +78,10 @@ func initialize(exercise_value: String):
 	
 	# If current_verb is not set, set it now
 	if current_verb == null:
-		current_verb = game_progress.get_random_available_verb()
+		current_verb = game_progress.get_random_noncompleted_verb()
 		if game_progress.get_completed_verbs().size() >= VerbDataAccess.get_total_verb_count():
 			game_progress.clear_completed_verbs()
-			current_verb = VerbDataAccess.get_random_verb()
+			current_verb = game_progress.get_random_verb()
 		game_progress.set_current_verb(current_verb)
 	
 	# Update label text based on game mode
@@ -107,7 +107,7 @@ func setup_initial_problem():
 	
 	# If current_verb is not set, set it now
 	if current_verb == null:
-		current_verb = game_progress.get_random_available_verb()
+		current_verb = game_progress.get_random_noncompleted_verb()
 	
 	# Update label text based on game mode
 	if exercise_value == "english_pronouns":
@@ -154,10 +154,10 @@ func _on_session_started(exercise_value: String):
 	# Update label text
 	if exercise_value == "english_pronouns":
 		pronoun_label.text = "English Pronouns"
-		game_progress.current_exercise = game_progress.get_excercise("english_pronoun_matching")
+		game_progress.current_exercise = game_progress.get_exercise_where_name_is("english_pronoun_matching")
 	else:
 		pronoun_label.text = "Spanish Pronouns"
-		game_progress.current_exercise = game_progress.get_excercise("spanish_pronoun_matching")
+		game_progress.current_exercise = game_progress.get_exercise_where_name_is("spanish_pronoun_matching")
 
 
 func _on_session_pronoun_selected(pronoun: String):

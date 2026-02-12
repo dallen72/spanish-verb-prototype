@@ -102,24 +102,11 @@ func get_previous_score() -> int:
 func reset_previous_score():
 	previous_score = 0
 
-func _get_available_verbs() -> Array[Verb]:
-	var completed_names = get_verbs_completed_for_excercise()
-	return VerbDataAccess.get_available_verbs(completed_names)
-
-func get_random_available_verb() -> Verb:
-	var completed_names = get_verbs_completed_for_excercise()
-	return VerbDataAccess.get_random_available_verb(completed_names)
-
 func get_current_exercise():
 	if current_exercise == null:
 		return get_exercise_where_name_is("english_pronoun_matching")
 	else:
 		return current_exercise
-
-func get_excercise(verb_name):
-	for exercise in game_exercises:
-		if exercise.name == verb_name:
-			return exercise
 			
 func get_exercise_where_name_is(exercise_name):
 	for exercise in game_exercises:
@@ -128,12 +115,12 @@ func get_exercise_where_name_is(exercise_name):
 
 func init_new_problem():
 	# Select a random verb that hasn't been completed yet
-	current_verb = get_random_available_verb()
+	current_verb = get_random_noncompleted_verb()
 	
 	# If all verbs completed, reset and start over
 	if get_verbs_completed_for_excercise().size() >= VerbDataAccess.get_total_verb_count():
 		clear_completed_verbs()
-		current_verb = VerbDataAccess.get_random_verb()
+		current_verb = get_random_verb()
 	
 	# Set the current verb in GameProgressMaster
 	set_current_verb(current_verb)
@@ -141,3 +128,29 @@ func init_new_problem():
 	# Reset previous score for next problem
 	reset_previous_score()
 		
+
+
+
+################################
+
+func get_random_verb() -> Verb:
+	var list = VerbData.VERB_LIST
+	return VerbDataAccess.parse_verb(list[randi() % list.size()])
+
+
+
+func _get_noncompleted_verb_list(completed_verb_names: Array) -> Array[Verb]:
+	var result: Array[Verb] = []
+	for raw in VerbData.VERB_LIST:
+		var name_str: String = raw.get("name", "")
+		if name_str not in completed_verb_names:
+			result.append(VerbDataAccess.parse_verb(raw))
+	return result
+
+
+func get_random_noncompleted_verb() -> Verb:
+	var completed_verb_names = get_verbs_completed_for_excercise()
+	var available = _get_noncompleted_verb_list(completed_verb_names)
+	if available.size() > 0:
+		return available[randi() % available.size()]
+	return get_random_verb()

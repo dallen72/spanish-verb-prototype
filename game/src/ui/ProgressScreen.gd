@@ -31,7 +31,7 @@ func _build_verb_list():
 		
 	var game_progress = Global.get_node("GameProgressMaster")
 
-	for verb_obj in VerbDataAccess.get_all_verbs():
+	for verb_obj in VerbDataAccess.fetch_all_verbs():
 		var verb_name: String = verb_obj.name
 		var btn = Button.new()
 		btn.text = verb_name
