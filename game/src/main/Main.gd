@@ -1,7 +1,7 @@
 extends Control
 
 # TODO: get from an enum
-var initial_exercise: String = "english_pronouns"  # "english_pronouns", "spanish_pronouns", or "sentence_completion"
+var initial_exercise: String = ExerciseDataAccess.get_exercise_list()[0].name
 
 @onready var game_progress = Global.get_node("GameProgressMaster")
 
