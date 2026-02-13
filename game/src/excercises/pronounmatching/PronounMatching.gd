@@ -107,7 +107,7 @@ func setup_initial_problem():
 	
 	# If current_verb is not set, set it now
 	if current_verb == null:
-		current_verb = game_progress.get_random_noncompleted_verb()
+		current_verb = game_progress.get_next_verb()
 	
 	# Update label text based on game mode
 	if exercise_value == "english_pronouns":

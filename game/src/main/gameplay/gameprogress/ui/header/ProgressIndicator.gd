@@ -10,7 +10,7 @@ extends Control
 func update_progress():
 	var game_progress = Global.get_node("GameProgressMaster")
 	var current_verb: Verb = game_progress.get_current_verb()
-	var completed_verbs = game_progress.get_verbs_completed_for_excercise()
+	#var completed_verbs = game_progress.get_verbs_completed_for_excercise()
 	var total_errors = game_progress.get_total_errors()
 	
 	# Update verb ending (first)
@@ -23,7 +23,7 @@ func update_progress():
 	total_errors_label.text = "Total Errors: " + str(total_errors)
 	
 	# Update verbs completed
-	var total_verbs = VerbDataAccess.get_total_verb_count()
-	var completed_count = completed_verbs.size()
+	#var total_verbs = VerbDataAccess.get_total_verb_count()
+	#var completed_count = completed_verbs.size()
 	
-	verbs_completed_label.text = "Completed: " + str(completed_count) + "/" + str(total_verbs)
+	#verbs_completed_label.text = "Completed: " + str(completed_count) + "/" + str(total_verbs)

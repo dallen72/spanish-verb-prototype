@@ -41,24 +41,25 @@ func _build_verb_list():
 		flow_container.add_child(btn)
 
 		var icons_column = Container.new()
-		for excercise in ExerciseDataAccess.fetch_exercise_list():
-			var completed_verbs = game_progress.get_verbs_completed_for_excercise(excercise.name)
-			var is_completed: bool = verb_name in completed_verbs
-
-			# Icon when completed, or same-size spacer when not (keeps rows aligned)
-			var icon_size = Vector2(ROW_ITEM_SIZE, 40)
-			if is_completed:
-				var tex_rect = TextureRect.new()
-				tex_rect.custom_minimum_size = icon_size
-				tex_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-				tex_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-				var icon_path = excercise.icon_path
-				var tex = load(icon_path) as Texture2D
-				if tex:
-					tex_rect.texture = tex
-				tex_rect.modulate = COMPLETED_ICON_MODULATE
-				icons_column.add_child(tex_rect)
-				
+		# add to UI
+		#for excercise in ExerciseDataAccess.fetch_exercise_list():
+			#var completed_verbs = game_progress.get_verbs_completed_for_excercise(excercise.name)
+			#var is_completed: bool = verb_name in completed_verbs
+#
+			## Icon when completed, or same-size spacer when not (keeps rows aligned)
+			#var icon_size = Vector2(ROW_ITEM_SIZE, 40)
+			#if is_completed:
+				#var tex_rect = TextureRect.new()
+				#tex_rect.custom_minimum_size = icon_size
+				#tex_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+				#tex_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				#var icon_path = excercise.icon_path
+				#var tex = load(icon_path) as Texture2D
+				#if tex:
+					#tex_rect.texture = tex
+				#tex_rect.modulate = COMPLETED_ICON_MODULATE
+				#icons_column.add_child(tex_rect)
+				#
 		if (icons_column != null):
 			flow_container.add_child(icons_column)
 		VerbListWrapper.add_child(flow_container)

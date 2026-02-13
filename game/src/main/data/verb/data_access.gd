@@ -20,5 +20,13 @@ static func fetch_all_verbs() -> Array[Verb]:
 	return result
 
 
+#TODO: change to variant everywhere for data access objects' methods
 static func get_total_verb_count() -> int:
 	return VerbData.VERB_LIST.size()
+	
+	
+static func fetch_verb_where_name_is(_name: String) -> Variant:
+	for raw in VerbData.VERB_LIST:
+		if raw.name == _name:	
+			return parse_verb(raw)
+	return null
