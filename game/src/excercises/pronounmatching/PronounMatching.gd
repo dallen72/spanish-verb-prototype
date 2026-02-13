@@ -195,7 +195,7 @@ func _on_session_match_made(pronoun: String, conjugation: String, english_phrase
 func _on_session_match_failed(conjugation):
 	"""Handles UI feedback when a match fails."""
 	# Notify main script of error
-	Global.get_node("Signals").emit_signal("wrong_selection", conjugation)
+	Global.get_node("Signals").emit_signal("wrong_selection")
 	
 	# Clear conjugation selection visual feedback
 	clear_conjugation_selections()
@@ -283,7 +283,11 @@ func _on_conjugation_button_pressed(button: Button):
 	var conjugation = button.text
 	
 	# Forward match attempt to domain model
-	session.attempt_match(conjugation)
+	if not session.attempt_match(button, conjugation):
+		# Visual feedback for wrong answer
+		button.modulate = Color.RED
+		await get_tree().create_timer(0.5).timeout
+		button.modulate = Color.WHITE
 	
 	# If no pronoun is selected, just highlight the conjugation
 	if session.selected_pronoun.is_empty():

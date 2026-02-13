@@ -18,7 +18,7 @@ func _ready():
 	global_signals.wrong_selection.connect(on_wrong_selection)
 	
 
-func on_wrong_selection(conjugation):
+func on_wrong_selection():
 	total_errors.value += 1
 
 	

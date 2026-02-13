@@ -54,6 +54,7 @@ func _on_sentence_button_pressed(button: Button):
 		# Incorrect match
 		Global.get_node("Signals").emit_signal("wrong_selection")
 		
+		#TODO: abstract so that can be re-used, do in the pronounmatching
 		# Visual feedback for wrong answer
 		button.modulate = Color.RED
 		await get_tree().create_timer(0.5).timeout

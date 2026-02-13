@@ -46,7 +46,7 @@ func select_pronoun(pronoun: String):
 	pronoun_selected.emit(pronoun)
 	return true
 
-func attempt_match(conjugation: String) -> bool:
+func attempt_match(button: Button, conjugation: String) -> bool:
 	"""
 	Attempts to match the selected pronoun with a conjugation.
 	Returns true if match is correct, false otherwise.
