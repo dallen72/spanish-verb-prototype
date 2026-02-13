@@ -7,13 +7,20 @@ var current_verb: Verb
 var game_exercises: Array[Exercise]
 var current_exercise: Exercise
 
-var total_errors: int = 0
+var total_errors: ResponsiveValue = ResponsiveValue.new(0)
 var previous_score: int = 0
+
+@onready var global_signals = Global.get_node("Signals")
 
 func _ready():
 	_init_verb_score_list()
 	game_exercises = ExerciseDataAccess.fetch_exercise_list()
+	global_signals.wrong_selection.connect(on_wrong_selection)
 	
+
+func on_wrong_selection(conjugation):
+	total_errors.value += 1
+
 	
 # initialize the verb scores or load them from save
 func _init_verb_score_list() -> void:
@@ -66,4 +73,4 @@ func get_exercise_where_name_is(exercise_name):
 func init_new_problem():
 	current_verb = get_next_verb()
 	previous_score = 0
-	total_errors = 0
+	total_errors.value = 0

@@ -192,10 +192,10 @@ func _on_session_match_made(pronoun: String, conjugation: String, english_phrase
 		conjugation_button.modulate = Color.LIGHT_BLUE
 		conjugation_button.disabled = true
 
-func _on_session_match_failed():
+func _on_session_match_failed(conjugation):
 	"""Handles UI feedback when a match fails."""
 	# Notify main script of error
-	Global.get_node("Signals").emit_signal("wrong_selection")
+	Global.get_node("Signals").emit_signal("wrong_selection", conjugation)
 	
 	# Clear conjugation selection visual feedback
 	clear_conjugation_selections()

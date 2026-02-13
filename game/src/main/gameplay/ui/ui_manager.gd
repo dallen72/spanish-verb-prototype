@@ -34,8 +34,7 @@ func show_initial_progress_and_start():
 	previous_score_label.text = "You got " + str(game_progress.previous_score) + " wrong on the last problem"
 	update_exercise_display()
 	
-	# Update progress indicator
-	%UIManager.update_progress_indicator()
+	progress_indicator.update_progress()
 
 	await progress_screen.progress_screen_closed
 
@@ -123,10 +122,6 @@ func update_exercise_display():
 			verb_label.text = "Match the Spanish pronoun with the Spanish conjugation for " + verb_name
 		elif game_progress.current_exercise.name == "sentence_completion":
 			verb_label.text = "Match the conjugation with the correct sentence for " + verb_name
-
-
-func update_progress_indicator():
-	progress_indicator.update_progress()
 
 
 func show_progress_screen():
