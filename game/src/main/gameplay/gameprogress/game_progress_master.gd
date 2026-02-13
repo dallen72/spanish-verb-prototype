@@ -7,6 +7,9 @@ var current_verb: Verb
 var game_exercises: Array[Exercise]
 var current_exercise: Exercise
 
+var total_errors: int = 0
+var previous_score: int = 0
+
 func _ready():
 	_init_verb_score_list()
 	game_exercises = ExerciseDataAccess.fetch_exercise_list()
@@ -59,29 +62,8 @@ func get_exercise_where_name_is(exercise_name):
 		if exercise.name == exercise_name:
 			return exercise
 
+
 func init_new_problem():
 	current_verb = get_next_verb()
-	
-	reset_previous_score()
-
-
-################################
-var total_errors: int = 0
-var previous_score: int = 0
-
-func increment_total_errors():
-	total_errors += 1
-
-func get_total_errors() -> int:
-	return total_errors
-
-func set_previous_score(score: int):
-	previous_score = score
-
-func get_previous_score() -> int:
-	return previous_score
-
-func reset_previous_score():
 	previous_score = 0
-
-################################
+	total_errors = 0

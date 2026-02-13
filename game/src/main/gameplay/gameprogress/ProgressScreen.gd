@@ -29,7 +29,7 @@ func _build_verb_list():
 	for child in VerbListWrapper.get_children():
 		child.queue_free()
 		
-	var game_progress = Global.get_node("GameProgressMaster")
+#	var game_progress = Global.get_node("GameProgressMaster")
 
 	for verb_obj in VerbDataAccess.fetch_all_verbs():
 		var verb_name: String = verb_obj.name
