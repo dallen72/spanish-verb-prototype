@@ -1,5 +1,37 @@
 extends Node
 
+var verb_scores: Dictionary
+var next_verb: Verb
+
+
+func _ready():
+	_init_verb_score_list()
+	_init_exercises()
+	
+	
+# initialize the verb scores or load them from save
+func _init_verb_score_list() -> void:
+	for verb in VerbData.VERB_LIST:
+		verb_scores[verb.name] = 0
+
+
+# update the verb score after doing a problem
+func update_verb_score(verb, num_mistakes):
+	verb_scores[verb.name].score -= num_mistakes
+
+
+# get the next verb in the list to be practiced
+func get_next_verb() -> Verb:
+	var lowest_score_verb = {"dummy": 10000,}
+	for verb in verb_scores:
+		if verb.score < lowest_score_verb.score:
+			lowest_score_verb = verb
+	return lowest_score_verb
+
+
+## TODO: where does everything else go? everything below this line
+
+
 # Game state variables - accessible globally
 var current_exercise: Exercise
 var game_exercises: Array[Exercise]
@@ -8,58 +40,9 @@ var completed_verbs: Dictionary = {}
 var total_errors: int = 0
 var previous_score: int = 0
 
-# Shared button colors (for conjugation and pronoun buttons)
-var conjugation_button_bg_color: Color = Color(0.2, 0.2, 0.2, 0.8)
-var conjugation_button_font_color: Color = Color(0.8, 0.8, 0.8, 1.0)
-var conjugation_button_colors_initialized: bool = false
-
-func _ready():
-	# Initialize shared button colors when the game loads
-	_init_conjugation_button_colors()
-	_init_exercises()
 	
 func _init_exercises():
 	game_exercises = ExerciseDataAccess.fetch_exercise_list()
-
-func _init_conjugation_button_colors():
-	if conjugation_button_colors_initialized:
-		return
-
-	# Use the default theme as the source for button colors
-	var theme := ThemeDB.get_default_theme()
-	if theme:
-		# Background color used by buttons (often the \"brown\" shade)
-		if theme.has_color("bg_disabled_color", "Button"):
-			conjugation_button_bg_color = theme.get_color("bg_disabled_color", "Button")
-		elif theme.has_color("bg_color", "Button"):
-			conjugation_button_bg_color = theme.get_color("bg_color", "Button")
-
-		# Font color used by buttons
-		if theme.has_color("font_color", "Button"):
-			conjugation_button_font_color = theme.get_color("font_color", "Button")
-
-	conjugation_button_colors_initialized = true
-
-func get_conjugation_button_colors() -> Dictionary:
-	"""
-	Returns the shared conjugation/pronoun button colors.
-	These are initialized once when the game loads so all buttons stay consistent.
-	"""
-	if not conjugation_button_colors_initialized:
-		_init_conjugation_button_colors()
-
-	return {
-		"bg_color": conjugation_button_bg_color,
-		"font_color": conjugation_button_font_color,
-	}
-
-func set_conjugation_button_colors(bg_color: Color, font_color: Color) -> void:
-	"""
-	Optional override: if we ever want to change button colors at runtime.
-	"""
-	conjugation_button_bg_color = bg_color
-	conjugation_button_font_color = font_color
-	conjugation_button_colors_initialized = true
 
 func get_current_verb() -> Verb:
 	return current_verb

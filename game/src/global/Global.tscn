@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ccaako28nhai8"]
 
 [ext_resource type="Script" uid="uid://kb3q73k7yk20" path="res://src/main/gameplay/gameprogress/game_progress_master.gd" id="1_w77sj"]
-[ext_resource type="Script" path="res://src/global/signals.gd" id="2_10fsx"]
+[ext_resource type="Script" uid="uid://bxkgnta8tnmpp" path="res://src/global/signals.gd" id="2_10fsx"]
 
 [node name="Global" type="Node2D"]
 
