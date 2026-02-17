@@ -12,11 +12,16 @@ var UIUtils = Global.get_node("UIUtils")
 func _ready():	
 	_connect_session_signals()
 		
-	# Initialize pronoun button references
 	$UIManager.initialize_pronoun_buttons()
 	
 	# Setup initial problem (conjugations need to load immediately)
-	setup_initial_problem()
+	$SessionState.setup_initial_problem()
+		#
+	#$UIManager.set_label_text(exercise_value)
+#
+	## Reset pronoun buttons with the correct game mode
+	#$UIManager.reset_pronoun_buttons(current_verb, exercise_value)
+
 	
 	session.pronoun_selected.connect($UIManager.on_session_pronoun_selected)
 
@@ -47,33 +52,13 @@ func initialize(exercise_value: String):
 	$UIManager.set_label_text(exercise_value)
 	
 	# Reset pronoun buttons with the correct game mode
-	reset_pronoun_buttons(current_verb, exercise_value)
+	$UIManager.reset_pronoun_buttons(current_verb, exercise_value)
 	
 	# Start new session
 	session.start_problem(current_verb, exercise_value)
 
 
-func setup_initial_problem():
-	"""Sets up the initial problem when the scene loads."""
-	# Ensure we have a game mode (default to english_pronouns)
-	var exercise_value = "english_pronouns"
-	
-	# Ensure current_verb is set
-	var game_progress = Global.get_node("GameProgressMaster")
-	var current_verb = game_progress.get_current_verb()
-	
-	# If current_verb is not set, set it now
-	if current_verb == null:
-		current_verb = game_progress.get_next_verb()
-	
-	$UIManager.set_label_text(exercise_value)
-	
-	# Reset pronoun buttons with the correct game mode
-	reset_pronoun_buttons(current_verb, exercise_value)
-	
-	# Start session
-	if session:
-		session.start_problem(current_verb, exercise_value)
+
 
 func setup_problem():
 	"""Sets up a new problem (called by Main when starting new problem)."""
@@ -90,7 +75,7 @@ func setup_problem():
 	$UIManager.generate_conjugation_buttons(current_verb, _on_conjugation_button_pressed)
 	
 	# Reset pronoun buttons
-	reset_pronoun_buttons(current_verb, exercise_value)
+	$UIManager.reset_pronoun_buttons(current_verb, exercise_value)
 	
 	# Start new session
 	if session:
@@ -106,7 +91,6 @@ func _on_session_started(exercise_value: String):
 
 	$UIManager.set_label_text(exercise_value)
 
-	# Update label text
 	if exercise_value == "english_pronouns":
 		game_progress.current_exercise = game_progress.get_exercise_where_name_is("english_pronoun_matching")
 	else:
@@ -139,23 +123,6 @@ func _on_session_match_failed():
 # ===== UI Helper Methods =====
 
 
-func reset_pronoun_buttons(current_verb: Verb, exercise_value: String):
-	"""Resets all pronoun buttons to unmatched state."""
-	for pronoun_name in $UIManager.pronoun_buttons.keys():
-		var button = $UIManager.pronoun_buttons[pronoun_name]
-		if not button or not button is PronounButton:
-			continue
-		
-		if exercise_value == "english_pronouns" and current_verb != null:
-			# Use English phrases
-			var phrase = current_verb.english_phrases.get(pronoun_name, "")
-			button.text = phrase + "..." if phrase != "" else pronoun_name + "..."
-		else:
-			# Use Spanish pronouns
-			button.text = pronoun_name + "..."
-		
-		# Set state to unmatched
-		button.set_state(PronounButton.ButtonState.UNMATCHED)
 
 
 func _on_conjugation_button_pressed(button: Button):

@@ -138,3 +138,20 @@ func get_all_pronouns() -> Array[String]:
 	if not verb_data or verb_data.conjugations.is_empty():
 		return []
 	return verb_data.conjugations.keys()
+
+
+
+func setup_initial_problem():
+	"""Sets up the initial problem when the scene loads."""
+	# Ensure we have a game mode (default to english_pronouns)
+	var exercise_value = "english_pronouns"
+	
+	# Ensure current_verb is set
+	var game_progress = Global.get_node("GameProgressMaster")
+	var current_verb = game_progress.get_current_verb()
+	
+	# If current_verb is not set, set it now
+	if current_verb == null:
+		current_verb = game_progress.get_next_verb()
+		
+	start_problem(current_verb, exercise_value)

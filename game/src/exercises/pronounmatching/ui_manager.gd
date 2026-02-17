@@ -182,3 +182,22 @@ func generate_conjugation_buttons(current_verb: Verb, button_callback: Callable)
 func post_problem_setup_processing(selected_pronoun):
 	# Update glow effects after conjugations are loaded
 	call_deferred("setup_glow_effects", selected_pronoun)
+
+
+func reset_pronoun_buttons(current_verb: Verb, exercise_value: String):
+	"""Resets all pronoun buttons to unmatched state."""
+	for pronoun_name in pronoun_buttons.keys():
+		var button = pronoun_buttons[pronoun_name]
+		if not button or not button is PronounButton:
+			continue
+		
+		if exercise_value == "english_pronouns" and current_verb != null:
+			# Use English phrases
+			var phrase = current_verb.english_phrases.get(pronoun_name, "")
+			button.text = phrase + "..." if phrase != "" else pronoun_name + "..."
+		else:
+			# Use Spanish pronouns
+			button.text = pronoun_name + "..."
+		
+		# Set state to unmatched
+		button.set_state(PronounButton.ButtonState.UNMATCHED)

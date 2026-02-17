@@ -57,6 +57,7 @@ func _on_exercise_changed(mode: String):
 	
 	update_exercise_display()
 	game_progress.init_new_problem()
+	setup_problem()
 
 
 func init_ui():
