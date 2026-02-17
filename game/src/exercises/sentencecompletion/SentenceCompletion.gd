@@ -56,4 +56,4 @@ func _on_sentence_button_pressed(button: Button):
 		# Incorrect match
 		Global.get_node("Signals").emit_signal("wrong_selection")
 		
-		UIUtils.flash_button_red_for_error()
+		UIUtils.flash_button_red_for_error(button)

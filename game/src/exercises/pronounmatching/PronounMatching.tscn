@@ -1,9 +1,26 @@
-[gd_scene load_steps=3 format=3 uid="uid://cgnoo36747wsq"]
+[gd_scene load_steps=4 format=3 uid="uid://cgnoo36747wsq"]
 
 [ext_resource type="Script" uid="uid://bkxh2snyy1ce6" path="res://src/exercises/pronounmatching/PronounMatching.gd" id="1_pronoun"]
+[ext_resource type="Script" uid="uid://dpg6wp0e4sxqd" path="res://src/exercises/pronounmatching/ui_manager.gd" id="2_olv37"]
 [ext_resource type="PackedScene" uid="uid://bqxh3snyy2ce7" path="res://src/exercises/pronounmatching/PronounButton.tscn" id="2_pronoun_btn_ellos"]
 
-[node name="VBoxContainer" type="VBoxContainer"]
+[node name="PronounMatching" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_pronoun")
+
+[node name="SessionState" type="Node" parent="."]
+
+[node name="UIManager" type="Control" parent="."]
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_olv37")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIManager"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -12,79 +29,78 @@ offset_right = -75.0
 offset_bottom = -75.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_pronoun")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="UIManager/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_top = 30
 
-[node name="GameArea" type="HBoxContainer" parent="MarginContainer"]
+[node name="GameArea" type="HBoxContainer" parent="UIManager/VBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 
-[node name="PronounSection" type="VBoxContainer" parent="MarginContainer/GameArea"]
+[node name="PronounSection" type="VBoxContainer" parent="UIManager/VBoxContainer/MarginContainer/GameArea"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 6
 
-[node name="PronounLabel" type="Label" parent="MarginContainer/GameArea/PronounSection"]
+[node name="PronounLabel" type="Label" parent="UIManager/VBoxContainer/MarginContainer/GameArea/PronounSection"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 30
 text = "Spanish Pronouns"
 horizontal_alignment = 1
 
-[node name="PronounMarginContainer" type="MarginContainer" parent="MarginContainer/GameArea/PronounSection"]
+[node name="PronounMarginContainer" type="MarginContainer" parent="UIManager/VBoxContainer/MarginContainer/GameArea/PronounSection"]
 layout_mode = 2
 size_flags_vertical = 2
 
-[node name="PronounGrid" type="HFlowContainer" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer"]
+[node name="PronounGrid" type="HFlowContainer" parent="UIManager/VBoxContainer/MarginContainer/GameArea/PronounSection/PronounMarginContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="yo" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
+[node name="yo" parent="UIManager/VBoxContainer/MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
 layout_mode = 2
 text = "yo..."
 
-[node name="tu" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
+[node name="tu" parent="UIManager/VBoxContainer/MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
 layout_mode = 2
 text = "tu..."
 
-[node name="el" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
+[node name="el" parent="UIManager/VBoxContainer/MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
 layout_mode = 2
 text = "el..."
 
-[node name="nosotros" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
+[node name="nosotros" parent="UIManager/VBoxContainer/MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
 layout_mode = 2
 text = "nosotros..."
 
-[node name="vosotros" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
+[node name="vosotros" parent="UIManager/VBoxContainer/MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
 layout_mode = 2
 text = "vosotros..."
 
-[node name="ellos" parent="MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
+[node name="ellos" parent="UIManager/VBoxContainer/MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
 layout_mode = 2
 text = "ellos..."
 
-[node name="VSeparator" type="VSeparator" parent="MarginContainer/GameArea"]
+[node name="VSeparator" type="VSeparator" parent="UIManager/VBoxContainer/MarginContainer/GameArea"]
 layout_mode = 2
 
-[node name="ConjugationSection" type="VBoxContainer" parent="MarginContainer/GameArea"]
+[node name="ConjugationSection" type="VBoxContainer" parent="UIManager/VBoxContainer/MarginContainer/GameArea"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ConjugationLabel" type="Label" parent="MarginContainer/GameArea/ConjugationSection"]
+[node name="ConjugationLabel" type="Label" parent="UIManager/VBoxContainer/MarginContainer/GameArea/ConjugationSection"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 30
 text = "Conjugations"
 horizontal_alignment = 1
 
-[node name="ConjugationMarginContainer" type="MarginContainer" parent="MarginContainer/GameArea/ConjugationSection"]
+[node name="ConjugationMarginContainer" type="MarginContainer" parent="UIManager/VBoxContainer/MarginContainer/GameArea/ConjugationSection"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/margin_left = 30
@@ -92,7 +108,7 @@ theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 30
 
-[node name="ConjugationGrid" type="GridContainer" parent="MarginContainer/GameArea/ConjugationSection/ConjugationMarginContainer"]
+[node name="ConjugationGrid" type="GridContainer" parent="UIManager/VBoxContainer/MarginContainer/GameArea/ConjugationSection/ConjugationMarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 columns = 3

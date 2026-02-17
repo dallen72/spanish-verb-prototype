@@ -19,7 +19,7 @@ var conjugation_button_colors_initialized: bool = false
 @onready var title_section: VBoxContainer = %TitleSection
 
 # Child scene references
-@onready var pronoun_matching: VBoxContainer = %PronounMatching
+@onready var pronoun_matching: Node = %PronounMatching
 @onready var sentence_completion: VBoxContainer = %SentenceCompletion
 
 

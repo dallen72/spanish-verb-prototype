@@ -35,6 +35,7 @@ func start_problem(verb: Verb, mode: String):
 		select_pronoun(available_pronouns[0])
 	
 	session_started.emit(exercise)
+	
 
 func select_pronoun(pronoun: String):
 	"""Selects a pronoun for matching. Returns true if successful."""
