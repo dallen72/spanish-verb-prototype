@@ -14,7 +14,7 @@ var available_pronouns: Array[String] = []  # Pronouns not yet matched
 # Signals for UI to observe state changes
 signal pronoun_selected(pronoun: String)
 signal match_made(pronoun: String, conjugation: String, english_phrase: String)
-signal match_failed(conjugation: String)
+signal match_failed()
 signal session_started(exercise: String)
 
 func start_problem(verb: Verb, mode: String):
@@ -46,7 +46,7 @@ func select_pronoun(pronoun: String):
 	pronoun_selected.emit(pronoun)
 	return true
 
-func attempt_match(button: Button, conjugation: String) -> bool:
+func attempt_match(conjugation: String) -> bool:
 	"""
 	Attempts to match the selected pronoun with a conjugation.
 	Returns true if match is correct, false otherwise.
@@ -59,7 +59,7 @@ func attempt_match(button: Button, conjugation: String) -> bool:
 	
 	var correct_conjugation = verb_data.conjugations.get(selected_pronoun, "")
 	if conjugation != correct_conjugation:
-		match_failed.emit(conjugation)
+		match_failed.emit()
 		return false
 	
 	# Correct match!
