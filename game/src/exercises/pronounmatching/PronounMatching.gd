@@ -4,14 +4,12 @@ extends Control
 # This class handles UI presentation and delegates game logic to PronounMatchSession
 
 # Domain model - contains all game logic
-var session: PronounMatchManager = null
+@onready var session = $SessionState
 
 var UIUtils = Global.get_node("UIUtils")
 
 
 func _ready():	
-	# Create domain model session
-	session = PronounMatchManager.new()
 	_connect_session_signals()
 		
 	# Initialize pronoun button references

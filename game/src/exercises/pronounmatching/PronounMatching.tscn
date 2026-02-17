@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cgnoo36747wsq"]
+[gd_scene load_steps=5 format=3 uid="uid://cgnoo36747wsq"]
 
 [ext_resource type="Script" uid="uid://bkxh2snyy1ce6" path="res://src/exercises/pronounmatching/PronounMatching.gd" id="1_pronoun"]
 [ext_resource type="Script" uid="uid://dpg6wp0e4sxqd" path="res://src/exercises/pronounmatching/ui_manager.gd" id="2_olv37"]
 [ext_resource type="PackedScene" uid="uid://bqxh3snyy2ce7" path="res://src/exercises/pronounmatching/PronounButton.tscn" id="2_pronoun_btn_ellos"]
+[ext_resource type="Script" uid="uid://b1ty6v4uduxoa" path="res://src/exercises/pronounmatching/state.gd" id="3_olv37"]
 
 [node name="PronounMatching" type="Control"]
 layout_mode = 3
@@ -10,6 +11,7 @@ anchors_preset = 0
 script = ExtResource("1_pronoun")
 
 [node name="SessionState" type="Node" parent="."]
+script = ExtResource("3_olv37")
 
 [node name="UIManager" type="Control" parent="."]
 anchors_preset = 0
