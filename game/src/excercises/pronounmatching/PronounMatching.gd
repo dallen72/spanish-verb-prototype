@@ -6,6 +6,8 @@ extends VBoxContainer
 # Domain model - contains all game logic
 var session: PronounMatchManager = null
 
+var UIUtils = Global.get_node("UIUtils")
+
 # UI references
 @onready var margin_container = $MarginContainer
 @onready var pronoun_section: VBoxContainer = $MarginContainer/GameArea/PronounSection
@@ -284,10 +286,7 @@ func _on_conjugation_button_pressed(button: Button):
 	
 	# Forward match attempt to domain model
 	if not session.attempt_match(conjugation):
-		# Visual feedback for wrong answer
-		button.modulate = Color.RED
-		await get_tree().create_timer(0.5).timeout
-		button.modulate = Color.WHITE
+		UIUtils.flash_button_red_for_error(button)
 	
 	# If no pronoun is selected, just highlight the conjugation
 	if session.selected_pronoun.is_empty():

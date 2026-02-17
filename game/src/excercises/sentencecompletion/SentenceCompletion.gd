@@ -4,6 +4,8 @@ extends VBoxContainer
 var current_conjugation_for_sentences: String = ""
 var current_pronoun_for_sentences: String = ""
 
+var UIUtils = Global.get_node("UIUtils")
+
 # UI references
 @onready var conjugation_display_button: Button = $MarginContainer/GameArea/ConjugationSection/ConjugationMarginContainer/ConjugationDisplay
 @onready var sentence_container: GridContainer = $MarginContainer/GameArea/SentenceSection/SentenceMarginContainer/SentenceGrid
@@ -54,8 +56,4 @@ func _on_sentence_button_pressed(button: Button):
 		# Incorrect match
 		Global.get_node("Signals").emit_signal("wrong_selection")
 		
-		#TODO: abstract so that can be re-used, do in the pronounmatching
-		# Visual feedback for wrong answer
-		button.modulate = Color.RED
-		await get_tree().create_timer(0.5).timeout
-		button.modulate = Color.WHITE
+		UIUtils.flash_button_red_for_error()
