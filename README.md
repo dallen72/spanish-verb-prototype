@@ -3,13 +3,13 @@
 TODO
 
 - fix vsync error/warning
-- fix error emit error
 - on error, on emit error, trim off unused code about this and cleanup other dead code
 - standardize the error highlights among all exercises
 - the exercises, when completed should add an icon to the list of verbs
 - relationship, excercises to verbs are one to many:
 - the player chooses an excercise and is shown the verb that has the lowest score for that excercise, and if there is a tie,
 the lowest total score verb is shown for that excercise
+- fix webgl error. can't run in linux on the browser
 
 
 --------------------------------------------------------------------
