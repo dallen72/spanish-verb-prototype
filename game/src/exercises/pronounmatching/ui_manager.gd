@@ -42,7 +42,7 @@ func initialize_pronoun_buttons():
 		if button is PronounButton:
 			button.pronoun_name = button.name
 			pronoun_buttons[button.name] = button
-			
+	
 			
 func set_label_text(exercise_name):
 		# Update label text based on game mode

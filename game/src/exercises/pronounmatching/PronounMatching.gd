@@ -9,29 +9,19 @@ extends Control
 var UIUtils = Global.get_node("UIUtils")
 
 
-func _ready():	
-	_connect_session_signals()
-		
-	$UIManager.initialize_pronoun_buttons()
-	
+func _ready():		
 	# Setup initial problem (conjugations need to load immediately)
 	$SessionState.setup_initial_problem()
-		#
-	#$UIManager.set_label_text(exercise_value)
-#
-	## Reset pronoun buttons with the correct game mode
-	#$UIManager.reset_pronoun_buttons(current_verb, exercise_value)
 
-	
-	session.pronoun_selected.connect($UIManager.on_session_pronoun_selected)
+	$UIManager.initialize_pronoun_buttons()
 
-
-func _connect_session_signals():
 	"""Connects domain model signals to UI update methods."""
+	session.pronoun_selected.connect($UIManager.on_session_pronoun_selected)
 	session.match_made.connect(_on_session_match_made)
 	session.match_failed.connect(_on_session_match_failed)
 	session.session_started.connect(_on_session_started)
-
+		
+	
 
 func initialize(exercise_value: String):
 	"""Initializes the game with a specific game mode."""

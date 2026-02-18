@@ -17,10 +17,10 @@ var conjugation_button_colors_initialized: bool = false
 @onready var progress_indicator: Control = $HeaderContainer/HBoxContainer/ProgressIndicator
 @onready var progress_screen: Control = $ProgressScreen
 @onready var title_section: VBoxContainer = %TitleSection
+@onready var exercise_container: HBoxContainer = %ExerciseContainer
 
-# Child scene references
-@onready var pronoun_matching: Node = %PronounMatching
-@onready var sentence_completion: VBoxContainer = %SentenceCompletion
+var PronounMatching = preload("res://src/exercises/pronounmatching/PronounMatching.tscn")
+var SentenceCompletion = preload("res://src/exercises/sentencecompletion/SentenceCompletion.tscn")
 
 
 func _ready():
@@ -40,24 +40,8 @@ func show_initial_progress_and_start():
 
 
 func _on_exercise_changed(mode: String):
-	# Show/hide child scenes based on game mode
-	if mode == "sentence_completion":
-		pronoun_matching.visible = false
-		sentence_completion.visible = true
-		game_progress.current_exercise = game_progress.get_exercise_where_name_is("sentence_completion")
-	else:
-		pronoun_matching.visible = true
-		sentence_completion.visible = false
-		if pronoun_matching.has_method("initialize"):
-			pronoun_matching.initialize(mode)
-		if mode == "english_pronouns":
-			game_progress.current_exercise = game_progress.get_exercise_where_name_is("english_pronoun_matching")
-		else:
-			game_progress.current_exercise = game_progress.get_exercise_where_name_is("spanish_pronoun_matching")
-	
-	update_exercise_display()
-	game_progress.init_new_problem()
-	setup_problem()
+	remove_exercise_if_exists()
+	setup_problem(mode)
 
 
 func init_ui():
@@ -129,10 +113,29 @@ func show_progress_screen():
 	progress_screen.show_progress_screen()
 	await progress_screen.progress_screen_closed
 
-
-func setup_problem():
-	# Notify child scenes to setup their problem
-	if pronoun_matching and pronoun_matching.has_method("setup_problem"):
-		pronoun_matching.setup_problem()
-	if sentence_completion and sentence_completion.has_method("setup_problem"):
-		sentence_completion.setup_problem()
+# Notify child scenes to setup their problem
+func setup_problem(mode: String = Global.initial_exercise.name):
+	var exercise_node: Node
+	# Show/hide child scenes based on game mode
+	if mode == "sentence_completion":
+		exercise_node = SentenceCompletion.instantiate()
+		exercise_container.add_child(exercise_node)
+		game_progress.current_exercise = game_progress.get_exercise_where_name_is("sentence_completion")
+	else:
+		exercise_node = PronounMatching.instantiate()
+		exercise_container.add_child(exercise_node)
+		
+		if mode == "english_pronouns":
+			game_progress.current_exercise = game_progress.get_exercise_where_name_is("english_pronoun_matching")
+		else:
+			game_progress.current_exercise = game_progress.get_exercise_where_name_is("spanish_pronoun_matching")
+	
+	update_exercise_display()
+	game_progress.init_new_problem()
+	exercise_node.setup_problem()
+	
+func remove_exercise_if_exists():
+	if (exercise_container.get_child_count() > 0):
+		var child = exercise_container.get_child(0)
+		exercise_container.remove_child(child)
+	

@@ -8,6 +8,7 @@
 [node name="PronounMatching" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+size_flags_horizontal = 3
 script = ExtResource("1_pronoun")
 
 [node name="SessionState" type="Node" parent="."]
