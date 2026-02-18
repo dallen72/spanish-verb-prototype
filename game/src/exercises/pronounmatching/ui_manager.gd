@@ -46,7 +46,7 @@ func initialize_pronoun_buttons():
 			
 func set_label_text(exercise_name):
 		# Update label text based on game mode
-	if exercise_name == "english_pronouns":
+	if exercise_name == "english_pronoun_matching":
 		pronoun_label.text = "English Pronouns"
 	else:  # spanish_pronouns
 		pronoun_label.text = "Spanish Pronouns"
@@ -191,7 +191,8 @@ func reset_pronoun_buttons(current_verb: Verb, exercise_value: String):
 		if not button or not button is PronounButton:
 			continue
 		
-		if exercise_value == "english_pronouns" and current_verb != null:
+		# TODO: search for "english_pronouns". no hardcoded
+		if exercise_value == "english_pronoun_matching" and current_verb != null:
 			# Use English phrases
 			var phrase = current_verb.english_phrases.get(pronoun_name, "")
 			button.text = phrase + "..." if phrase != "" else pronoun_name + "..."

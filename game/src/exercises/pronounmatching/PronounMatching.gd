@@ -54,22 +54,17 @@ func setup_problem():
 	"""Sets up a new problem (called by Main when starting new problem)."""
 	var game_progress = Global.get_node("GameProgressMaster")
 	var current_verb = game_progress.get_current_verb()
-	
-	# Determine game mode (use existing session mode or default)
-	var exercise_value = "english_pronouns"
-	if session and session.exercise != "":
-		exercise_value = session.exercise
-	
+		
 	# Clear and regenerate conjugation buttons
 	$UIManager.clear_conjugation_buttons()
 	$UIManager.generate_conjugation_buttons(current_verb, _on_conjugation_button_pressed)
 	
 	# Reset pronoun buttons
-	$UIManager.reset_pronoun_buttons(current_verb, exercise_value)
+	$UIManager.reset_pronoun_buttons(current_verb, game_progress.current_exercise.name)
 	
 	# Start new session
 	if session:
-		session.start_problem(current_verb, exercise_value)
+		session.start_problem(current_verb, game_progress.current_exercise.name)
 	
 	$UIManager.post_problem_setup_processing(session.selected_pronoun)
 	
@@ -81,7 +76,8 @@ func _on_session_started(exercise_value: String):
 
 	$UIManager.set_label_text(exercise_value)
 
-	if exercise_value == "english_pronouns":
+	# TODO: no string literals.
+	if exercise_value == "english_pronoun_matching":
 		game_progress.current_exercise = game_progress.get_exercise_where_name_is("english_pronoun_matching")
 	else:
 		game_progress.current_exercise = game_progress.get_exercise_where_name_is("spanish_pronoun_matching")

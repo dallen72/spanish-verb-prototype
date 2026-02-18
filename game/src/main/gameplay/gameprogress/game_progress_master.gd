@@ -16,6 +16,7 @@ func _ready():
 	_init_verb_score_list()
 	game_exercises = ExerciseDataAccess.fetch_exercise_list()
 	global_signals.wrong_selection.connect(on_wrong_selection)
+	current_exercise = Global.initial_exercise
 	
 
 func on_wrong_selection():

@@ -114,6 +114,7 @@ func show_progress_screen():
 	await progress_screen.progress_screen_closed
 
 # Notify child scenes to setup their problem
+# TODO: this method should only modify the UI, not the state.
 func setup_problem(mode: String = Global.initial_exercise.name):
 	var exercise_node: Node
 	# Show/hide child scenes based on game mode
@@ -124,14 +125,15 @@ func setup_problem(mode: String = Global.initial_exercise.name):
 	else:
 		exercise_node = PronounMatching.instantiate()
 		exercise_container.add_child(exercise_node)
-		
-		if mode == "english_pronouns":
+		#TODO: make sure this checks the enums. no hardcoded.
+		if mode == "english_pronoun_matching":
 			game_progress.current_exercise = game_progress.get_exercise_where_name_is("english_pronoun_matching")
 		else:
 			game_progress.current_exercise = game_progress.get_exercise_where_name_is("spanish_pronoun_matching")
 	
 	update_exercise_display()
 	game_progress.init_new_problem()
+	# TODO: make interface for the exercise nodes that have the setup_problem() method
 	exercise_node.setup_problem()
 	
 func remove_exercise_if_exists():

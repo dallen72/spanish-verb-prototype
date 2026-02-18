@@ -92,7 +92,7 @@ func is_completed() -> bool:
 
 func update_text_for_match(conjugation_text: String, exercise: String, english_phrase: String = ""):
 	"""Updates the button text to show the completed match."""
-	if exercise == "english_pronouns" and english_phrase != "":
+	if exercise == "english_pronoun_matching" and english_phrase != "":
 		text = english_phrase + " " + conjugation_text
 	else:
 		text = pronoun_name + " " + conjugation_text
