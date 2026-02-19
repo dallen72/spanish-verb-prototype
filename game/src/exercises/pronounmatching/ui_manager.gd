@@ -45,8 +45,8 @@ func initialize_pronoun_buttons():
 			pronoun_buttons[button.name] = button
 	
 			
-func set_label_text(exercise: Exercise):
-	pronoun_label.text = exercise.label_text_for_given
+func set_label_text(exercise_label: String):
+	pronoun_label.text = exercise_label
 
 
 func on_session_pronoun_selected(pronoun: String):
@@ -182,20 +182,25 @@ func post_problem_setup_processing(selected_pronoun):
 
 
 func reset_pronoun_buttons(current_verb: Verb, exercise: Exercise):
+	assert(current_verb != null)
 	"""Resets all pronoun buttons to unmatched state."""
 	for pronoun_name in pronoun_buttons.keys():
 		var button = pronoun_buttons[pronoun_name]
 		if not button or not button is PronounButton:
 			continue
 
-		# TODO: search for "english_pronouns". no hardcoded
-		if exercise.name == "english_pronoun_matching" and current_verb != null:
-			# Use English phrases
-			var phrase = current_verb.english_phrases.get(pronoun_name, "")
-			button.text = phrase + "..." if phrase != "" else pronoun_name + "..."
-		else:
-			# Use Spanish pronouns
-			button.text = pronoun_name + "..."
+		button.text = get_hint_phrase_for_verb_and_pronoun(exercise.name, current_verb, pronoun_name)
 		
 		# Set state to unmatched
 		button.set_state(PronounButton.ButtonState.UNMATCHED)
+
+
+# TODO: put in better form for building strings
+func get_hint_phrase_for_verb_and_pronoun(exercise_name, verb, pronoun):
+	if exercise_name == "english_pronoun_matching":
+		# Use English phrases
+		var phrase = verb.english_phrases.get(pronoun, "")
+		return (phrase + "..." if phrase != "" else pronoun + "...")
+	elif exercise_name == "spanish_pronoun_matching":
+		return pronoun + "..."
+		

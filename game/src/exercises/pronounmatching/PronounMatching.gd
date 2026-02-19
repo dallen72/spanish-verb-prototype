@@ -39,7 +39,7 @@ func initialize(exercise: Exercise):
 			current_verb = game_progress.get_random_verb()
 		game_progress.set_current_verb(current_verb)
 	
-	$UIManager.set_label_text(exercise)
+	$UIManager.set_label_text(exercise.label_text_for_given)
 	
 	# Reset pronoun buttons with the correct game mode
 	$UIManager.reset_pronoun_buttons(current_verb, exercise)
@@ -73,8 +73,8 @@ func setup_problem():
 #	"""Called when a new session starts."""
 func _on_session_started(exercise: Exercise):
 	var game_progress = Global.get_node("GameProgressMaster")
-	$UIManager.set_label_text(exercise)
 	game_progress.current_exercise = exercise
+	$UIManager.set_label_text(exercise.label_text_for_given)
 
 
 func _on_session_match_made(pronoun: String, conjugation: String, english_phrase: String):
