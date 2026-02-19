@@ -8,7 +8,7 @@ extends Node
 
 # Game state
 var verb_data: Verb = null
-var exercise: String = "english_pronoun_matching"  # "english_pronouns" or "spanish_pronouns"
+var exercise: Exercise
 var selected_pronoun: String = ""
 var matched_pairs: Array[Dictionary] = []  # Array of {pronoun: String, conjugation: String, english_phrase: String}
 var available_pronouns: Array[String] = []  # Pronouns not yet matched
@@ -19,10 +19,10 @@ signal match_made(pronoun: String, conjugation: String, english_phrase: String)
 signal match_failed()
 signal session_started(exercise: String)
 
-func start_problem(verb: Verb, mode: String):
+func start_problem(verb: Verb, _exercise: Exercise):
 	"""Initializes a new matching session with a verb and game mode."""
 	verb_data = verb
-	exercise = mode
+	exercise = _exercise
 	selected_pronoun = ""
 	matched_pairs.clear()
 	available_pronouns.clear()
@@ -37,6 +37,7 @@ func start_problem(verb: Verb, mode: String):
 		select_pronoun(available_pronouns[0])
 	
 	session_started.emit(exercise)
+
 
 func select_pronoun(pronoun: String):
 	"""Selects a pronoun for matching. Returns true if successful."""
@@ -66,7 +67,7 @@ func attempt_match(conjugation: String) -> bool:
 	
 	# Correct match!
 	var english_phrase := ""
-	if exercise == "english_pronoun_matching" and verb_data.english_phrases.size() > 0:
+	if exercise.name == "english_pronoun_matching" and verb_data.english_phrases.size() > 0:
 		english_phrase = verb_data.english_phrases.get(selected_pronoun, "")
 	
 	# Record the match
@@ -122,7 +123,7 @@ func get_correct_conjugation_for(pronoun: String) -> String:
 
 func get_english_phrase_for(pronoun: String) -> String:
 	"""Returns the English phrase for a given pronoun (if in english_pronoun_matching mode)."""
-	if exercise != "english_pronoun_matching" or not verb_data or verb_data.english_phrases.is_empty():
+	if exercise.name != "english_pronoun_matching" or not verb_data or verb_data.english_phrases.is_empty():
 		return ""
 	return verb_data.english_phrases.get(pronoun, "")
 
@@ -144,8 +145,6 @@ func get_all_pronouns() -> Array[String]:
 func setup_initial_problem():
 	"""Sets up the initial problem when the scene loads."""
 	# Ensure we have a game mode (default to english_pronouns)
-	# TODO: no hardcoding. get from "initial exercise"
-	var exercise_value = "english_pronoun_matching"
 	
 	# Ensure current_verb is set
 	var game_progress = Global.get_node("GameProgressMaster")
@@ -155,4 +154,4 @@ func setup_initial_problem():
 	if current_verb == null:
 		current_verb = game_progress.get_next_verb()
 		
-	start_problem(current_verb, exercise_value)
+	start_problem(current_verb, Global.initial_exercise)

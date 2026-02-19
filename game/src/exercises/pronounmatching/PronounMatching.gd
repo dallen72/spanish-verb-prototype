@@ -23,7 +23,7 @@ func _ready():
 		
 	
 
-func initialize(exercise_value: String):
+func initialize(exercise: Exercise):
 	"""Initializes the game with a specific game mode."""
 	if not session:
 		return
@@ -39,13 +39,13 @@ func initialize(exercise_value: String):
 			current_verb = game_progress.get_random_verb()
 		game_progress.set_current_verb(current_verb)
 	
-	$UIManager.set_label_text(exercise_value)
+	$UIManager.set_label_text(exercise)
 	
 	# Reset pronoun buttons with the correct game mode
-	$UIManager.reset_pronoun_buttons(current_verb, exercise_value)
+	$UIManager.reset_pronoun_buttons(current_verb, exercise)
 	
 	# Start new session
-	session.start_problem(current_verb, exercise_value)
+	session.start_problem(current_verb, exercise)
 
 
 
@@ -60,27 +60,21 @@ func setup_problem():
 	$UIManager.generate_conjugation_buttons(current_verb, _on_conjugation_button_pressed)
 	
 	# Reset pronoun buttons
-	$UIManager.reset_pronoun_buttons(current_verb, game_progress.current_exercise.name)
+	$UIManager.reset_pronoun_buttons(current_verb, game_progress.current_exercise)
 	
 	# Start new session
 	if session:
-		session.start_problem(current_verb, game_progress.current_exercise.name)
+		session.start_problem(current_verb, game_progress.current_exercise)
 	
 	$UIManager.post_problem_setup_processing(session.selected_pronoun)
 	
 # ===== UI Update Methods (called by domain model signals) =====
 
 #	"""Called when a new session starts."""
-func _on_session_started(exercise_value: String):
+func _on_session_started(exercise: Exercise):
 	var game_progress = Global.get_node("GameProgressMaster")
-
-	$UIManager.set_label_text(exercise_value)
-
-	# TODO: no string literals.
-	if exercise_value == "english_pronoun_matching":
-		game_progress.current_exercise = game_progress.get_exercise_where_name_is("english_pronoun_matching")
-	else:
-		game_progress.current_exercise = game_progress.get_exercise_where_name_is("spanish_pronoun_matching")
+	$UIManager.set_label_text(exercise)
+	game_progress.current_exercise = exercise
 
 
 func _on_session_match_made(pronoun: String, conjugation: String, english_phrase: String):

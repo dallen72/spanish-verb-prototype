@@ -15,6 +15,7 @@ var glow_effect: GlowEffect = null
 var pronoun_buttons: Dictionary = {}  # pronoun_name -> PronounButton
 var conjugation_buttons: Dictionary = {}  # conjugation_text -> Button
 
+
 func _ready():
 	var window_size = DisplayServer.window_get_size()
 	print_debug("debug, window_size: " + str(window_size))
@@ -44,12 +45,8 @@ func initialize_pronoun_buttons():
 			pronoun_buttons[button.name] = button
 	
 			
-func set_label_text(exercise_name):
-		# Update label text based on game mode
-	if exercise_name == "english_pronoun_matching":
-		pronoun_label.text = "English Pronouns"
-	else:  # spanish_pronouns
-		pronoun_label.text = "Spanish Pronouns"
+func set_label_text(exercise: Exercise):
+	pronoun_label.text = exercise.label_text_for_given
 
 
 func on_session_pronoun_selected(pronoun: String):
@@ -184,15 +181,15 @@ func post_problem_setup_processing(selected_pronoun):
 	call_deferred("setup_glow_effects", selected_pronoun)
 
 
-func reset_pronoun_buttons(current_verb: Verb, exercise_value: String):
+func reset_pronoun_buttons(current_verb: Verb, exercise: Exercise):
 	"""Resets all pronoun buttons to unmatched state."""
 	for pronoun_name in pronoun_buttons.keys():
 		var button = pronoun_buttons[pronoun_name]
 		if not button or not button is PronounButton:
 			continue
-		
+
 		# TODO: search for "english_pronouns". no hardcoded
-		if exercise_value == "english_pronoun_matching" and current_verb != null:
+		if exercise.name == "english_pronoun_matching" and current_verb != null:
 			# Use English phrases
 			var phrase = current_verb.english_phrases.get(pronoun_name, "")
 			button.text = phrase + "..." if phrase != "" else pronoun_name + "..."
