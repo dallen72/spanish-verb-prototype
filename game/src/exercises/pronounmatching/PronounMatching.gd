@@ -85,7 +85,7 @@ func _on_session_match_made(pronoun: String, conjugation: String, english_phrase
 	if pronoun_button and pronoun_button is PronounButton:
 		# Update pronoun button to completed state
 		pronoun_button.set_state(PronounButton.ButtonState.COMPLETED)
-		pronoun_button.update_text_for_match(conjugation, session.exercise, english_phrase)
+		pronoun_button.update_text_for_match(conjugation, session.exercise.name, english_phrase)
 	
 	if conjugation_button:
 		# Mark conjugation button as matched
