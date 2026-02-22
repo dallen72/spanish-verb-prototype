@@ -5,6 +5,9 @@ extends Control
 # Domain model - contains all game logic
 @onready var session = $SessionState
 
+@onready var signals = Global.get_node("Signals")
+@onready var game_progress = Global.get_node("GameProgressMaster")
+
 var UIUtils = Global.get_node("UIUtils")
 
 
@@ -19,46 +22,17 @@ func _ready():
 	session.match_made.connect(_on_session_match_made)
 	session.match_failed.connect(_on_session_match_failed)
 	session.session_initialization_finished.connect(_on_session_ready)
-		
 
-func initialize(exercise: Exercise):
-	"""Initializes the game with a specific game mode."""
-	if not session:
-		return
+	session.setup_session(game_progress.get_current_verb(), game_progress.current_exercise)	
 	
-	var game_progress = Global.get_node("GameProgressMaster")
-	var current_verb = game_progress.get_current_verb()
+	setup_UI()
 	
-	# If current_verb is not set, set it now
-	if current_verb == null:
-		current_verb = game_progress.get_random_noncompleted_verb()
-		if game_progress.get_completed_verbs().size() >= VerbDataAccess.get_total_verb_count():
-			game_progress.clear_completed_verbs()
-			current_verb = game_progress.get_random_verb()
-		game_progress.set_current_verb(current_verb)
-	
-	$UIManager.set_label_text(exercise.label_text_for_given)
-	
-	session.setup_session(current_verb, exercise)
 
-
-
-
-func setup_problem():
+func setup_UI():
 	"""Sets up a new problem (called by Main when starting new problem)."""
-	var game_progress = Global.get_node("GameProgressMaster")
-	var current_verb = game_progress.get_current_verb()
-		
-	# Clear and regenerate conjugation buttons
-	$UIManager.clear_conjugation_buttons()
-	$UIManager.generate_conjugation_buttons(current_verb, _on_conjugation_button_pressed)
-		
-	# Start new session
-	if session:
-		session.setup_session(current_verb, game_progress.current_exercise)
+	$UIManager.setup_UI(game_progress.get_current_verb(), session.selected_pronoun, _on_conjugation_button_pressed)
 	
-	$UIManager.setup_UI(session.selected_pronoun)
-	
+
 # ===== UI Update Methods (called by domain model signals) =====
 
 #	"""Called when a new session starts."""

@@ -1,10 +1,10 @@
 extends State
 
 @onready var game_progress = Global.get_node("GameProgressMaster")
+@onready var signals = Global.get_node("Signals")
 
 func enter():
-	%UIManager.setup_problem()
-
+	signals.start_problem.emit()
 
 func on_problem_completed():
 	%UIManager.remove_exercise_if_exists()

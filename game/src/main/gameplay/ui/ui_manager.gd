@@ -117,6 +117,8 @@ func show_progress_screen():
 # TODO: this method should only modify the UI, not the state.
 # TODO: the exercise mode was being set after the button node was instantiated. moving the exercise node before
 # it fixed it.
+## Creates the next exercise and adds it to the UI
+# TODO: change name to setup_exercise ??
 func setup_problem(mode: String = Global.initial_exercise.name):
 	game_progress.init_new_problem()
 	var exercise_node: Node
@@ -135,7 +137,7 @@ func setup_problem(mode: String = Global.initial_exercise.name):
 		exercise_node = PronounMatching.instantiate()
 		exercise_container.add_child(exercise_node)
 	
-	exercise_node.setup_problem()
+	exercise_node.setup_UI()
 	update_exercise_display()
 
 	# TODO: make interface for the exercise nodes that have the setup_problem() method

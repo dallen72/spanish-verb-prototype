@@ -9,3 +9,6 @@ signal continue_button_pressed
 
 @warning_ignore("unused_signal")
 signal hide_progress_screen
+
+@warning_ignore("unused_signal")
+signal start_problem

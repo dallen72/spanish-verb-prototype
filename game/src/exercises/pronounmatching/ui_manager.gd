@@ -172,7 +172,11 @@ func generate_conjugation_buttons(current_verb: Verb, button_callback: Callable)
 	for item in conjugation_values:
 		conjugation_container.add_child(item["button"])
 
+# TODO: I think initial_exercise is found in multiple areas
 
-func setup_UI(selected_pronoun):
+func setup_UI(current_verb, selected_pronoun, callback):
+	clear_conjugation_buttons()
+	generate_conjugation_buttons(current_verb, callback)
+
 	# Update glow effects after conjugations are loaded
 	call_deferred("setup_glow_effects", selected_pronoun)		

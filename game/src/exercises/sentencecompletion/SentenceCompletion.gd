@@ -16,7 +16,9 @@ func _ready():
 		if button is Button:
 			button.pressed.connect(_on_sentence_button_pressed.bind(button))
 
-func setup_problem():
+	setup_UI()
+
+func setup_UI():
 	var current_verb: Verb = Global.get_node("GameProgressMaster").get_current_verb()
 	if current_verb == null:
 		return

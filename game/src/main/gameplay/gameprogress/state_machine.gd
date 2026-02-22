@@ -7,6 +7,7 @@ func _ready():
 	super()
 	Global.get_node("Signals").problem_completed.connect(_on_problem_completed)
 	Global.get_node("Signals").continue_button_pressed.connect(_on_continue_button_pressed)
+	Global.get_node("Signals").start_problem.connect(_on_problem_started)
 
 
 ###########		State Machine Inputs	###########
@@ -18,3 +19,6 @@ func _on_continue_button_pressed():
 func _on_problem_completed():
 	if current_state and current_state.has_method(ON_PROBLEM_COMPLETED):
 		current_state.call(ON_PROBLEM_COMPLETED)
+
+func _on_problem_started():
+	%UIManager.setup_problem()
