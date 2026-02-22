@@ -24,7 +24,7 @@ var SentenceCompletion = preload("res://src/exercises/sentencecompletion/Sentenc
 
 
 func _ready():
-	exercise_selector.exercise_changed.connect(_on_exercise_changed)
+	exercise_selector.exercise_changed.connect(_on_exercise_change_clicked)
 	init_ui()
 
 func show_initial_progress_and_start():
@@ -39,7 +39,7 @@ func show_initial_progress_and_start():
 	await progress_screen.progress_screen_closed
 
 
-func _on_exercise_changed(mode: String):
+func _on_exercise_change_clicked(mode: String):
 	remove_exercise_if_exists()
 	setup_problem(mode)
 
@@ -118,7 +118,9 @@ func show_progress_screen():
 # TODO: the exercise mode was being set after the button node was instantiated. moving the exercise node before
 # it fixed it.
 func setup_problem(mode: String = Global.initial_exercise.name):
+	game_progress.init_new_problem()
 	var exercise_node: Node
+
 	# Show/hide child scenes based on game mode
 	if mode == "sentence_completion":
 		game_progress.current_exercise = game_progress.get_exercise_where_name_is("sentence_completion")
@@ -133,10 +135,11 @@ func setup_problem(mode: String = Global.initial_exercise.name):
 		exercise_node = PronounMatching.instantiate()
 		exercise_container.add_child(exercise_node)
 	
-	update_exercise_display()
-	game_progress.init_new_problem()
-	# TODO: make interface for the exercise nodes that have the setup_problem() method
 	exercise_node.setup_problem()
+	update_exercise_display()
+
+	# TODO: make interface for the exercise nodes that have the setup_problem() method
+	
 	
 func remove_exercise_if_exists():
 	if (exercise_container.get_child_count() > 0):

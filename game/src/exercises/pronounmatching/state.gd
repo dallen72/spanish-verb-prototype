@@ -17,9 +17,9 @@ var available_pronouns: Array[String] = []  # Pronouns not yet matched
 signal pronoun_selected(pronoun: String)
 signal match_made(pronoun: String, conjugation: String, english_phrase: String)
 signal match_failed()
-signal session_started(exercise: String)
+signal session_initialization_finished(exercise: String)
 
-func start_problem(verb: Verb, _exercise: Exercise):
+func setup_session(verb: Verb, _exercise: Exercise):
 	"""Initializes a new matching session with a verb and game mode."""
 	verb_data = verb
 	exercise = _exercise
@@ -36,7 +36,7 @@ func start_problem(verb: Verb, _exercise: Exercise):
 	if available_pronouns.size() > 0:
 		select_pronoun(available_pronouns[0])
 	
-	session_started.emit(exercise)
+	session_initialization_finished.emit(exercise)
 
 ## Sets the given pronoun to selected
 func select_pronoun(pronoun: String):
@@ -158,4 +158,4 @@ func setup_initial_problem():
 	if current_verb == null:
 		current_verb = game_progress.get_next_verb()
 		
-	start_problem(current_verb, Global.initial_exercise)
+	setup_session(current_verb, Global.initial_exercise)

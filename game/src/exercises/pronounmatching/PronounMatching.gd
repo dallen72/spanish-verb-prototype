@@ -18,7 +18,7 @@ func _ready():
 	session.pronoun_selected.connect($UIManager.on_session_pronoun_selected)
 	session.match_made.connect(_on_session_match_made)
 	session.match_failed.connect(_on_session_match_failed)
-	session.session_started.connect(_on_session_started)
+	session.session_initialization_finished.connect(_on_session_ready)
 		
 
 func initialize(exercise: Exercise):
@@ -39,8 +39,7 @@ func initialize(exercise: Exercise):
 	
 	$UIManager.set_label_text(exercise.label_text_for_given)
 	
-	# Start new session
-	session.start_problem(current_verb, exercise)
+	session.setup_session(current_verb, exercise)
 
 
 
@@ -56,14 +55,14 @@ func setup_problem():
 		
 	# Start new session
 	if session:
-		session.start_problem(current_verb, game_progress.current_exercise)
+		session.setup_session(current_verb, game_progress.current_exercise)
 	
-	$UIManager.post_problem_setup_processing(session.selected_pronoun)
+	$UIManager.setup_UI(session.selected_pronoun)
 	
 # ===== UI Update Methods (called by domain model signals) =====
 
 #	"""Called when a new session starts."""
-func _on_session_started(exercise: Exercise):
+func _on_session_ready(exercise: Exercise):
 	var game_progress = Global.get_node("GameProgressMaster")
 	game_progress.current_exercise = exercise
 	$UIManager.set_label_text(exercise.label_text_for_given)

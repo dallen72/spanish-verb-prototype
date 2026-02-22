@@ -173,6 +173,6 @@ func generate_conjugation_buttons(current_verb: Verb, button_callback: Callable)
 		conjugation_container.add_child(item["button"])
 
 
-func post_problem_setup_processing(selected_pronoun):
+func setup_UI(selected_pronoun):
 	# Update glow effects after conjugations are loaded
 	call_deferred("setup_glow_effects", selected_pronoun)		
