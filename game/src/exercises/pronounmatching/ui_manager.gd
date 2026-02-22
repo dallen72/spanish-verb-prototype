@@ -175,6 +175,7 @@ func generate_conjugation_buttons(current_verb: Verb, button_callback: Callable)
 # TODO: I think initial_exercise is found in multiple areas
 
 func setup_UI(current_verb, selected_pronoun, callback):
+	initialize_pronoun_buttons()
 	clear_conjugation_buttons()
 	generate_conjugation_buttons(current_verb, callback)
 

@@ -113,13 +113,20 @@ func show_progress_screen():
 	progress_screen.show_progress_screen()
 	await progress_screen.progress_screen_closed
 
+
 # Notify child scenes to setup their problem
-# TODO: this method should only modify the UI, not the state.
 # TODO: the exercise mode was being set after the button node was instantiated. moving the exercise node before
 # it fixed it.
 ## Creates the next exercise and adds it to the UI
-# TODO: change name to setup_exercise ??
 func setup_problem(mode: String = Global.initial_exercise.name):
+	_setup_exercise_nodes(mode)
+	update_exercise_display()
+
+	# TODO: make interface for the exercise nodes that have the setup_problem() method
+	
+	
+## create and add the exercise nodes based on the exercise selected
+func _setup_exercise_nodes(mode: String):
 	game_progress.init_new_problem()
 	var exercise_node: Node
 
@@ -135,13 +142,8 @@ func setup_problem(mode: String = Global.initial_exercise.name):
 		else:
 			game_progress.current_exercise = game_progress.get_exercise_where_name_is("spanish_pronoun_matching")
 		exercise_node = PronounMatching.instantiate()
-		exercise_container.add_child(exercise_node)
-	
-	exercise_node.setup_UI()
-	update_exercise_display()
+		exercise_container.add_child(exercise_node)	
 
-	# TODO: make interface for the exercise nodes that have the setup_problem() method
-	
 	
 func remove_exercise_if_exists():
 	if (exercise_container.get_child_count() > 0):

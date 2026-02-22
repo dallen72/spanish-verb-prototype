@@ -11,37 +11,21 @@ extends Control
 var UIUtils = Global.get_node("UIUtils")
 
 
-func _ready():		
-	# Setup initial problem (conjugations need to load immediately)
-	$SessionState.setup_initial_problem()
-
-	$UIManager.initialize_pronoun_buttons()
-
-	"""Connects domain model signals to UI update methods."""
+func _ready():
 	session.pronoun_selected.connect($UIManager.on_session_pronoun_selected)
 	session.match_made.connect(_on_session_match_made)
 	session.match_failed.connect(_on_session_match_failed)
-	session.session_initialization_finished.connect(_on_session_ready)
 
-	session.setup_session(game_progress.get_current_verb(), game_progress.current_exercise)	
+	session.setup_exercise_data(game_progress.get_current_verb(), game_progress.current_exercise)	
+	populate_UI()
 	
-	setup_UI()
 	
-
-func setup_UI():
-	"""Sets up a new problem (called by Main when starting new problem)."""
+## Wrapper function
+func populate_UI():
+	$UIManager.set_label_text(game_progress.current_exercise.label_text_for_given)
 	$UIManager.setup_UI(game_progress.get_current_verb(), session.selected_pronoun, _on_conjugation_button_pressed)
 	
-
-# ===== UI Update Methods (called by domain model signals) =====
-
-#	"""Called when a new session starts."""
-func _on_session_ready(exercise: Exercise):
-	var game_progress = Global.get_node("GameProgressMaster")
-	game_progress.current_exercise = exercise
-	$UIManager.set_label_text(exercise.label_text_for_given)
-
-
+	
 func _on_session_match_made(pronoun: String, conjugation: String, english_phrase: String):
 	"""Updates UI when a match is made in the domain model."""
 	var pronoun_button = $UIManager.pronoun_buttons.get(pronoun)
