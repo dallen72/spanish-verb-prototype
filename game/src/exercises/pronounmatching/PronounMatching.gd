@@ -1,7 +1,6 @@
 extends Control
 
-# UI Adapter for Pronoun Matching Game
-# This class handles UI presentation and delegates game logic to PronounMatchSession
+## Controller for Pronoun Matching Game (MVC)
 
 # Domain model - contains all game logic
 @onready var session = $SessionState
@@ -21,7 +20,6 @@ func _ready():
 	session.match_failed.connect(_on_session_match_failed)
 	session.session_started.connect(_on_session_started)
 		
-	
 
 func initialize(exercise: Exercise):
 	"""Initializes the game with a specific game mode."""
@@ -41,9 +39,6 @@ func initialize(exercise: Exercise):
 	
 	$UIManager.set_label_text(exercise.label_text_for_given)
 	
-	# Reset pronoun buttons with the correct game mode
-	$UIManager.reset_pronoun_buttons(current_verb, exercise)
-	
 	# Start new session
 	session.start_problem(current_verb, exercise)
 
@@ -58,10 +53,7 @@ func setup_problem():
 	# Clear and regenerate conjugation buttons
 	$UIManager.clear_conjugation_buttons()
 	$UIManager.generate_conjugation_buttons(current_verb, _on_conjugation_button_pressed)
-	
-	# Reset pronoun buttons
-	$UIManager.reset_pronoun_buttons(current_verb, game_progress.current_exercise)
-	
+		
 	# Start new session
 	if session:
 		session.start_problem(current_verb, game_progress.current_exercise)

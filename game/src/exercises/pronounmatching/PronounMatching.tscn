@@ -67,27 +67,21 @@ alignment = 1
 
 [node name="yo" parent="UIManager/VBoxContainer/MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
 layout_mode = 2
-text = "yo..."
 
 [node name="tu" parent="UIManager/VBoxContainer/MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
 layout_mode = 2
-text = "tu..."
 
 [node name="el" parent="UIManager/VBoxContainer/MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
 layout_mode = 2
-text = "el..."
 
 [node name="nosotros" parent="UIManager/VBoxContainer/MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
 layout_mode = 2
-text = "nosotros..."
 
 [node name="vosotros" parent="UIManager/VBoxContainer/MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
 layout_mode = 2
-text = "vosotros..."
 
 [node name="ellos" parent="UIManager/VBoxContainer/MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid" instance=ExtResource("2_pronoun_btn_ellos")]
 layout_mode = 2
-text = "ellos..."
 
 [node name="VSeparator" type="VSeparator" parent="UIManager/VBoxContainer/MarginContainer/GameArea"]
 layout_mode = 2

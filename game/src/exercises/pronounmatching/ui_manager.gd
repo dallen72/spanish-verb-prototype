@@ -41,7 +41,6 @@ func initialize_pronoun_buttons():
 	pronoun_buttons.clear()
 	for button in pronoun_container.get_children():
 		if button is PronounButton:
-			button.pronoun_name = button.name
 			pronoun_buttons[button.name] = button
 	
 			
@@ -49,6 +48,7 @@ func set_label_text(exercise_label: String):
 	pronoun_label.text = exercise_label
 
 
+## not user-selected
 func on_session_pronoun_selected(pronoun: String):
 	"""Updates UI when a pronoun is selected in the domain model."""
 	var button = pronoun_buttons.get(pronoun)
@@ -127,9 +127,6 @@ func clear_conjugation_selections():
 			button.modulate = Color.WHITE
 
 
-
-
-
 func generate_conjugation_buttons(current_verb: Verb, button_callback: Callable):
 	"""Generates conjugation buttons from verb data."""
 	if current_verb == null or current_verb.conjugations.is_empty():
@@ -178,29 +175,4 @@ func generate_conjugation_buttons(current_verb: Verb, button_callback: Callable)
 
 func post_problem_setup_processing(selected_pronoun):
 	# Update glow effects after conjugations are loaded
-	call_deferred("setup_glow_effects", selected_pronoun)
-
-
-func reset_pronoun_buttons(current_verb: Verb, exercise: Exercise):
-	assert(current_verb != null)
-	"""Resets all pronoun buttons to unmatched state."""
-	for pronoun_name in pronoun_buttons.keys():
-		var button = pronoun_buttons[pronoun_name]
-		if not button or not button is PronounButton:
-			continue
-
-		button.text = get_hint_phrase_for_verb_and_pronoun(exercise.name, current_verb, pronoun_name)
-		
-		# Set state to unmatched
-		button.set_state(PronounButton.ButtonState.UNMATCHED)
-
-
-# TODO: put in better form for building strings
-func get_hint_phrase_for_verb_and_pronoun(exercise_name, verb, pronoun):
-	if exercise_name == "english_pronoun_matching":
-		# Use English phrases
-		var phrase = verb.english_phrases.get(pronoun, "")
-		return (phrase + "..." if phrase != "" else pronoun + "...")
-	elif exercise_name == "spanish_pronoun_matching":
-		return pronoun + "..."
-		
+	call_deferred("setup_glow_effects", selected_pronoun)		

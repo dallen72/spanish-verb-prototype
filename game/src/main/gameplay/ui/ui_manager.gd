@@ -115,21 +115,23 @@ func show_progress_screen():
 
 # Notify child scenes to setup their problem
 # TODO: this method should only modify the UI, not the state.
+# TODO: the exercise mode was being set after the button node was instantiated. moving the exercise node before
+# it fixed it.
 func setup_problem(mode: String = Global.initial_exercise.name):
 	var exercise_node: Node
 	# Show/hide child scenes based on game mode
 	if mode == "sentence_completion":
+		game_progress.current_exercise = game_progress.get_exercise_where_name_is("sentence_completion")
 		exercise_node = SentenceCompletion.instantiate()
 		exercise_container.add_child(exercise_node)
-		game_progress.current_exercise = game_progress.get_exercise_where_name_is("sentence_completion")
 	else:
-		exercise_node = PronounMatching.instantiate()
-		exercise_container.add_child(exercise_node)
 		#TODO: make sure this checks the enums. no hardcoded.
 		if mode == "english_pronoun_matching":
 			game_progress.current_exercise = game_progress.get_exercise_where_name_is("english_pronoun_matching")
 		else:
 			game_progress.current_exercise = game_progress.get_exercise_where_name_is("spanish_pronoun_matching")
+		exercise_node = PronounMatching.instantiate()
+		exercise_container.add_child(exercise_node)
 	
 	update_exercise_display()
 	game_progress.init_new_problem()

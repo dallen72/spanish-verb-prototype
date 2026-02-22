@@ -38,7 +38,7 @@ func start_problem(verb: Verb, _exercise: Exercise):
 	
 	session_started.emit(exercise)
 
-
+## Sets the given pronoun to selected
 func select_pronoun(pronoun: String):
 	"""Selects a pronoun for matching. Returns true if successful."""
 	if not is_pronoun_available(pronoun):
@@ -48,6 +48,7 @@ func select_pronoun(pronoun: String):
 	
 	pronoun_selected.emit(pronoun)
 	return true
+
 
 func attempt_match(conjugation: String) -> bool:
 	"""
@@ -93,6 +94,7 @@ func attempt_match(conjugation: String) -> bool:
 	
 	return true
 
+
 func select_next_pronoun():
 	"""Automatically selects the next available pronoun."""
 	if available_pronouns.size() > 0:
@@ -100,9 +102,11 @@ func select_next_pronoun():
 	else:
 		selected_pronoun = ""
 
+
 func is_pronoun_available(pronoun: String) -> bool:
 	"""Checks if a pronoun is still available for matching."""
 	return pronoun in available_pronouns
+
 
 func is_pronoun_matched(pronoun: String) -> bool:
 	"""Checks if a pronoun has been matched."""

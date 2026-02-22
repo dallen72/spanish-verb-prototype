@@ -1,6 +1,8 @@
 extends Button
 class_name PronounButton
 
+## Button that is matched with conjugations
+
 # Finite state machine for pronoun buttons
 enum ButtonState {
 	UNMATCHED,  # Default state - not selected, not matched
@@ -10,6 +12,7 @@ enum ButtonState {
 
 var current_state: ButtonState = ButtonState.UNMATCHED
 var pronoun_name: String = ""
+@onready var game_progress: Node = Global.get_node("GameProgressMaster")
 
 static func _get_global_button_colors() -> Dictionary:
 	# Fetch shared button colors from the Global autoload (GameProgressMaster)
@@ -30,12 +33,17 @@ static func _get_global_button_colors() -> Dictionary:
 					result["font_color"] = colors["font_color"]
 					result["disabled_font_color"] = colors["font_color"].darkened(0.2)
 	return result
-
+#
 func _ready():
 	# Set initial state to unmatched
 	# Wait a frame to ensure theme and globals are ready
 	call_deferred("set_state", ButtonState.UNMATCHED)
+	_init_text() 
 
+#button with text "I have" is set to green, then set to unmatched and white here
+#TODO: need to take a look at set_state calls that are deferred. why are they being called deferred?
+# the deferred calls are happening after the first button is set to green.
+# also, the buttons are being set twice (or the conjugation buttons are being set and the pronoun buttons are being set, and it just seems like they are being called twice. need to take a deeper look
 func set_state(new_state: ButtonState):
 	"""Updates the button state and appearance."""
 	current_state = new_state
@@ -89,6 +97,17 @@ func is_selected() -> bool:
 
 func is_completed() -> bool:
 	return current_state == ButtonState.COMPLETED
+
+
+func _init_text():
+	pronoun_name = name
+	if game_progress.current_exercise.name == "english_pronoun_matching":
+		# Use English phrases
+		var phrase = game_progress.current_verb.english_phrases.get(pronoun_name, "")
+		text = (phrase + "..." if phrase != "" else pronoun_name + "...")
+	elif game_progress.current_exercise.name == "spanish_pronoun_matching":
+		text = pronoun_name + "..."
+
 
 func update_text_for_match(conjugation_text: String, exercise: String, english_phrase: String = ""):
 	"""Updates the button text to show the completed match."""
