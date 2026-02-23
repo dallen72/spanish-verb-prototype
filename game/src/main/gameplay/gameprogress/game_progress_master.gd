@@ -10,6 +10,12 @@ var current_exercise: Exercise
 var total_errors: ResponsiveValue = ResponsiveValue.new(0)
 var previous_score: int = 0
 
+const game_exercise_list = [
+	"english_pronoun_matching",
+	"spanish_pronoun_matching",
+	"sentence_completion",
+]
+
 @onready var global_signals = Global.get_node("Signals")
 
 func _ready():
