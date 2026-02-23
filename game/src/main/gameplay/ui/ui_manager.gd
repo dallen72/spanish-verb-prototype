@@ -39,9 +39,9 @@ func show_initial_progress_and_start():
 	await progress_screen.progress_screen_closed
 
 
-func _on_exercise_change_clicked(mode: String):
+func _on_exercise_change_clicked():
 	remove_exercise_if_exists()
-	setup_problem(mode)
+	setup_problem()
 
 
 func init_ui():
@@ -114,15 +114,10 @@ func show_progress_screen():
 	await progress_screen.progress_screen_closed
 
 
-# Notify child scenes to setup their problem
-# TODO: the exercise mode was being set after the button node was instantiated. moving the exercise node before
-# it fixed it.
 ## Creates the next exercise and adds it to the UI
-func setup_problem(mode: String = Global.initial_exercise.name):
-	_setup_exercise_nodes(mode)
+func setup_problem():
+	_setup_exercise_nodes(game_progress.current_exercise.name)
 	update_exercise_display()
-
-	# TODO: make interface for the exercise nodes that have the setup_problem() method
 	
 	
 ## create and add the exercise nodes based on the exercise selected

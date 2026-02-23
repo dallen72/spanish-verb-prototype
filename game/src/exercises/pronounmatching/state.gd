@@ -155,4 +155,4 @@ func setup_initial_problem():
 	if current_verb == null:
 		current_verb = game_progress.get_next_verb()
 		
-	setup_exercise_data(current_verb, Global.initial_exercise)
+	setup_exercise_data(current_verb, Global.current_exercise)

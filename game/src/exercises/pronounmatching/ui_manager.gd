@@ -48,10 +48,11 @@ func set_label_text(exercise_label: String):
 	pronoun_label.text = exercise_label
 
 
-## not user-selected
+## handler. Updates UI when a pronoun is selected
 func on_session_pronoun_selected(pronoun: String):
-	"""Updates UI when a pronoun is selected in the domain model."""
 	var button = pronoun_buttons.get(pronoun)
+	
+	#TODO: better handling
 	if not button or not button is PronounButton:
 		return
 	
@@ -172,7 +173,6 @@ func generate_conjugation_buttons(current_verb: Verb, button_callback: Callable)
 	for item in conjugation_values:
 		conjugation_container.add_child(item["button"])
 
-# TODO: I think initial_exercise is found in multiple areas
 
 func setup_UI(current_verb, selected_pronoun, callback):
 	initialize_pronoun_buttons()
