@@ -31,16 +31,18 @@ func set_exercise(mode: String):
 	var exercise_containing_the_name: Exercise = _list[0]	
 	game_progress.current_exercise = exercise_containing_the_name
 
-	_set_selectable_button_states(mode)	
+	set_selectable_button_states(mode)	
 	exercise_changed.emit()
 
 
-# Public method to set initial mode (useful when instantiating)
-func set_initial_mode(exercise_name: String):
-	set_exercise(exercise_name)
-
-
-func _set_selectable_button_states(mode: String):
+func set_selectable_button_states(mode: String):
+	match mode:
+		"english_pronoun_matching":
+			english_pronoun_mode_button.grab_focus()
+		"pronoun_pronoun_matching":
+			spanish_pronoun_mode_button.grab_focus()
+		"sentence_completion":
+			sentence_mode_button.grab_focus()
 	english_pronoun_mode_button.button_pressed = (mode == "english_pronoun_matching")
 	spanish_pronoun_mode_button.button_pressed = (mode == "spanish_pronoun_matching")
 	sentence_mode_button.button_pressed = (mode == "sentence_completion")

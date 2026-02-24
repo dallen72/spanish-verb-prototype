@@ -9,7 +9,6 @@ func _ready():
 	Global.get_node("Signals").continue_button_pressed.connect(_on_continue_button_pressed)
 	Global.get_node("Signals").start_problem.connect(_on_problem_started)
 
-
 ###########		State Machine Inputs	###########
 
 func _on_continue_button_pressed():

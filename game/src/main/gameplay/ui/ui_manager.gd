@@ -9,6 +9,7 @@ var conjugation_button_font_color: Color = Color(0.8, 0.8, 0.8, 1.0)
 var conjugation_button_colors_initialized: bool = false
 
 @onready var game_progress = Global.get_node("GameProgressMaster")
+@onready var signals = Global.get_node("Signals")
 
 # UI references
 @onready var verb_label: Label = $HeaderContainer/HBoxContainer/TitleSection/VerbLabel
@@ -22,10 +23,11 @@ var conjugation_button_colors_initialized: bool = false
 var PronounMatching = preload("res://src/exercises/pronounmatching/PronounMatching.tscn")
 var SentenceCompletion = preload("res://src/exercises/sentencecompletion/SentenceCompletion.tscn")
 
-
+#TODO: rename exercise_selector
 func _ready():
 	exercise_selector.exercise_changed.connect(_on_exercise_change_clicked)
 	init_ui()
+
 
 func show_initial_progress_and_start():
 	# Show intro/progress screen; wait for user to click Continue (slide-out then signal)
@@ -116,6 +118,10 @@ func show_progress_screen():
 
 ## Creates the next exercise and adds it to the UI
 func setup_problem():
+	if game_progress.current_exercise == null:
+		game_progress.current_exercise = Global.initial_exercise
+		exercise_selector.set_selectable_button_states(game_progress.current_exercise.name)
+
 	_setup_exercise_nodes(game_progress.current_exercise.name)
 	update_exercise_display()
 	
