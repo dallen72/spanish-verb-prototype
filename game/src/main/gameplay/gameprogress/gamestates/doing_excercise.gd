@@ -4,6 +4,7 @@ extends State
 @onready var signals = Global.get_node("Signals")
 
 func enter():
+	await get_tree().create_timer(Global.UI_TRANSITION_SLIDE_DURATION).timeout
 	signals.start_problem.emit()
 
 func on_problem_completed():

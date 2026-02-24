@@ -35,7 +35,6 @@ static func _get_global_button_colors() -> Dictionary:
 	return result
 #
 func _ready():
-	# Set initial state to unmatched
 	# Wait a frame to ensure theme and globals are ready
 	await get_tree().process_frame
 	set_state(ButtonState.UNMATCHED)

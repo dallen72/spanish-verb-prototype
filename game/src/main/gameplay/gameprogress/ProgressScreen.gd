@@ -7,7 +7,7 @@ signal progress_screen_closed
 const MARGIN := 30
 const CONTENT_WIDTH := 1860
 const CONTENT_HEIGHT := 1020
-const SLIDE_DURATION := 0.35
+const SLIDE_DURATION := Global.UI_TRANSITION_SLIDE_DURATION
 # Max width for each button and icon (1920/8)
 const ROW_ITEM_SIZE := 240
 const COMPLETED_ICON_MODULATE := Color(0.2, 0.8, 0.3, 1.0)
