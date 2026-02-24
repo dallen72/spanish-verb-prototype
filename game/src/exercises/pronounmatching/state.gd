@@ -15,8 +15,6 @@ var available_pronouns: Array[String] = []  # Pronouns not yet matched
 
 # Signals for UI to observe state changes
 signal pronoun_selected(pronoun: String)
-signal match_made(pronoun: String, conjugation: String, english_phrase: String)
-signal match_failed()
 
 func setup_exercise_data(verb: Verb, _exercise: Exercise):
 	"""Initializes a new matching session with a verb and game mode."""
@@ -32,51 +30,6 @@ func setup_exercise_data(verb: Verb, _exercise: Exercise):
 			available_pronouns.append(pronoun)
 
 	select_next_pronoun()
-
-
-func attempt_match(conjugation: String) -> bool:
-	"""
-	Attempts to match the selected pronoun with a conjugation.
-	Returns true if match is correct, false otherwise.
-	"""
-	if selected_pronoun.is_empty():
-		return false
-	
-	if not verb_data or verb_data.conjugations.is_empty():
-		return false
-	
-	var correct_conjugation = verb_data.conjugations.get(selected_pronoun, "")
-	if conjugation != correct_conjugation:
-		match_failed.emit()
-		return false
-	
-	# Correct match!
-	var english_phrase := ""
-	if exercise.name == "english_pronoun_matching" and verb_data.english_phrases.size() > 0:
-		english_phrase = verb_data.english_phrases.get(selected_pronoun, "")
-	
-	# Record the match
-	var match_pair = {
-		"pronoun": selected_pronoun,
-		"conjugation": conjugation,
-		"english_phrase": english_phrase
-	}
-	matched_pairs.append(match_pair)
-	
-	# Remove from available pronouns
-	available_pronouns.erase(selected_pronoun)
-	
-	match_made.emit(selected_pronoun, conjugation, english_phrase)
-
-	# Check if session is complete
-	if is_complete():
-		Global.get_node("Signals").emit_signal("problem_completed")
-		selected_pronoun = ""
-	else:
-		# Select next available pronoun
-		select_next_pronoun()
-	
-	return true
 
 
 func select_next_pronoun():

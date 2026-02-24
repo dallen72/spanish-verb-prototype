@@ -50,19 +50,13 @@ func set_label_text(exercise_label: String):
 
 ## handler. Updates UI when a pronoun is selected
 func update_pronoun_selection(pronoun: String):
-	var button = pronoun_buttons.get(pronoun)
-	
-	#TODO: better handling
-	if not button or not button is PronounButton:
-		return
-	
-	# Clear previous pronoun selection
+	var button: PronounButton = pronoun_buttons.get(pronoun)
+		
 	for btn in pronoun_buttons.values():
 		btn.set_correct_state_and_matched_if(button)
 	
 	# Update glow effect
 	update_glow_for_selected_pronoun(pronoun)
-
 
 
 func setup_glow_effects(selected_pronoun):
