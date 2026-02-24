@@ -12,7 +12,7 @@ var UIUtils = Global.get_node("UIUtils")
 
 
 func _ready():
-	session.pronoun_selected.connect($UIManager.on_session_pronoun_selected)
+	session.pronoun_selected.connect($UIManager.update_pronoun_selection)
 	session.match_made.connect(_on_session_match_made)
 	session.match_failed.connect(_on_session_match_failed)
 
@@ -49,24 +49,13 @@ func _on_session_match_failed():
 	# Clear conjugation selection visual feedback
 	$UIManager.clear_conjugation_selections()
 
+
 # ===== UI Helper Methods =====
-#TODO: too muh code here. whatsup with that.
+
 func _on_conjugation_button_pressed(button: Button):
-	"""Handles conjugation button clicks - forwards to domain model."""
-	if not session:
-		return
-	
 	# If conjugation button is already matched, ignore clicks
+	# TODO: check button state?
 	if button.disabled:
 		return
-	
-	var conjugation = button.text
-	
-	# Forward match attempt to domain model
-	if not session.attempt_match(conjugation):
+	elif not session.attempt_match(button.text):
 		UIUtils.flash_button_red_for_error(button)
-	
-	# If no pronoun is selected, just highlight the conjugation
-	if session.selected_pronoun.is_empty():
-		$UIManager.clear_conjugation_selections()
-		button.modulate = Color.GREEN

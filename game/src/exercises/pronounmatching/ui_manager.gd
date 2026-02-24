@@ -49,7 +49,7 @@ func set_label_text(exercise_label: String):
 
 
 ## handler. Updates UI when a pronoun is selected
-func on_session_pronoun_selected(pronoun: String):
+func update_pronoun_selection(pronoun: String):
 	var button = pronoun_buttons.get(pronoun)
 	
 	#TODO: better handling
