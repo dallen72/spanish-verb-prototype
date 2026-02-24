@@ -9,9 +9,6 @@ signal exercise_changed()
 
 @onready var game_progress: Node = Global.get_node("GameProgressMaster")
 
-# Current active mode
-var current_mode: String = "english_pronoun_matching"
-
 func _ready():
 	# Connect button signals
 	english_pronoun_mode_button.pressed.connect(_on_english_pronoun_mode_button_pressed)
@@ -19,35 +16,29 @@ func _ready():
 	sentence_mode_button.pressed.connect(_on_sentence_mode_button_pressed)
 
 func _on_english_pronoun_mode_button_pressed():	
-	set_mode("english_pronoun_matching")
-	_set_selectable_button_states("english_pronoun_matching")
+	set_exercise("english_pronoun_matching")
 
 func _on_spanish_pronoun_mode_button_pressed():
-	set_mode("spanish_pronoun_matching")
-	_set_selectable_button_states("english_pronoun_matching")
-	
+	set_exercise("spanish_pronoun_matching")	
 
 func _on_sentence_mode_button_pressed():
-	set_mode("sentence_completion")
-	_set_selectable_button_states("english_pronoun_matching")
-	
+	set_exercise("sentence_completion")	
 
-func set_mode(mode: String):
+func set_exercise(mode: String):
 	var _list = ExerciseDataAccess.fetch_exercise_list().filter(func(exercise): return exercise.name == mode)
 	assert(_list.size() > 0)
 
-	current_mode = mode
 	var exercise_containing_the_name: Exercise = _list[0]	
 	game_progress.current_exercise = exercise_containing_the_name
 
+	_set_selectable_button_states(mode)	
 	exercise_changed.emit()
 
 
 # Public method to set initial mode (useful when instantiating)
-func set_initial_mode(mode: String):
-	set_mode(mode)
-	_set_selectable_button_states(mode)	
-	
+func set_initial_mode(exercise_name: String):
+	set_exercise(exercise_name)
+
 
 func _set_selectable_button_states(mode: String):
 	english_pronoun_mode_button.button_pressed = (mode == "english_pronoun_matching")

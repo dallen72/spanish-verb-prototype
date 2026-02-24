@@ -50,10 +50,7 @@ func _on_session_match_failed():
 	$UIManager.clear_conjugation_selections()
 
 # ===== UI Helper Methods =====
-
-
-
-
+#TODO: too muh code here. whatsup with that.
 func _on_conjugation_button_pressed(button: Button):
 	"""Handles conjugation button clicks - forwards to domain model."""
 	if not session:
