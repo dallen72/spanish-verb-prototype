@@ -10,7 +10,6 @@ extends Control
 
 var UIUtils = Global.get_node("UIUtils")
 
-signal match_made(pronoun: String, conjugation: String, english_phrase: String)
 signal match_failed
 
 func _ready():
@@ -19,8 +18,6 @@ func _ready():
 	populate_UI()
 	
 	match_failed.connect(_on_session_match_failed)
-	match_made.connect(_on_session_match_made)
-	
 	
 ## Wrapper function
 func populate_UI():
@@ -28,7 +25,7 @@ func populate_UI():
 	$UIManager.setup_UI(game_progress.get_current_verb(), session.selected_pronoun, _on_conjugation_button_pressed)
 	
 	
-func _on_session_match_made(pronoun: String, conjugation: String, english_phrase: String):
+func _on_session_match_made(pronoun: String, conjugation: String):
 	"""Updates UI when a match is made in the domain model."""
 	var pronoun_button = $UIManager.pronoun_buttons.get(pronoun)
 	var conjugation_button = $UIManager.conjugation_buttons.get(conjugation)
@@ -36,8 +33,7 @@ func _on_session_match_made(pronoun: String, conjugation: String, english_phrase
 	if pronoun_button and pronoun_button is PronounButton:
 		# Update pronoun button to completed state
 		pronoun_button.set_state(PronounButton.ButtonState.COMPLETED)
-		pronoun_button.update_text_for_match(conjugation, session.exercise.name, english_phrase)
-	
+		pronoun_button.update_text_for_match(conjugation, session.exercise.name, session.get_english_phrase_for(pronoun))	
 	if conjugation_button:
 		# Mark conjugation button as matched
 		conjugation_button.modulate = Color.LIGHT_BLUE
@@ -78,26 +74,8 @@ func _on_conjugation_button_pressed(button: Button):
 	if not match_attempt_success:
 		UIUtils.flash_button_red_for_error(button)
 	else:		
-		# get english phrase if english pronoun matching. TODO: handle somewhere else
-		var english_phrase := ""
-		if session.exercise.name == "english_pronoun_matching" and session.verb_data.english_phrases.size() > 0:
-			english_phrase = session.verb_data.english_phrases.get(session.selected_pronoun, "")
-		
-		# Record the match. TODO: handle some other way
-		var match_pair = {
-			"pronoun": session.selected_pronoun,
-			"conjugation": button.text,
-			"english_phrase": english_phrase
-		}
-		session.matched_pairs.append(match_pair)
-		
-		# Remove from available pronouns
-		session.available_pronouns.erase(session.selected_pronoun)
-		
-
-		
-		
-		match_made.emit(session.selected_pronoun, button.text, english_phrase)
+		session.update_state_data_for_matching(button.text)
+		_on_session_match_made(session.selected_pronoun, button.text)
 		if session.is_complete():
 			Global.get_node("Signals").emit_signal("problem_completed")
 			session.selected_pronoun = ""

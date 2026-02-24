@@ -82,3 +82,21 @@ func get_all_pronouns() -> Array[String]:
 	if not verb_data or verb_data.conjugations.is_empty():
 		return []
 	return verb_data.conjugations.keys()
+
+func update_state_data_for_matching(conjugation: String):
+	# get english phrase if english pronoun matching. TODO: handle somewhere else
+	var english_phrase := ""
+	if exercise.name == "english_pronoun_matching" and verb_data.english_phrases.size() > 0:
+		english_phrase = verb_data.english_phrases.get(selected_pronoun, "")
+	
+	# Record the match. TODO: handle some other way
+	var match_pair = {
+		"pronoun": selected_pronoun,
+		"conjugation": conjugation,
+		"english_phrase": english_phrase
+	}
+	matched_pairs.append(match_pair)
+	
+	# Remove from available pronouns
+	available_pronouns.erase(selected_pronoun)
+	
