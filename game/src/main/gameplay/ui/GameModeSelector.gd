@@ -23,7 +23,7 @@ func _on_spanish_pronoun_mode_button_pressed():
 
 func _on_sentence_mode_button_pressed():
 	set_exercise("sentence_completion")	
-
+#TODO: rename this script
 func set_exercise(mode: String):
 	var _list = ExerciseDataAccess.fetch_exercise_list().filter(func(exercise): return exercise.name == mode)
 	assert(_list.size() > 0)

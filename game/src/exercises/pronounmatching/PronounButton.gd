@@ -37,8 +37,17 @@ static func _get_global_button_colors() -> Dictionary:
 func _ready():
 	# Set initial state to unmatched
 	# Wait a frame to ensure theme and globals are ready
-	call_deferred("set_state", ButtonState.UNMATCHED)
+	await get_tree().process_frame
+	set_state(ButtonState.UNMATCHED)
 	_init_text() 
+
+
+func set_correct_state_and_matched_if(selected_button: PronounButton):
+	if selected_button == self:
+		set_state(PronounButton.ButtonState.SELECTED)	
+	elif is_selected():
+		set_state(PronounButton.ButtonState.UNMATCHED)
+	
 
 #button with text "I have" is set to green, then set to unmatched and white here
 #TODO: need to take a look at set_state calls that are deferred. why are they being called deferred?

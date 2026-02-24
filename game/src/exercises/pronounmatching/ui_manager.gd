@@ -58,11 +58,7 @@ func update_pronoun_selection(pronoun: String):
 	
 	# Clear previous pronoun selection
 	for btn in pronoun_buttons.values():
-		if btn.is_selected():
-			btn.set_state(PronounButton.ButtonState.UNMATCHED)
-	
-	# Set the selected pronoun
-	button.set_state(PronounButton.ButtonState.SELECTED)
+		btn.set_correct_state_and_matched_if(button)
 	
 	# Update glow effect
 	update_glow_for_selected_pronoun(pronoun)

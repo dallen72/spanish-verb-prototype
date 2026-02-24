@@ -30,11 +30,9 @@ func setup_exercise_data(verb: Verb, _exercise: Exercise):
 	if verb_data and verb_data.conjugations.size() > 0:
 		for pronoun in verb_data.conjugations.keys():
 			available_pronouns.append(pronoun)
-	
-	# Select the first pronoun automatically
-	if available_pronouns.size() > 0:
-		select_next_pronoun()
-	
+
+	select_next_pronoun()
+
 
 func attempt_match(conjugation: String) -> bool:
 	"""
@@ -85,6 +83,7 @@ func select_next_pronoun():
 	"""Automatically selects the next available pronoun."""
 	if available_pronouns.size() > 0:
 		selected_pronoun = available_pronouns[0]
+		await get_tree().process_frame # TODO: make sure this runs before all ui modification code
 		pronoun_selected.emit(selected_pronoun)
 	else:
 		selected_pronoun = ""
@@ -130,18 +129,3 @@ func get_all_pronouns() -> Array[String]:
 	if not verb_data or verb_data.conjugations.is_empty():
 		return []
 	return verb_data.conjugations.keys()
-
-
-# TODO: does game_progress need to be defined here? can it be defined up top?
-## TODO: does current_verb need to exists as a local variable in this class?
-## Sets up the initial problem when the scene loads.
-func setup_initial_problem():
-	# Ensure current_verb is set
-	var game_progress = Global.get_node("GameProgressMaster")
-	var current_verb = game_progress.get_current_verb()
-	
-	# If current_verb is not set, set it now
-	if current_verb == null:
-		current_verb = game_progress.get_next_verb()
-		
-	setup_exercise_data(current_verb, Global.current_exercise)
