@@ -33,20 +33,8 @@ func setup_exercise_data(verb: Verb, _exercise: Exercise):
 	
 	# Select the first pronoun automatically
 	if available_pronouns.size() > 0:
-		select_pronoun(available_pronouns[0])
+		select_next_pronoun()
 	
-	
-## Sets the given pronoun to selected
-func select_pronoun(pronoun: String):
-	"""Selects a pronoun for matching. Returns true if successful."""
-	if not is_pronoun_available(pronoun):
-		return false
-	
-	selected_pronoun = pronoun
-	
-	pronoun_selected.emit(pronoun)
-	return true
-
 
 func attempt_match(conjugation: String) -> bool:
 	"""
@@ -96,7 +84,8 @@ func attempt_match(conjugation: String) -> bool:
 func select_next_pronoun():
 	"""Automatically selects the next available pronoun."""
 	if available_pronouns.size() > 0:
-		select_pronoun(available_pronouns[0])
+		selected_pronoun = available_pronouns[0]
+		pronoun_selected.emit(selected_pronoun)
 	else:
 		selected_pronoun = ""
 

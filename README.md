@@ -2,7 +2,6 @@
 
 TODO
 
-- fix vsync error/warning
 - on error, on emit error, trim off unused code about this and cleanup other dead code
 - standardize the error highlights among all exercises
 - the exercises, when completed should add an icon to the list of verbs
@@ -12,6 +11,7 @@ the lowest total score verb is shown for that excercise
 - fix webgl error. can't run in linux on the browser
 - make sure the initial button is green, that is selected
 - make sure that the exercise that shows up when exiting the show progress screen after completing an exercise, is the same exercise that was just completed
+- make sure the exercise button stays outlined when losing focus
 
 --------------------------------------------------------------------
 
