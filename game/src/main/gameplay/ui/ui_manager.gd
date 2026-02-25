@@ -17,6 +17,7 @@ var conjugation_button_colors_initialized: bool = false
 @onready var exercise_selector: HFlowContainer = $HeaderContainer/HBoxContainer/TitleSection/GameModeSelector
 @onready var progress_indicator: Control = $HeaderContainer/HBoxContainer/ProgressIndicator
 @onready var progress_screen: Control = $ProgressScreen
+@onready var intro_screen: Control = $IntroScreen
 @onready var title_section: VBoxContainer = %TitleSection
 @onready var exercise_container: HBoxContainer = %ExerciseContainer
 
@@ -27,6 +28,11 @@ var SentenceCompletion = preload("res://src/exercises/sentencecompletion/Sentenc
 func _ready():
 	exercise_selector.exercise_changed.connect(_on_exercise_change_clicked)
 	init_ui()
+
+
+func show_intro():
+	intro_screen.show_intro_screen()
+	await intro_screen.intro_screen_closed
 
 
 func show_initial_progress_and_start():

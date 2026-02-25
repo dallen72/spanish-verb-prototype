@@ -2,13 +2,23 @@
 
 TODO
 
+
+
 - the exercises, when completed should add an icon to the list of verbs
+
+- Add Lessons. The user does lessons before each exercise to unlock the exercise. Mnemonics are needed for each lesson.
+
 - relationship, excercises to verbs are one to many:
+
 - the player chooses an excercise and is shown the verb that has the lowest score for that excercise, and if there is a tie,
 the lowest total score verb is shown for that excercise
+
 - fix webgl error. can't run in linux on the browser
+
 - make sure the initial button is green, that is selected
+
 - make sure that the exercise that shows up when exiting the show progress screen after completing an exercise, is the same exercise that was just completed
+
 - make sure the exercise button stays outlined when losing focus
 
 - after alpha complete, refactor method to get the data, allow for a lot more data:

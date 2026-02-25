@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b0x8jqyqj0x0r"]
+[gd_scene load_steps=15 format=3 uid="uid://b0x8jqyqj0x0r"]
 
 [ext_resource type="Script" uid="uid://ci4ach40catas" path="res://src/main/Main.gd" id="1_5qjmp"]
 [ext_resource type="Texture2D" uid="uid://gs2pwhy6vtko" path="res://assets/hispanic-woman-in-a-shop.png" id="2_fh42b"]
@@ -8,10 +8,12 @@
 [ext_resource type="Script" uid="uid://b6o4yrghums3e" path="res://src/main/gameplay/gameprogress/gamestates/init.gd" id="3_insap"]
 [ext_resource type="Script" uid="uid://cmfabwogth54o" path="res://src/main/gameplay/gameprogress/gamestates/loading_game_data.gd" id="4_5i72y"]
 [ext_resource type="Script" uid="uid://dgdujnskjby33" path="res://src/main/gameplay/gameprogress/gamestates/viewing_progress.gd" id="5_f4teq"]
+[ext_resource type="Script" uid="uid://cc7mf6e0erqby" path="res://src/main/gameplay/gameprogress/gamestates/viewing_intro.gd" id="5_v6dgk"]
 [ext_resource type="PackedScene" uid="uid://c8kj3mq2npx1a" path="res://src/main/gameplay/gameprogress/ProgressScreen.tscn" id="6_progress"]
 [ext_resource type="Script" uid="uid://4hcyi7q7fo8n" path="res://src/main/gameplay/gameprogress/gamestates/doing_excercise.gd" id="6_rahfo"]
 [ext_resource type="Script" uid="uid://nl72iu2ysixg" path="res://src/main/gameplay/gameprogress/gamestates/updating_progress.gd" id="7_4bm33"]
 [ext_resource type="Script" uid="uid://c4hxsbas0vasm" path="res://src/main/gameplay/ui/ui_manager.gd" id="9_f4teq"]
+[ext_resource type="PackedScene" uid="uid://bfnks81q8j61w" path="res://src/main/gameplay/gameprogress/intro_screen.tscn" id="14_5i72y"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -31,6 +33,9 @@ script = ExtResource("3_insap")
 
 [node name="LoadingGameData" type="Node" parent="StateMachine"]
 script = ExtResource("4_5i72y")
+
+[node name="ViewingIntro" type="Node" parent="StateMachine"]
+script = ExtResource("5_v6dgk")
 
 [node name="ViewingProgress" type="Node" parent="StateMachine"]
 script = ExtResource("5_f4teq")
@@ -127,3 +132,5 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="ProgressScreen" parent="UIManager" instance=ExtResource("6_progress")]
+
+[node name="IntroScreen" parent="UIManager" instance=ExtResource("14_5i72y")]
