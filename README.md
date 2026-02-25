@@ -2,25 +2,57 @@
 
 TODO
 
-- make pronoun buttons lighter (look like conjugation buttons by default)
 
-- refactor, look at code
 
-- make sure works with English and Spanish gametypes
+# TODO: add the tutorial states to the progress screen. state is tutorial_showing_first_verb, then tutorial_showing_first_exercise, then showing_progress_normally 
+# TODO: make the screens for the states. when the user clicks the buttons in the tutorial states, they are moved through the tutorial.
+# TODO: create the lessons, so that the tutorial will have the lessons in them.
+# TODO: remove the second and third exercise from the gameplay.
+# TODO: when the user completes an exercise one time, a new verb is unlocked.
+# TODO: when the user completes an exercise at 100% (english matching with one of the two verbs), a new exercise (spanish matching) is unlocked
+# TODO: make the intro text move in like it's being typed, but fade in
 
-- fix outline, make look better
 
-- simple fixes
-	- need to change what shows on the popup button when completing a level
-	- have a progress screen that shows bars that increase
+- the exercises, when completed should add an icon to the list of verbs
 
-- plan - what will be the MVP?
+- Add Lessons. The user does lessons before each exercise to unlock the exercise. Mnemonics are needed for each lesson.
 
-- design
+- relationship, excercises to verbs are one to many:
+
+- the player chooses an excercise and is shown the verb that has the lowest score for that excercise, and if there is a tie,
+the lowest total score verb is shown for that excercise
+
+- fix webgl error. can't run in linux on the browser
+
+- make sure the initial button is green, that is selected
+
+- make sure that the exercise that shows up when exiting the show progress screen after completing an exercise, is the same exercise that was just completed
+
+- make sure the exercise button stays outlined when losing focus
+
+- after alpha complete, refactor method to get the data, allow for a lot more data:
+verb - tener, hablar, vivir
+exercise - english_pronoun_matching, spanish_pronoun_matching, conjugation_matching
+
+
+the user chooses an exercise and is shown the exercise with the correct verb populated.
+
+the verb and the verb data for the exercise (conjugations for spanish_pronoun_matching,
+					conjugations and english_phrases for english_pronoun_matching,
+
+so we need three data entities: verbs, exercises, and excercise_data.
+
+verb: 
+
+exercise:
+
+exercise_data:
 
 --------------------------------------------------------------------
 
-This is a Godot conversion of the HTML Spanish verb conjugation matching game. Players match Spanish pronouns (yo, tu, el, nosotros, vosotros, ellos) with their corresponding verb conjugations.
+Learn spanish with the conjugation game. Progress through words and conjugations with excercises that you choose, viewing your progress as you go along.
+
+Match spanish pronouns with their corresponding verb conjugations.
 
 ## How to Play
 
@@ -35,26 +67,21 @@ This is a Godot conversion of the HTML Spanish verb conjugation matching game. P
 ## Features
 
 - **Three Verbs**: Tener (er), Hablar (ar), and Vivir (ir)
-- **Visual Feedback**: 
-  - Yellow buttons (default)
-  - Green buttons (selected)
-  - Blue buttons (correct matches)
+- **Visual Feedback**: different colors for different statuses of the buttons
 - **Scoring**: Tracks incorrect attempts per problem
-- **Random Selection**: Verbs are selected randomly, avoiding recently completed ones
-- **Completion Popup**: Shows "Good Job!" message when all matches are made
+- **Pseudo-Random Selection**: Verbs are selected based off the priority.
 
 ## Running the Game
 
 ### Desktop (Windows/Linux/macOS)
 
-1. Open the project in Godot 4.2+
+1. Open the project in Godot 4.5
 2. Run the main scene (`Main.tscn`)
-3. The game window will open at 1024x600 resolution
+3. The game window will open at 1920 x 1080 resolution
 
 ## Game Structure
 
 - `Main.gd`: Contains all game logic, verb data, and UI interactions
-- `Main.tscn`: The main scene with UI layout and controls
 - `project.godot`: Godot project configuration
 
 ## Verb Data
@@ -65,4 +92,24 @@ The game includes three Spanish verbs with their conjugations:
 - **Hablar** (to speak): hablo, hablas, habla, hablamos, hablais, hablan  
 - **Vivir** (to live): vivo, vives, vive, vivimos, vivis, viven
 
-Enjoy learning Spanish verb conjugations!
+## Development timeline:
+
+## early alpha:
+- Go to Spanish learning group
+- share with CGDC virtual people
+
+# after mid-alpha
+- share with P&P
+- share with family members
+- share with CGDC
+- find an artist
+
+# after alpha complete
+- share with Emily and Ryan (ryanrknight12@gmail.com) from FNSM
+- share with David from FNSM (908 319 0880)
+- be active in all relevant discords
+- Kim from Calvary
+
+# after beta complete
+- setup a preorder
+- share in all discords
