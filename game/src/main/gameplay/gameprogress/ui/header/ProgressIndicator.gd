@@ -3,16 +3,16 @@ extends Control
 # UI references
 @onready var verb_ending_label: Label = $VBoxContainer/VerbEndingLabel
 @onready var current_verb_label: Label = $VBoxContainer/CurrentVerbLabel
-@onready var total_errors_label: Label = $VBoxContainer/TotalErrorsLabel
+@onready var total_mistakes_label: Label = $VBoxContainer/TotalMistakesLabel
 @onready var verbs_completed_label: Label = $VBoxContainer/VerbsCompletedLabel
 
 func _ready():
 	var game_progress = Global.get_node("GameProgressMaster")
-	game_progress.total_errors.changed.connect(_update_error_label)
+	game_progress.total_mistakes.changed.connect(_update_error_label)
 	
 
 func _update_error_label(value):
-	total_errors_label.text = "Total Errors: " + str(value)
+	total_mistakes_label.text = "Total Mistakes: " + str(value)
 
 
 # Public methods for updating progress display

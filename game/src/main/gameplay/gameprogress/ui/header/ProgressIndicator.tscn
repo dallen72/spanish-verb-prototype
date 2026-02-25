@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://bf6wfy5lrak4c" path="res://src/main/gameplay/gameprogress/ui/header/ProgressIndicator.gd" id="1_4x5y"]
 
-
 [node name="ProgressIndicator" type="Control"]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 3
@@ -57,11 +56,11 @@ theme_override_colors/font_color = Color(0.8, 1, 0.8, 1)
 theme_override_font_sizes/font_size = 30
 text = "current verb: Tener"
 
-[node name="TotalErrorsLabel" type="Label" parent="VBoxContainer"]
+[node name="TotalMistakesLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.8, 1)
 theme_override_font_sizes/font_size = 30
-text = "Total Errors: 0"
+text = "Total Mistakes: 0"
 
 [node name="VerbsCompletedLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
