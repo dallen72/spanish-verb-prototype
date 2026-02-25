@@ -29,14 +29,6 @@ func _ready():
 	Global.get_node("Signals").hide_intro_screen.connect(hide_intro_screen)
 
 
-# TODO: add the text to the intro screen. add states to the intro screen. the continue button will move through the states.
-# TODO: add the tutorial states to the progress screen. state is tutorial_showing_first_verb, then tutorial_showing_first_exercise, then showing_progress_normally 
-# TODO: make the screens for the states. when the user clicks the buttons in the tutorial states, they are moved through the tutorial.
-# TODO: create the lessons, so that the tutorial will have the lessons in them.
-# TODO: remove the second and third exercise from the gameplay.
-# TODO: when the user completes an exercise one time, a new verb is unlocked.
-# TODO: when the user completes an exercise at 100% (english matching with one of the two verbs), a new exercise (spanish matching) is unlocked
-
 # TODO: make the connect on line 24 connect to the global signal
 func _on_continue_pressed():	
 	continue_state_index_counter += 1
