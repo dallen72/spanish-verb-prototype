@@ -13,7 +13,7 @@
 [ext_resource type="Script" uid="uid://4hcyi7q7fo8n" path="res://src/main/gameplay/gameprogress/gamestates/doing_excercise.gd" id="6_rahfo"]
 [ext_resource type="Script" uid="uid://nl72iu2ysixg" path="res://src/main/gameplay/gameprogress/gamestates/updating_progress.gd" id="7_4bm33"]
 [ext_resource type="Script" uid="uid://c4hxsbas0vasm" path="res://src/main/gameplay/ui/ui_manager.gd" id="9_f4teq"]
-[ext_resource type="PackedScene" uid="uid://bfnks81q8j61w" path="res://src/main/gameplay/gameprogress/intro_screen.tscn" id="14_5i72y"]
+[ext_resource type="PackedScene" uid="uid://bfnks81q8j61w" path="res://src/main/gameplay/gameprogress/IntroScreen.tscn" id="14_5i72y"]
 
 [node name="Main" type="Control"]
 layout_mode = 3

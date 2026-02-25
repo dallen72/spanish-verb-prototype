@@ -1,1 +1,122 @@
 extends Control
+
+# Signals for communicating with parent scenes
+signal progress_screen_closed
+
+# Margins and content size (30px margins, 1860 = 1920 - 60)
+const MARGIN := 30
+const CONTENT_WIDTH := 1860
+const CONTENT_HEIGHT := 1020
+const SLIDE_DURATION := Global.UI_TRANSITION_SLIDE_DURATION
+# Max width for each button and icon (1920/8)
+const ROW_ITEM_SIZE := 240
+const COMPLETED_ICON_MODULATE := Color(0.2, 0.8, 0.3, 1.0)
+
+# UI references
+var sliding_panel: Control
+var continue_button: Button
+var VerbListWrapper: VBoxContainer
+
+func _ready():
+	sliding_panel = $SlidingPanel
+	continue_button = $SlidingPanel/VBoxContainer/ContinueButton
+	VerbListWrapper = %ListWrapper
+	
+	continue_button.pressed.connect(_on_continue_pressed)
+	Global.get_node("Signals").hide_progress_screen.connect(hide_progress_screen)
+
+
+#
+#enum ContinueState {
+	#TUTORIAL_SHOWING_FIRST_VERB,
+	#TUTORIAL_SHOWING_FIRST_EXERCISE,
+	#SHOWING_PROGRESS_NORMALLY
+#}
+#
+## TODO: add the text to the intro screen. add states to the intro screen. the continue button will move through the states.
+## TODO: add the tutorial states to the progress screen. state is tutorial_showing_first_verb, then tutorial_showing_first_exercise, then showing_progress_normally 
+## TODO: make the screens for the states. when the user clicks the buttons in the tutorial states, they are moved through the tutorial.
+## TODO: create the lessons, so that the tutorial will have the lessons in them.
+## TODO: remove the second and third exercise from the gameplay.
+## TODO: when the user completes an exercise one time, a new verb is unlocked.
+## TODO: when the user completes an exercise at 100% (english matching with one of the two verbs), a new exercise (spanish matching) is unlocked
+#
+## TODO: make the connect on line 24 connect to the global signal
+#func _on_continue_pressed():
+	#if (continue_state == ContinueState."tutorial_showing_first_verb"):
+	#elif (continue_state == "tutorial_showing_first_exercise"):
+	#elif (continue_state == "showing_progress_normally"):
+				#
+	#Global.get_node("Signals").emit_signal("continue_button_pressed")
+
+
+
+func _build_verb_list():
+	for child in VerbListWrapper.get_children():
+		child.queue_free()
+		
+#	var game_progress = Global.get_node("GameProgressMaster")
+
+	for verb_obj in VerbDataAccess.fetch_all_verbs():
+		var verb_name: String = verb_obj.name
+		var btn = Button.new()
+		btn.text = verb_name
+		btn.custom_minimum_size = Vector2(ROW_ITEM_SIZE, 40)
+		btn.flat = false
+		var flow_container = FlowContainer.new()
+		flow_container.add_child(btn)
+
+		var icons_column = Container.new()
+		# add to UI
+		#for excercise in ExerciseDataAccess.fetch_exercise_list():
+			#var completed_verbs = game_progress.get_verbs_completed_for_excercise(excercise.name)
+			#var is_completed: bool = verb_name in completed_verbs
+#
+			## Icon when completed, or same-size spacer when not (keeps rows aligned)
+			#var icon_size = Vector2(ROW_ITEM_SIZE, 40)
+			#if is_completed:
+				#var tex_rect = TextureRect.new()
+				#tex_rect.custom_minimum_size = icon_size
+				#tex_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+				#tex_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				#var icon_path = excercise.icon_path
+				#var tex = load(icon_path) as Texture2D
+				#if tex:
+					#tex_rect.texture = tex
+				#tex_rect.modulate = COMPLETED_ICON_MODULATE
+				#icons_column.add_child(tex_rect)
+				#
+		if (icons_column != null):
+			flow_container.add_child(icons_column)
+		VerbListWrapper.add_child(flow_container)
+
+
+# TODO: make the connect on line 24 connect to the global signal
+func _on_continue_pressed():
+	Global.get_node("Signals").emit_signal("continue_button_pressed")
+
+func hide_progress_screen():
+# Slide panel to the left off screen
+	var tween = create_tween()
+	tween.tween_property(sliding_panel, "position:x", -CONTENT_WIDTH, SLIDE_DURATION).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
+	await tween.finished
+	visible = false
+	_reset_panel_position()
+	progress_screen_closed.emit()
+
+func _reset_panel_position():
+	sliding_panel.position = Vector2(MARGIN, MARGIN)
+
+func show_progress_screen():
+	_reset_panel_position()
+	_build_verb_list()
+	visible = true
+	# Start off-screen left, then slide in
+	sliding_panel.position.x = -CONTENT_WIDTH
+	var tween = create_tween()
+	tween.tween_property(sliding_panel, "position:x", MARGIN, SLIDE_DURATION).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
+
+func show_progress_screen_with_timer(duration: float = 3.0):
+	show_progress_screen()
+	await get_tree().create_timer(duration).timeout
+	hide_progress_screen()

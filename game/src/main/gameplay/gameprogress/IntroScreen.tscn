@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bfnks81q8j61w"]
 
-[ext_resource type="Script" uid="uid://csiwsl01aw8aj" path="res://src/main/gameplay/gameprogress/intro_screen.gd" id="1_r6jh3"]
+[ext_resource type="Script" uid="uid://csiwsl01aw8aj" path="res://src/main/gameplay/gameprogress/intro_screen.gd" id="1_gifjv"]
 
 [node name="IntroScreen" type="Control"]
 layout_mode = 3
@@ -9,7 +9,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_r6jh3")
+script = ExtResource("1_gifjv")
 
 [node name="SlidingPanel" type="Control" parent="."]
 anchors_preset = 0
@@ -41,11 +41,16 @@ offset_bottom = -50.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TitleLabel" type="Label" parent="SlidingPanel/VBoxContainer"]
+[node name="MainText" type="Label" parent="SlidingPanel/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 48
-text = "Intro"
+text = "Hello!
+I'm learning Spanish,
+but I keep forgeting basic conjugations.
+Can you relate?"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -73,4 +78,4 @@ layout_mode = 2
 [node name="ContinueButton" type="Button" parent="SlidingPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "Continue"
+text = "Yes!"
