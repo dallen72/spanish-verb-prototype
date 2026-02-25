@@ -13,6 +13,24 @@ the lowest total score verb is shown for that excercise
 - make sure that the exercise that shows up when exiting the show progress screen after completing an exercise, is the same exercise that was just completed
 - make sure the exercise button stays outlined when losing focus
 
+- after alpha complete, refactor method to get the data, allow for a lot more data:
+verb - tener, hablar, vivir
+exercise - english_pronoun_matching, spanish_pronoun_matching, conjugation_matching
+
+
+the user chooses an exercise and is shown the exercise with the correct verb populated.
+
+the verb and the verb data for the exercise (conjugations for spanish_pronoun_matching,
+					conjugations and english_phrases for english_pronoun_matching,
+
+so we need three data entities: verbs, exercises, and excercise_data.
+
+verb: 
+
+exercise:
+
+exercise_data:
+
 --------------------------------------------------------------------
 
 Learn spanish with the conjugation game. Progress through words and conjugations with excercises that you choose, viewing your progress as you go along.
@@ -56,3 +74,25 @@ The game includes three Spanish verbs with their conjugations:
 - **Tener** (to have): tengo, tienes, tiene, tenemos, tenéis, tienen
 - **Hablar** (to speak): hablo, hablas, habla, hablamos, hablais, hablan  
 - **Vivir** (to live): vivo, vives, vive, vivimos, vivis, viven
+
+## Development timeline:
+
+## early alpha:
+- Go to Spanish learning group
+- share with CGDC virtual people
+
+# after mid-alpha
+- share with P&P
+- share with family members
+- share with CGDC
+- find an artist
+
+# after alpha complete
+- share with Emily and Ryan (ryanrknight12@gmail.com) from FNSM
+- share with David from FNSM (908 319 0880)
+- be active in all relevant discords
+- Kim from Calvary
+
+# after beta complete
+- setup a preorder
+- share in all discords
