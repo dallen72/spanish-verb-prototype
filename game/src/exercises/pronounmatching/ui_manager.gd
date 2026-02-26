@@ -111,8 +111,8 @@ func clear_conjugation_buttons():
 	conjugation_buttons.clear()
 
 
-func clear_conjugation_selections():
-	"""Clears visual selection feedback from conjugation buttons."""
+## Clears visual selection feedback from conjugation buttons.
+func clear_conjugation_selection_appearances():
 	for button in conjugation_container.get_children():
 		if button is Button and not button.disabled:
 			button.modulate = Color.WHITE
