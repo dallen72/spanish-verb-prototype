@@ -1,10 +1,8 @@
 
 extends Node
 
-# TODO: make sure this is just state and setters and getters. the root node has the controller script.
-
 # Domain model for pronoun matching game logic
-# This class contains NO UI dependencies - pure game logic only
+@onready var game_progress = Global.get_node("GameProgressMaster")
 
 # Game state
 var verb_data: Verb = null
@@ -16,10 +14,10 @@ var available_pronouns: Array[String] = []  # Pronouns not yet matched
 # Signals for UI to observe state changes
 signal pronoun_selected(pronoun: String)
 
-func setup_exercise_data(verb: Verb, _exercise: Exercise):
+func setup_exercise_data():
 	"""Initializes a new matching session with a verb and game mode."""
-	verb_data = verb
-	exercise = _exercise
+	verb_data = game_progress.get_current_verb()
+	exercise = game_progress.current_exercise
 	selected_pronoun = ""
 	matched_pairs.clear()
 	available_pronouns.clear()

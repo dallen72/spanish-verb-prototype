@@ -13,7 +13,7 @@ TODO
 # TODO: when the user completes an exercise one time, a new verb is unlocked.
 # TODO: when the user completes an exercise at 100% (english matching with one of the two verbs), a new exercise (spanish matching) is unlocked
 # TODO: make the intro text move in like it's being typed, but fade in
-
+# TODO: fix the conjugation exercise
 
 - the exercises, when completed should add an icon to the list of verbs
 
