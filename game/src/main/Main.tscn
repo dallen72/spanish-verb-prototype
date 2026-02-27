@@ -46,12 +46,18 @@ script = ExtResource("6_rahfo")
 [node name="UpdatingProgress" type="Node" parent="StateMachine"]
 script = ExtResource("7_4bm33")
 
-[node name="UIManager" type="Node" parent="."]
+[node name="UIManager" type="Control" parent="."]
 unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("9_f4teq")
 
 [node name="GameArea" type="Control" parent="UIManager"]
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -69,29 +75,37 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_fh42b")
 
-[node name="HeaderContainer" type="PanelContainer" parent="UIManager/GameArea"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UIManager/GameArea"]
 layout_mode = 1
-anchors_preset = 10
+anchors_preset = 15
 anchor_right = 1.0
-offset_left = 30.0
-offset_top = 33.0
-offset_right = -30.0
-offset_bottom = 326.0
+anchor_bottom = 1.0
 grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UIManager/GameArea/HeaderContainer"]
+[node name="HeaderMarginContainer" type="MarginContainer" parent="UIManager/GameArea/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+
+[node name="HeaderContainer" type="PanelContainer" parent="UIManager/GameArea/VBoxContainer/HeaderMarginContainer"]
 layout_mode = 2
 
-[node name="TitleSection" type="VBoxContainer" parent="UIManager/GameArea/HeaderContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UIManager/GameArea/VBoxContainer/HeaderMarginContainer/HeaderContainer"]
+layout_mode = 2
+
+[node name="TitleSection" type="VBoxContainer" parent="UIManager/GameArea/VBoxContainer/HeaderMarginContainer/HeaderContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 20
 
-[node name="Spacer" type="Control" parent="UIManager/GameArea/HeaderContainer/HBoxContainer/TitleSection"]
+[node name="Spacer" type="Control" parent="UIManager/GameArea/VBoxContainer/HeaderMarginContainer/HeaderContainer/HBoxContainer/TitleSection"]
 layout_mode = 2
 
-[node name="TitleLabel" type="Label" parent="UIManager/GameArea/HeaderContainer/HBoxContainer/TitleSection"]
+[node name="TitleLabel" type="Label" parent="UIManager/GameArea/VBoxContainer/HeaderMarginContainer/HeaderContainer/HBoxContainer/TitleSection"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 30
@@ -99,7 +113,8 @@ text = "Spanish Verb Conjugation Game"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VerbLabel" type="Label" parent="UIManager/GameArea/HeaderContainer/HBoxContainer/TitleSection"]
+[node name="VerbLabel" type="Label" parent="UIManager/GameArea/VBoxContainer/HeaderMarginContainer/HeaderContainer/HBoxContainer/TitleSection"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -108,44 +123,41 @@ text = "Match the conjugation with the pronoun for..."
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="PreviousScoreLabel" type="Label" parent="UIManager/GameArea/HeaderContainer/HBoxContainer/TitleSection"]
+[node name="PreviousScoreLabel" type="Label" parent="UIManager/GameArea/VBoxContainer/HeaderMarginContainer/HeaderContainer/HBoxContainer/TitleSection"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 30
 text = "Previous Score: 0"
 horizontal_alignment = 1
 
-[node name="GameModeSelector" parent="UIManager/GameArea/HeaderContainer/HBoxContainer/TitleSection" instance=ExtResource("2_vjwby")]
+[node name="GameModeSelector" parent="UIManager/GameArea/VBoxContainer/HeaderMarginContainer/HeaderContainer/HBoxContainer/TitleSection" instance=ExtResource("2_vjwby")]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/h_separation = 20
 
-[node name="ProgressIndicator" parent="UIManager/GameArea/HeaderContainer/HBoxContainer" instance=ExtResource("3_8ec3e")]
+[node name="ProgressIndicator" parent="UIManager/GameArea/VBoxContainer/HeaderMarginContainer/HeaderContainer/HBoxContainer" instance=ExtResource("3_8ec3e")]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(413, 233)
 layout_mode = 2
 
-[node name="TopHSeparator" type="HSeparator" parent="UIManager/GameArea"]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_top = 353.0
-offset_right = 3.0
-offset_bottom = 359.0
-grow_horizontal = 2
+[node name="MainMarginContainer" type="MarginContainer" parent="UIManager/GameArea/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
 
-[node name="PanelContainer" type="PanelContainer" parent="UIManager/GameArea"]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 30.0
-offset_top = 370.0
-offset_right = -30.0
-offset_bottom = 879.0
-grow_horizontal = 2
+[node name="PanelContainer" type="PanelContainer" parent="UIManager/GameArea/VBoxContainer/MainMarginContainer"]
+layout_mode = 2
 
-[node name="ExerciseContainer" type="HBoxContainer" parent="UIManager/GameArea/PanelContainer"]
+[node name="ExerciseContainer" type="HBoxContainer" parent="UIManager/GameArea/VBoxContainer/MainMarginContainer/PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
 [node name="ProgressScreen" parent="UIManager" instance=ExtResource("6_progress")]
+layout_mode = 1
 
 [node name="IntroScreen" parent="UIManager" instance=ExtResource("14_5i72y")]
+layout_mode = 1

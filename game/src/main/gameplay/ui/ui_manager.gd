@@ -12,10 +12,10 @@ var conjugation_button_colors_initialized: bool = false
 @onready var signals = Global.get_node("Signals")
 
 # UI references
-@onready var verb_label: Label = $GameArea/HeaderContainer/HBoxContainer/TitleSection/VerbLabel
-@onready var previous_score_label: Label = $GameArea/HeaderContainer/HBoxContainer/TitleSection/PreviousScoreLabel
-@onready var exercise_selector: HFlowContainer = $GameArea/HeaderContainer/HBoxContainer/TitleSection/GameModeSelector
-@onready var progress_indicator: Control = $GameArea/HeaderContainer/HBoxContainer/ProgressIndicator
+@onready var verb_label: Label = %VerbLabel
+@onready var previous_score_label: Label = %PreviousScoreLabel
+@onready var exercise_selector: HFlowContainer = %GameModeSelector
+@onready var progress_indicator: Control = %ProgressIndicator
 @onready var progress_screen: Control = $ProgressScreen
 @onready var intro_screen: Control = $IntroScreen
 @onready var title_section: VBoxContainer = %TitleSection
