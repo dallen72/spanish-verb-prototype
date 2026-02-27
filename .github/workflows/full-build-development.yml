@@ -4,7 +4,7 @@
 # 
 # PURPOSE: Creates development builds for testing and team access
 # TRIGGER: Runs on every push to main/master branches
-# BUILD MODE: Debug builds (faster compilation, includes debug symbols)
+# BUILD MODE: Release builds (optimized, no debug symbols)
 # OUTPUT: Builds uploaded to GitHub artifacts AND Itch.io channels
 # 
 # This workflow:
@@ -42,10 +42,10 @@ jobs:
         with:
           clean: true  # Force clean checkout
       
-      - name: Build Full Game (Debug)
+      - name: Build Full Game (Release)
         uses: ./.github/actions/build-game
         with:
-          build-mode: debug
+          build-mode: release
           project-name: ${{ vars.PROJECTNAME }}
           web-build: ${{ vars.WEBBUILD || 'true' }}
           linux-build: ${{ vars.LINUXBUILD || 'false' }}
@@ -55,7 +55,7 @@ jobs:
       - name: Verify Build Output
         uses: ./.github/actions/verify-build
         with:
-          build-mode: debug
+          build-mode: release
           project-name: ${{ vars.PROJECTNAME }}
           web-build: ${{ vars.WEBBUILD || 'true' }}
           linux-build: ${{ vars.LINUXBUILD || 'false' }}
@@ -67,7 +67,7 @@ jobs:
         if: ${{ vars.WINDOWSBUILD == 'true' }}
         uses: ./.github/actions/upload-to-itch
         with:
-          file-path: game/build/windows-debug/
+          file-path: game/build/windows-release/
           channel: windows
           game-id: island-treehouse/${{ vars.PROJECTNAME }}
           api-key: ${{ secrets.BUTLER_API_KEY }}
@@ -76,7 +76,7 @@ jobs:
         if: ${{ vars.WEBBUILD == 'true' }}
         uses: ./.github/actions/upload-to-itch
         with:
-          file-path: game/build/web-debug/
+          file-path: game/build/web-release/
           channel: web
           game-id: island-treehouse/${{ vars.PROJECTNAME }}
           api-key: ${{ secrets.BUTLER_API_KEY }}
@@ -85,7 +85,7 @@ jobs:
         if: ${{ vars.LINUXBUILD == 'true' }}
         uses: ./.github/actions/upload-to-itch
         with:
-          file-path: game/build/linux-debug/
+          file-path: game/build/linux-release/
           channel: linux
           game-id: island-treehouse/${{ vars.PROJECTNAME }}
           api-key: ${{ secrets.BUTLER_API_KEY }}
@@ -94,7 +94,7 @@ jobs:
         if: ${{ vars.MACOSBUILD == 'true' }}
         uses: ./.github/actions/upload-to-itch
         with:
-          file-path: game/build/macos-debug.zip
+          file-path: game/build/macos-release.zip
           channel: osx
           game-id: island-treehouse/${{ vars.PROJECTNAME }}
           api-key: ${{ secrets.BUTLER_API_KEY }}
