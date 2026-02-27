@@ -2,7 +2,7 @@
 
 TODO
 
-
+# TODO: fix the "this game is not designed to run on your device" message in the browser on itch.io
 # TODO: in Android chrome browser, make sure loads faster
 # TODO: make sure buttons appear larger in chrome Android
 # TODO: make sure the progress and intro screens take up the whole screen in Android chrome
