@@ -28,7 +28,7 @@ var tutorial_state: TutorialState
 func _ready():
 	tutorial_state = TutorialState.TUTORIAL_SHOWING_FIRST_VERB
 	sliding_panel = $SlidingPanel
-	continue_button = $SlidingPanel/VBoxContainer/ContinueButton
+	continue_button = %ContinueButton
 	VerbListWrapper = %ListWrapper
 	
 	continue_button.pressed.connect(_on_continue_pressed)

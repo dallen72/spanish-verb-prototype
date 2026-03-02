@@ -22,8 +22,8 @@ var continue_state_index_counter: int = 0
 
 func _ready():
 	sliding_panel = $SlidingPanel
-	continue_button = $SlidingPanel/VBoxContainer/ContinueButton
-	main_text_label = $SlidingPanel/VBoxContainer/MainText
+	continue_button = %ContinueButton
+	main_text_label = %MainText
 	
 	continue_button.pressed.connect(_on_continue_pressed)
 	Global.get_node("Signals").hide_intro_screen.connect(hide_intro_screen)

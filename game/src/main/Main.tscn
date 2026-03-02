@@ -147,9 +147,7 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="ProgressScreen" parent="UIManager" instance=ExtResource("6_progress")]
-visible = false
 layout_mode = 1
 
 [node name="IntroScreen" parent="UIManager" instance=ExtResource("14_5i72y")]
-visible = false
 layout_mode = 1
