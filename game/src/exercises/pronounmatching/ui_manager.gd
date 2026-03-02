@@ -4,7 +4,7 @@ extends Control
 @onready var margin_container = $VBoxContainer/MarginContainer
 @onready var pronoun_section: VBoxContainer = $VBoxContainer/MarginContainer/GameArea/PronounSection
 @onready var pronoun_label: Label = $VBoxContainer/MarginContainer/GameArea/PronounSection/PronounLabel
-@onready var pronoun_container: FlowContainer = $VBoxContainer/MarginContainer/GameArea/PronounSection/PronounMarginContainer/PronounGrid
+@onready var pronoun_container: Control = %PronounGrid
 @onready var conjugation_container: GridContainer = $VBoxContainer/MarginContainer/GameArea/ConjugationSection/ConjugationMarginContainer/ConjugationGrid
 @onready var conjugation_margin_container: MarginContainer = $VBoxContainer/MarginContainer/GameArea/ConjugationSection/ConjugationMarginContainer
 
@@ -41,6 +41,8 @@ func initialize_pronoun_buttons():
 	pronoun_buttons.clear()
 	for button in pronoun_container.get_children():
 		if button is PronounButton:
+			button.size.x = (get_parent().size.x - 20) / 2
+			button.size.y = (get_parent().size.y - 20) / 3
 			pronoun_buttons[button.name] = button
 	
 			
@@ -164,10 +166,26 @@ func generate_conjugation_buttons(current_verb: Verb, button_callback: Callable)
 		conjugation_container.add_child(item["button"])
 
 
+
 func setup_UI(current_verb, selected_pronoun, callback):
 	initialize_pronoun_buttons()
 	clear_conjugation_buttons()
 	generate_conjugation_buttons(current_verb, callback)
 
+	pronoun_container.visible = false
 	# Update glow effects after conjugations are loaded
-	call_deferred("setup_glow_effects", selected_pronoun)		
+	call_deferred("setup_glow_effects", selected_pronoun)
+	await get_tree().process_frame
+	call_deferred("adjust_size_of_buttons_dynamically")
+	pronoun_container.visible = true
+		
+
+func adjust_size_of_buttons_dynamically():
+	if pronoun_container.size.x > pronoun_container.size.y:
+		pronoun_container.columns = 3
+	else:
+		pronoun_container.columns = 2
+	#for button in pronoun_container.get_children():
+		#if button is PronounButton:
+			#button.size.x = (pronoun_container.size.x - 20) / 2
+			#button.size.y = (pronoun_container.size.y - 20) / 3

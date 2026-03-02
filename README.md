@@ -4,6 +4,7 @@ TODO
 
 # TODO: make sure buttons appear larger in chrome Android
 # TODO: make sure the progress and intro screens take up the whole screen in Android chrome
+# TODO: make sure the gameplay screen is not so busy. Move some stuff off of it to the progress screen
 
 # TODO: add the tutorial states to the progress screen. state is tutorial_showing_first_verb, then tutorial_showing_first_exercise, then showing_progress_normally 
 # TODO: make the screens for the states. when the user clicks the buttons in the tutorial states, they are moved through the tutorial.

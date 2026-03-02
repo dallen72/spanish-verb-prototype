@@ -6,5 +6,6 @@
 custom_minimum_size = Vector2(200, 100)
 offset_right = 200.0
 offset_bottom = 100.0
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 30
 script = ExtResource("1_pronoun_btn")
