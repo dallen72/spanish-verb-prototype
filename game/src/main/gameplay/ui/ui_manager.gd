@@ -14,7 +14,6 @@ var conjugation_button_colors_initialized: bool = false
 # UI references
 @onready var verb_label: Label = %VerbLabel
 @onready var previous_score_label: Label = %PreviousScoreLabel
-@onready var exercise_selector: HFlowContainer = %GameModeSelector
 @onready var progress_indicator: Control = %ProgressIndicator
 @onready var progress_screen: Control = $ProgressScreen
 @onready var intro_screen: Control = $IntroScreen
@@ -24,9 +23,7 @@ var conjugation_button_colors_initialized: bool = false
 var PronounMatching = preload("res://src/exercises/pronounmatching/PronounMatching.tscn")
 var SentenceCompletion = preload("res://src/exercises/sentencecompletion/SentenceCompletion.tscn")
 
-#TODO: rename exercise_selector
 func _ready():
-	exercise_selector.exercise_changed.connect(_on_exercise_change_clicked)
 	init_ui()
 
 
@@ -126,7 +123,6 @@ func show_progress_screen():
 func setup_problem():
 	if game_progress.current_exercise == null:
 		game_progress.current_exercise = Global.initial_exercise
-		exercise_selector.set_selectable_button_states(game_progress.current_exercise.name)
 
 	_setup_exercise_nodes(game_progress.current_exercise.name)
 	update_exercise_display()

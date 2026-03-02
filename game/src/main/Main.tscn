@@ -1,9 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://b0x8jqyqj0x0r"]
+[gd_scene load_steps=14 format=3 uid="uid://b0x8jqyqj0x0r"]
 
 [ext_resource type="Script" uid="uid://ci4ach40catas" path="res://src/main/Main.gd" id="1_5qjmp"]
 [ext_resource type="Texture2D" uid="uid://gs2pwhy6vtko" path="res://assets/hispanic-woman-in-a-shop.png" id="2_fh42b"]
 [ext_resource type="Script" uid="uid://5lttqlyafdg5" path="res://src/main/gameplay/gameprogress/state_machine.gd" id="2_insap"]
-[ext_resource type="PackedScene" uid="uid://bhnxqi7hgoe7b" path="res://src/main/gameplay/ui/GameModeSelector.tscn" id="2_vjwby"]
 [ext_resource type="PackedScene" uid="uid://bop4g007gumea" path="res://src/main/gameplay/gameprogress/ui/header/ProgressIndicator.tscn" id="3_8ec3e"]
 [ext_resource type="Script" uid="uid://b6o4yrghums3e" path="res://src/main/gameplay/gameprogress/gamestates/init.gd" id="3_insap"]
 [ext_resource type="Script" uid="uid://cmfabwogth54o" path="res://src/main/gameplay/gameprogress/gamestates/loading_game_data.gd" id="4_5i72y"]
@@ -100,18 +99,11 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
 theme_override_constants/separation = 20
 
 [node name="Spacer" type="Control" parent="UIManager/GameArea/VBoxContainer/HeaderMarginContainer/HeaderContainer/HBoxContainer/TitleSection"]
 layout_mode = 2
-
-[node name="TitleLabel" type="Label" parent="UIManager/GameArea/VBoxContainer/HeaderMarginContainer/HeaderContainer/HBoxContainer/TitleSection"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 30
-text = "Spanish Verb Conjugation Game"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="VerbLabel" type="Label" parent="UIManager/GameArea/VBoxContainer/HeaderMarginContainer/HeaderContainer/HBoxContainer/TitleSection"]
 unique_name_in_owner = true
@@ -131,15 +123,13 @@ theme_override_font_sizes/font_size = 30
 text = "Previous Score: 0"
 horizontal_alignment = 1
 
-[node name="GameModeSelector" parent="UIManager/GameArea/VBoxContainer/HeaderMarginContainer/HeaderContainer/HBoxContainer/TitleSection" instance=ExtResource("2_vjwby")]
-unique_name_in_owner = true
+[node name="Spacer2" type="Control" parent="UIManager/GameArea/VBoxContainer/HeaderMarginContainer/HeaderContainer/HBoxContainer/TitleSection"]
 layout_mode = 2
-theme_override_constants/h_separation = 20
 
 [node name="ProgressIndicator" parent="UIManager/GameArea/VBoxContainer/HeaderMarginContainer/HeaderContainer/HBoxContainer" instance=ExtResource("3_8ec3e")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(413, 233)
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="MainMarginContainer" type="MarginContainer" parent="UIManager/GameArea/VBoxContainer"]
 layout_mode = 2
@@ -157,7 +147,9 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="ProgressScreen" parent="UIManager" instance=ExtResource("6_progress")]
+visible = false
 layout_mode = 1
 
 [node name="IntroScreen" parent="UIManager" instance=ExtResource("14_5i72y")]
+visible = false
 layout_mode = 1
