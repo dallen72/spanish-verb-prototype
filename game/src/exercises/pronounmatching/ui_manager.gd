@@ -134,7 +134,6 @@ func generate_conjugation_buttons(current_verb: Verb, button_callback: Callable)
 		var button = Button.new()
 		button.text = conjugation
 		button.custom_minimum_size = Vector2(216, 108)
-		button.add_theme_font_size_override("font_size", 30)
 		
 		# Apply shared colors from Global
 		if Engine.has_singleton("Global"):
