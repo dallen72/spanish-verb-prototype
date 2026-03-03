@@ -20,8 +20,8 @@ var conjugation_button_colors_initialized: bool = false
 @onready var title_section: VBoxContainer = %TitleSection
 @onready var exercise_container: HBoxContainer = %ExerciseContainer
 
-var PronounMatching = preload("res://src/exercises/pronounmatching/PronounMatching.tscn")
-var SentenceCompletion = preload("res://src/exercises/sentencecompletion/SentenceCompletion.tscn")
+var PronounMatching = preload(Global.PRONOUN_MATCHING_SCENE_PATH)
+var SentenceCompletion = preload(Global.SENTENCE_COMPLETION_SCENE_PATH)
 
 func _ready():
 	init_ui()

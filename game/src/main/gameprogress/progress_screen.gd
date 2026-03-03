@@ -27,7 +27,7 @@ var tutorial_state: TutorialState
 
 func _ready():
 	tutorial_state = TutorialState.TUTORIAL_SHOWING_FIRST_VERB
-	sliding_panel = $SlidingPanel
+	sliding_panel = %SlidingPanel
 	continue_button = %ContinueButton
 	VerbListWrapper = %ListWrapper
 	
@@ -122,8 +122,3 @@ func show_progress_screen():
 	sliding_panel.position.x = -CONTENT_WIDTH
 	var tween = create_tween()
 	tween.tween_property(sliding_panel, "position:x", MARGIN, SLIDE_DURATION).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
-
-func show_progress_screen_with_timer(duration: float = 3.0):
-	show_progress_screen()
-	await get_tree().create_timer(duration).timeout
-	hide_progress_screen()

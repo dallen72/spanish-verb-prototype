@@ -9,3 +9,4 @@ func enter():
 func on_continue_button_pressed():
 	Transitioned.emit(self, "DoingExercise")
 	Global.get_node("Signals").hide_progress_screen.emit()	
+ 

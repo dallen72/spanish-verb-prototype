@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bfnks81q8j61w"]
 
-[ext_resource type="Script" uid="uid://csiwsl01aw8aj" path="res://src/main/gameplay/gameprogress/intro_screen.gd" id="1_gifjv"]
+[ext_resource type="Script" uid="uid://csiwsl01aw8aj" path="res://src/main/tutorial/intro_screen.gd" id="1_gifjv"]
 
 [node name="IntroScreen" type="Control"]
 layout_mode = 3

@@ -17,6 +17,8 @@ TODO
 
 # TODO: set up a local dev server for testing for mobile development. we can do one with godot already, but it seems to be blocking connections from devices on the same network.
 
+# TODO: make the buttons appear like clickable buttons
+
 - the exercises, when completed should add an icon to the list of verbs
 
 - Add Lessons. The user does lessons before each exercise to unlock the exercise. Mnemonics are needed for each lesson.

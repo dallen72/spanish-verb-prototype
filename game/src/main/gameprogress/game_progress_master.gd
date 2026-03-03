@@ -64,6 +64,7 @@ func get_current_exercise():
 	else:
 		return current_exercise
 			
+			
 func get_exercise_where_name_is(exercise_name):
 	for exercise in game_exercises:
 		if exercise.name == exercise_name:

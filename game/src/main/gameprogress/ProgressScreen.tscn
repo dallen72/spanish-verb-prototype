@@ -1,0 +1,114 @@
+[gd_scene load_steps=8 format=3 uid="uid://c8kj3mq2npx1a"]
+
+[ext_resource type="Script" uid="uid://lqb7lnc7cyeq" path="res://src/main/gameprogress/progress_screen.gd" id="1_progress"]
+[ext_resource type="Script" uid="uid://ckec0dampunmp" path="res://src/main/gameprogress/tutorial_state_machine.gd" id="2_b1naj"]
+[ext_resource type="Script" uid="uid://doiyjo3uyumt5" path="res://src/main/tutorial/states/init.gd" id="3_sofdf"]
+[ext_resource type="Script" uid="uid://cn44775vukihn" path="res://src/main/tutorial/states/showing_first_verb.gd" id="4_xpa41"]
+[ext_resource type="Script" uid="uid://ccv4u7ir6t565" path="res://src/main/tutorial/states/showing_first_exercise.gd" id="5_i2k20"]
+[ext_resource type="Script" uid="uid://toj8qwy4f5o0" path="res://src/main/tutorial/states/showing_progress_normally.gd" id="6_sofdf"]
+[ext_resource type="Script" uid="uid://dht410ue82s45" path="res://src/main/gameprogress/ui_manager.gd" id="7_ifjoa"]
+
+[node name="ProgressScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_progress")
+
+[node name="TutorialStateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("2_b1naj")
+initial_state = NodePath("Init")
+
+[node name="Init" type="Node" parent="TutorialStateMachine"]
+script = ExtResource("3_sofdf")
+
+[node name="ShowingFirstVerb" type="Node" parent="TutorialStateMachine"]
+script = ExtResource("4_xpa41")
+
+[node name="ShowingFirstExercise" type="Node" parent="TutorialStateMachine"]
+script = ExtResource("5_i2k20")
+
+[node name="ShowingProgressNormally" type="Node" parent="TutorialStateMachine"]
+script = ExtResource("6_sofdf")
+
+[node name="UIManager" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_ifjoa")
+
+[node name="SlidingPanel" type="Control" parent="UIManager"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = -30.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="UIManager/SlidingPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.101960786, 0.101960786, 0.14901961, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="UIManager/SlidingPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 120
+theme_override_constants/margin_top = 120
+theme_override_constants/margin_right = 120
+theme_override_constants/margin_bottom = 120
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIManager/SlidingPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Your Progress"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CenterContainer" type="CenterContainer" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+
+[node name="ListWrapper" type="VBoxContainer" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ContinueSpacer" type="Control" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="ContinueButton" type="Button" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Continue"
