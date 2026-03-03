@@ -32,14 +32,10 @@ func show_intro():
 	await intro_screen.intro_screen_closed
 
 
+# TODO: intial progress cannot be shown here, it happens later, so change name. make sure timing is correct with the signals so that the ui is updated after
 func show_initial_progress_and_start():
 	# Show intro/progress screen; wait for user to click Continue (slide-out then signal)
 	progress_screen.show_progress_screen()
-	# Update UI
-	previous_score_label.text = "You got " + str(game_progress.previous_score) + " wrong on the last problem"
-	update_exercise_display()
-	
-	progress_indicator.update_progress()
 
 	await progress_screen.progress_screen_closed
 
@@ -61,6 +57,9 @@ func init_ui():
 
 		# Initialize shared button colors when the game loads
 	_init_conjugation_button_colors()
+	
+	previous_score_label.text = "You got " + str(game_progress.previous_score) + " wrong on the last problem"
+
 
 func _init_conjugation_button_colors():
 	if conjugation_button_colors_initialized:
@@ -102,6 +101,7 @@ func set_conjugation_button_colors(bg_color: Color, font_color: Color) -> void:
 	conjugation_button_font_color = font_color
 	conjugation_button_colors_initialized = true
 
+
 func update_exercise_display():
 	var current_verb: Verb = Global.get_node("GameProgressMaster").get_current_verb()
 	var verb_name: String = current_verb.name if current_verb else ""
@@ -113,6 +113,8 @@ func update_exercise_display():
 		elif game_progress.current_exercise.name == "sentence_completion":
 			verb_label.text = "Match the conjugation with the correct sentence for " + verb_name
 
+	progress_indicator.update_progress()
+
 
 func show_progress_screen():
 	progress_screen.show_progress_screen()
@@ -123,7 +125,7 @@ func show_progress_screen():
 func setup_problem():
 	if game_progress.current_exercise == null:
 		game_progress.current_exercise = Global.initial_exercise
-
+		
 	_setup_exercise_nodes(game_progress.current_exercise.name)
 	update_exercise_display()
 	
