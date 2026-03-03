@@ -32,14 +32,6 @@ func show_intro():
 	await intro_screen.intro_screen_closed
 
 
-# TODO: intial progress cannot be shown here, it happens later, so change name. make sure timing is correct with the signals so that the ui is updated after
-func show_initial_progress_and_start():
-	# Show intro/progress screen; wait for user to click Continue (slide-out then signal)
-	progress_screen.show_progress_screen()
-
-	await progress_screen.progress_screen_closed
-
-
 func _on_exercise_change_clicked():
 	remove_exercise_if_exists()
 	setup_problem()
@@ -118,7 +110,6 @@ func update_exercise_display():
 
 func show_progress_screen():
 	progress_screen.show_progress_screen()
-	await progress_screen.progress_screen_closed
 
 
 ## Creates the next exercise and adds it to the UI

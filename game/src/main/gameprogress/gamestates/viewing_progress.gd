@@ -4,7 +4,7 @@ extends State
 @onready var game_progress = Global.get_node("GameProgressMaster")
 
 func enter():
-	%UIManager.show_initial_progress_and_start()
+	%UIManager.show_progress_screen()
 	
 func on_continue_button_pressed():
 	Transitioned.emit(self, "DoingExercise")
