@@ -1,11 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://c8kj3mq2npx1a"]
+[gd_scene load_steps=3 format=3 uid="uid://c8kj3mq2npx1a"]
 
 [ext_resource type="Script" uid="uid://lqb7lnc7cyeq" path="res://src/main/gameprogress/progress_screen.gd" id="1_progress"]
-[ext_resource type="Script" uid="uid://ckec0dampunmp" path="res://src/main/gameprogress/tutorial_state_machine.gd" id="2_b1naj"]
-[ext_resource type="Script" uid="uid://doiyjo3uyumt5" path="res://src/main/tutorial/states/init.gd" id="3_sofdf"]
-[ext_resource type="Script" uid="uid://cn44775vukihn" path="res://src/main/tutorial/states/showing_first_verb.gd" id="4_xpa41"]
-[ext_resource type="Script" uid="uid://ccv4u7ir6t565" path="res://src/main/tutorial/states/showing_first_exercise.gd" id="5_i2k20"]
-[ext_resource type="Script" uid="uid://toj8qwy4f5o0" path="res://src/main/tutorial/states/showing_progress_normally.gd" id="6_sofdf"]
 [ext_resource type="Script" uid="uid://dht410ue82s45" path="res://src/main/gameprogress/ui_manager.gd" id="7_ifjoa"]
 
 [node name="ProgressScreen" type="Control"]
@@ -16,22 +11,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_progress")
-
-[node name="TutorialStateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
-script = ExtResource("2_b1naj")
-initial_state = NodePath("Init")
-
-[node name="Init" type="Node" parent="TutorialStateMachine"]
-script = ExtResource("3_sofdf")
-
-[node name="ShowingFirstVerb" type="Node" parent="TutorialStateMachine"]
-script = ExtResource("4_xpa41")
-
-[node name="ShowingFirstExercise" type="Node" parent="TutorialStateMachine"]
-script = ExtResource("5_i2k20")
-
-[node name="ShowingProgressNormally" type="Node" parent="TutorialStateMachine"]
-script = ExtResource("6_sofdf")
 
 [node name="UIManager" type="Control" parent="."]
 unique_name_in_owner = true

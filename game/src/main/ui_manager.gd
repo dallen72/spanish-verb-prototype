@@ -15,10 +15,12 @@ var conjugation_button_colors_initialized: bool = false
 @onready var verb_label: Label = %VerbLabel
 @onready var previous_score_label: Label = %PreviousScoreLabel
 @onready var progress_indicator: Control = %ProgressIndicator
-@onready var progress_screen: Control = $ProgressScreen
-@onready var intro_screen: Control = $IntroScreen
 @onready var title_section: VBoxContainer = %TitleSection
 @onready var exercise_container: HBoxContainer = %ExerciseContainer
+
+var progress_screen: Control
+var progress_screen_scene: PackedScene = preload("res://src/main/gameprogress/ProgressScreen.tscn")
+var tutorial_progress_screen_scene: PackedScene = preload("res://src/main/tutorial/TutorialProgressScreen.tscn")
 
 var PronounMatching = preload(Global.PRONOUN_MATCHING_SCENE_PATH)
 var SentenceCompletion = preload(Global.SENTENCE_COMPLETION_SCENE_PATH)
@@ -27,9 +29,12 @@ func _ready():
 	init_ui()
 
 
-func show_intro():
-	intro_screen.show_intro_screen()
-	await intro_screen.intro_screen_closed
+func remove_progress_screen():
+	progress_screen.queue_free()
+
+
+func start_intro():
+	progress_screen.show_intro_screen()
 
 
 func _on_exercise_change_clicked():
@@ -51,6 +56,20 @@ func init_ui():
 	_init_conjugation_button_colors()
 	
 	previous_score_label.text = "You got " + str(game_progress.previous_score) + " wrong on the last problem"
+
+
+## instantiate the tutorial or the regular progress scene, and add it to the scene, but remove the old progress screen node if it exists.
+func update_scene_with_correct_progress_screen(is_tutorial: bool):
+	if progress_screen:
+		remove_child(progress_screen)
+		progress_screen.queue_free()
+		
+	if is_tutorial:
+		progress_screen = tutorial_progress_screen_scene.instantiate()
+	else:
+		progress_screen = progress_screen_scene.instantiate()
+	
+	add_child(progress_screen)
 
 
 func _init_conjugation_button_colors():
@@ -109,6 +128,7 @@ func update_exercise_display():
 
 
 func show_progress_screen():
+	update_scene_with_correct_progress_screen(Global.is_tutorial)
 	progress_screen.show_progress_screen()
 
 
@@ -146,3 +166,7 @@ func remove_exercise_if_exists():
 		var child = exercise_container.get_child(0)
 		exercise_container.remove_child(child)
 	
+
+# TODO
+func show_lesson():
+	pass

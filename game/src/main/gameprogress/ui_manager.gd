@@ -21,23 +21,10 @@ func _ready():
 	continue_button.pressed.connect(_on_continue_pressed)
 	Global.get_node("Signals").hide_progress_screen.connect(hide_progress_screen)
 
+
 # TODO: make the connect on line 24 connect to the global signal
 func _on_continue_pressed():
 	Global.get_node("Signals").emit_signal("continue_button_pressed")
-
-
-func show_first_verb():
-#	Global.get_node("signals").tutorial_continued.emit()
-	pass
-
-
-func show_first_exercise():
-	pass
-	
-	
-func end_tutorial():
-	pass
-
 
 
 func _build_verb_list():
@@ -86,14 +73,15 @@ func hide_progress_screen():
 	tween.tween_property(sliding_panel, "position:x", -CONTENT_WIDTH, SLIDE_DURATION).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
 	await tween.finished
 	visible = false
-	_reset_panel_position()
 	Global.get_node("Signals").menu_screens_have_exited_the_screen.emit()
 
-func _reset_panel_position():
+
+func reset_panel_position():
 	sliding_panel.position = Vector2(MARGIN, MARGIN)
 
+
 func show_progress_screen():
-	_reset_panel_position()
+	reset_panel_position()
 	_build_verb_list()
 	visible = true
 	# Start off-screen left, then slide in
