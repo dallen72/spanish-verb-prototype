@@ -8,6 +8,7 @@ static func _parse_exercise(raw: Dictionary) -> Exercise:
 	e.name = raw.get("name", "")
 	e.icon_path = raw.get("icon_path", "")
 	e.label_text_for_given = raw.get("label_text_for_given", "")
+	e.path = raw.get("path")
 	return e
 
 static func fetch_exercise_list() -> Array[Exercise]:

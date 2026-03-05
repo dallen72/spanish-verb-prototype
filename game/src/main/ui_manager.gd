@@ -146,7 +146,7 @@ func _setup_exercise_nodes(mode: String):
 
 	#TODO: make sure this checks the enums. no hardcoded.
 	# Show/hide child scenes based on game mode
-	for exercise_scene in Global.exercise_scene_list:
+	for exercise_scene in game_progress.game_exercises:
 		if exercise_scene.name == mode:
 	#if mode == "sentence_completion":
 			var packed_scene = load(exercise_scene.path)
