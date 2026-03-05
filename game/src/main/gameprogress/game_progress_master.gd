@@ -44,7 +44,7 @@ func get_next_verb() -> Verb:
 	if verb_object is Verb:
 		return verb_object
 	else:
-		print("No Verb was able to be fetched with the name of the lowest score verb in get_next_verb()")
+		printerr("No Verb was able to be fetched with the name of the lowest score verb in get_next_verb()")
 		return Verb.new()
 		
 

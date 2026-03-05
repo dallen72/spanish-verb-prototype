@@ -13,16 +13,14 @@ static func parse_verb(raw: Dictionary) -> Verb:
 	return v
 
 
-static func fetch_all_verbs() -> Array[Verb]:
-	var result: Array[Verb] = []
+static func fetch_all_verbs() -> Variant:
+	var result_array: Array[Verb] = []
 	for raw in VerbData.VERB_LIST:
-		result.append(parse_verb(raw))
-	return result
-
-
-#TODO: change to variant everywhere for data access objects' methods
-static func get_total_verb_count() -> int:
-	return VerbData.VERB_LIST.size()
+		result_array.append(parse_verb(raw))
+	if result_array.size() < 1:
+		return null
+	else:
+		return result_array
 	
 	
 static func fetch_verb_where_name_is(_name: String) -> Variant:

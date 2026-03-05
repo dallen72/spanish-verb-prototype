@@ -11,8 +11,12 @@ static func _parse_exercise(raw: Dictionary) -> Exercise:
 	e.path = raw.get("path")
 	return e
 
-static func fetch_exercise_list() -> Array[Exercise]:
-	var result: Array[Exercise] = []
+static func fetch_exercise_list() -> Variant:
+	var result_array: Array[Exercise] = []
 	for raw in ExerciseData.EXERCISE_LIST:
-		result.append(_parse_exercise(raw))
-	return result
+		result_array.append(_parse_exercise(raw))
+	
+	if result_array.size() < 1:
+		return null
+	else:
+		return result_array	
