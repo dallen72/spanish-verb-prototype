@@ -19,6 +19,9 @@ TODO
 
 # TODO: make the buttons appear like clickable buttons
 
+# TODO: make the game appear small but ok in the default browser window
+# TODO: make the game keep the default dimensions when it is in portrait mode on the phone, so the user will be incentivized to have the phone in landscape mode.
+
 - the exercises, when completed should add an icon to the list of verbs
 
 - Add Lessons. The user does lessons before each exercise to unlock the exercise. Mnemonics are needed for each lesson.
