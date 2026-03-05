@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://d0jycevuckc7j"]
+[gd_scene load_steps=2 format=3 uid="uid://d0jycevuckc7j"]
+
+[ext_resource type="Script" uid="uid://bg13pqwcg63bc" path="res://src/main/lessons/verbs/lesson_verb_tener.gd" id="1_4053w"]
 
 [node name="LessonVerbTener" type="Control"]
 layout_mode = 3
@@ -7,3 +9,4 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_4053w")

@@ -16,8 +16,6 @@ const SLIDE_DURATION := Global.UI_TRANSITION_SLIDE_DURATION
 const ROW_ITEM_SIZE := 240
 const COMPLETED_ICON_MODULATE := Color(0.2, 0.8, 0.3, 1.0)
 
-var button_flash_tween: Tween
-
 @onready var signals = Global.get_node("Signals")
 
 # UI references
@@ -25,8 +23,7 @@ var button_flash_tween: Tween
 @onready var title_label: Label = %TitleLabel
 @onready var continue_button: Button = %ContinueButton
 var VerbListWrapper: VBoxContainer
-@onready var main_text_label: Label = %MainText
-@onready var main_tutorial_button: Button = %MainTutorialButton
+
 
 var continue_state_index_counter: int = 0
 
@@ -42,14 +39,16 @@ func show_progress_screen():
 enum TUTORIAL_STATE {
 	SHOWING_FIRST_MESSAGE,
 	SHOWING_SECOND_MESSAGE,
-	SHOWING_FIRST_VERB,
-	SHOWING_FIRST_VERB_DESCRIPTION,
-	SHOWING_FIRST_EXERCISE,
-	SHOWING_FIRST_EXERCISE_DESCRIPTION,
+	SHOWING_FIRST_LESSON,
+	SHOWING_SECOND_LESSON,
 	ENDING_TUTORIAL
 }
 
 func update_progress_screen():
+	if showing_lesson:
+		continue_lesson()
+		return
+
 	match continue_state_index_counter:
 		TUTORIAL_STATE.SHOWING_FIRST_MESSAGE:
 			title_label.hide()
@@ -61,26 +60,11 @@ Can you relate?"
 		TUTORIAL_STATE.SHOWING_SECOND_MESSAGE:
 			main_text_label.text = "Let's make sure we know Spanish conjugations!"
 			continue_button.text = "Vamos !"
-		TUTORIAL_STATE.SHOWING_FIRST_VERB:
-			main_text_label.text = ""
-			main_tutorial_button.text = "First Verb: Tener"
-			flash_text_node(main_tutorial_button)
+		TUTORIAL_STATE.SHOWING_FIRST_LESSON:
 			continue_button.hide()
-		TUTORIAL_STATE.SHOWING_FIRST_VERB_DESCRIPTION: #TODO: make this into a "lesson"
-			button_flash_tween.kill()
-			main_text_label.text = "Tener means 'To have'. 'I have' is 'yo tengo', so 'tengo' is the first-person conjugation for Tener."
-			main_tutorial_button.text = "Continue..."
-			flash_text_node(main_tutorial_button)
-		TUTORIAL_STATE.SHOWING_FIRST_EXERCISE:
-			main_text_label.text = ""
-			button_flash_tween.kill()
-			main_tutorial_button.text = "First Exercise: Matching English Pronouns to Conjugations"
-			flash_text_node(main_tutorial_button)			
-		TUTORIAL_STATE.SHOWING_FIRST_EXERCISE_DESCRIPTION:
-			button_flash_tween.kill()
-			main_text_label.text = "Match the pronouns on the left with the Conjugations on the right"
-			main_tutorial_button.text = "Continuemos"
-			flash_text_node(main_tutorial_button)
+			start_lesson_with_name("first") #TODO: better way than hardcoding string. this is just temprorary
+		TUTORIAL_STATE.SHOWING_SECOND_LESSON:
+			start_lesson_with_name("second")
 		TUTORIAL_STATE.ENDING_TUTORIAL:
 			button_flash_tween.kill()
 			signals.emit_signal("tutorial_finished")
@@ -104,11 +88,3 @@ func _reset_panel_position():
 func show_intro_screen():
 	_reset_panel_position()
 	visible = true
-
-
-func flash_text_node(node: Node):
-	button_flash_tween = create_tween()
-	var flash_duration = 1
-	button_flash_tween.set_loops(0)
-	button_flash_tween.tween_property(node, "modulate", Color.ORANGE, flash_duration)
-	button_flash_tween.tween_property(node, "modulate", Color.BLACK, flash_duration)

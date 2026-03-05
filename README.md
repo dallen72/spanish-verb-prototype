@@ -4,7 +4,6 @@ TODO
 
 
 
-# TODO: create the lessons, so that the tutorial will have the lessons in them.
 # TODO: make sure buttons appear larger in chrome Android
 # TODO: make sure the gameplay screen is not so busy. Move some stuff off of it to the progress screen
 
