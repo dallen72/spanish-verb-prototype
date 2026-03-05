@@ -4,8 +4,19 @@ const UI_TRANSITION_SLIDE_DURATION = 0.35
 
 var initial_exercise = ExerciseDataAccess.fetch_exercise_list()[0]
 
-## TODO: autoload everything in the directory  automatically, so you can just drop in an exercise
-const PRONOUN_MATCHING_SCENE_PATH = "res://src/main/exercises/pronounmatching/PronounMatching.tscn"
-const SENTENCE_COMPLETION_SCENE_PATH = "res://src/main/exercises/sentencecompletion/SentenceCompletion.tscn"
-
 var is_tutorial: bool = true
+
+var exercise_scene_list = [
+	{
+		"name": "english_pronoun_matching",
+		"path": "res://src/main/exercises/pronounmatching/PronounMatching.tscn",
+	},
+	{
+		"name": "spanish_pronoun_matching",
+		"path": "res://src/main/exercises/pronounmatching/PronounMatching.tscn",
+	},
+	{
+		"name": "sentence_completion",
+		"path": "res://src/main/exercises/sentencecompletion/SentenceCompletion.tscn",
+	}
+]	

@@ -22,8 +22,6 @@ var progress_screen: Control
 var progress_screen_scene: PackedScene = preload("res://src/main/gameprogress/ProgressScreen.tscn")
 var tutorial_progress_screen_scene: PackedScene = preload("res://src/main/tutorial/TutorialProgressScreen.tscn")
 
-var PronounMatching = preload(Global.PRONOUN_MATCHING_SCENE_PATH)
-var SentenceCompletion = preload(Global.SENTENCE_COMPLETION_SCENE_PATH)
 
 func _ready():
 	init_ui()
@@ -146,19 +144,15 @@ func _setup_exercise_nodes(mode: String):
 	game_progress.init_new_problem()
 	var exercise_node: Node
 
+	#TODO: make sure this checks the enums. no hardcoded.
 	# Show/hide child scenes based on game mode
-	if mode == "sentence_completion":
-		game_progress.current_exercise = game_progress.get_exercise_where_name_is("sentence_completion")
-		exercise_node = SentenceCompletion.instantiate()
-		exercise_container.add_child(exercise_node)
-	else:
-		#TODO: make sure this checks the enums. no hardcoded.
-		if mode == "english_pronoun_matching":
-			game_progress.current_exercise = game_progress.get_exercise_where_name_is("english_pronoun_matching")
-		else:
-			game_progress.current_exercise = game_progress.get_exercise_where_name_is("spanish_pronoun_matching")
-		exercise_node = PronounMatching.instantiate()
-		exercise_container.add_child(exercise_node)	
+	for exercise_scene in Global.exercise_scene_list:
+		if exercise_scene.name == mode:
+	#if mode == "sentence_completion":
+			var packed_scene = load(exercise_scene.path)
+			exercise_node = packed_scene.instantiate()
+			game_progress.current_exercise = game_progress.get_exercise_where_name_is(mode)
+			exercise_container.add_child(exercise_node)		
 
 	
 func remove_exercise_if_exists():
