@@ -1,9 +1,9 @@
 # ================================================================================================================
-# DEVELOPMENT BUILD - MAIN BRANCH
+# DEVELOPMENT BUILD - STAGING BRANCH
 # ================================================================================================================
 # 
 # PURPOSE: Creates development builds for testing and team access
-# TRIGGER: Runs on every push to main/master branches
+# TRIGGER: Runs on every push to the staging branch
 # BUILD MODE: Release builds (optimized, no debug symbols)
 # OUTPUT: Builds uploaded to GitHub artifacts AND Itch.io channels
 # 
@@ -11,7 +11,7 @@
 # - Builds the game for all platforms (Windows, Linux, macOS, Web)
 # - Uploads build artifacts to GitHub for team download (7-day retention)
 # - Uploads builds to Itch.io channels for testing
-# - Provides immediate feedback on main branch stability
+# - Provides immediate feedback on staging branch stability
 # 
 # Itch.io Channels:
 # - web: Web build
@@ -28,7 +28,7 @@
 name: Build And Push - Development
 on:
   push:
-    branches: [ main, master ]
+    branches: [ staging ]
 env:
   GODOT_VERSION: 4.5
 
@@ -46,7 +46,7 @@ jobs:
         uses: ./.github/actions/build-game
         with:
           build-mode: release
-          project-name: ${{ vars.PROJECTNAME }}
+          project-name: ${{ vars.PROJECTNAME }}-staging
           web-build: ${{ vars.WEBBUILD || 'true' }}
           linux-build: ${{ vars.LINUXBUILD || 'false' }}
           macos-build: ${{ vars.MACOSBUILD || 'false' }}
@@ -56,7 +56,7 @@ jobs:
         uses: ./.github/actions/verify-build
         with:
           build-mode: release
-          project-name: ${{ vars.PROJECTNAME }}
+          project-name: ${{ vars.PROJECTNAME }}-staging
           web-build: ${{ vars.WEBBUILD || 'true' }}
           linux-build: ${{ vars.LINUXBUILD || 'false' }}
           macos-build: ${{ vars.MACOSBUILD || 'false' }}
@@ -69,7 +69,7 @@ jobs:
         with:
           file-path: game/build/windows-release/
           channel: windows
-          game-id: island-treehouse/${{ vars.PROJECTNAME }}
+          game-id: island-treehouse/${{ vars.PROJECTNAME }}-staging
           api-key: ${{ secrets.BUTLER_API_KEY }}
 
       - name: Upload Web Build to Itch.io
@@ -78,7 +78,7 @@ jobs:
         with:
           file-path: game/build/web-release/
           channel: web
-          game-id: island-treehouse/${{ vars.PROJECTNAME }}
+          game-id: island-treehouse/${{ vars.PROJECTNAME }}-staging
           api-key: ${{ secrets.BUTLER_API_KEY }}
 
       - name: Upload Linux Build to Itch.io
@@ -87,7 +87,7 @@ jobs:
         with:
           file-path: game/build/linux-release/
           channel: linux
-          game-id: island-treehouse/${{ vars.PROJECTNAME }}
+          game-id: island-treehouse/${{ vars.PROJECTNAME }}-staging
           api-key: ${{ secrets.BUTLER_API_KEY }}
 
       - name: Upload macOS Build to Itch.io
@@ -96,6 +96,6 @@ jobs:
         with:
           file-path: game/build/macos-release.zip
           channel: osx
-          game-id: island-treehouse/${{ vars.PROJECTNAME }}
+          game-id: island-treehouse/${{ vars.PROJECTNAME }}-staging
           api-key: ${{ secrets.BUTLER_API_KEY }}
 
