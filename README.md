@@ -2,9 +2,9 @@
 
 TODO
 
-# TODO: in Android chrome browser, make sure loads faster
 # TODO: make sure buttons appear larger in chrome Android
 # TODO: make sure the progress and intro screens take up the whole screen in Android chrome
+# TODO: make sure the gameplay screen is not so busy. Move some stuff off of it to the progress screen
 
 # TODO: add the tutorial states to the progress screen. state is tutorial_showing_first_verb, then tutorial_showing_first_exercise, then showing_progress_normally 
 # TODO: make the screens for the states. when the user clicks the buttons in the tutorial states, they are moved through the tutorial.
@@ -14,6 +14,10 @@ TODO
 # TODO: when the user completes an exercise at 100% (english matching with one of the two verbs), a new exercise (spanish matching) is unlocked
 # TODO: make the intro text move in like it's being typed, but fade in
 # TODO: fix the conjugation exercise
+
+# TODO: set up a local dev server for testing for mobile development. we can do one with godot already, but it seems to be blocking connections from devices on the same network.
+
+# TODO: make the buttons appear like clickable buttons
 
 - the exercises, when completed should add an icon to the list of verbs
 
@@ -49,6 +53,8 @@ verb:
 exercise:
 
 exercise_data:
+
+# TODO: in Android chrome browser, make sure loads faster
 
 --------------------------------------------------------------------
 
