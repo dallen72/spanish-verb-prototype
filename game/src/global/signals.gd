@@ -13,4 +13,13 @@ signal hide_progress_screen
 signal hide_intro_screen
 
 @warning_ignore("unused_signal")
-signal start_problem
+signal tutorial_started
+@warning_ignore("unused_signal")
+signal tutorial_continued
+@warning_ignore("unused_signal")
+signal tutorial_finished
+@warning_ignore("unused_signal")
+signal lesson_loaded
+
+@warning_ignore("unused_signal")
+signal menu_screens_have_exited_the_screen

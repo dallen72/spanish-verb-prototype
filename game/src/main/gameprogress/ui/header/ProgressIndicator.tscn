@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://bop4g007gumea"]
+
+[ext_resource type="Script" uid="uid://bf6wfy5lrak4c" path="res://src/main/gameprogress/ui/header/ProgressIndicator.gd" id="1_4x5y"]
+
+[node name="ProgressIndicator" type="Control"]
+layout_mode = 3
+anchor_right = 0.32000002
+anchor_bottom = 0.067
+offset_right = -0.4000244
+offset_bottom = -0.3600006
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4x5y")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2, 0.2, 0.2, 0.9)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="FlowContainer" type="HFlowContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="VerbEndingLabel" type="Label" parent="MarginContainer/FlowContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 0.8, 1)
+text = "Ending: -er"
+
+[node name="TotalMistakesLabel" type="Label" parent="MarginContainer/FlowContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_colors/font_color = Color(1, 0.9, 0.8, 1)
+text = "Total Mistakes: 0"
