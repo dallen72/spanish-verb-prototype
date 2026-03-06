@@ -1,6 +1,5 @@
 extends State
 
-#TODO: find a way to inject into all the state scripts
 @onready var game_progress = Global.get_node("GameProgressMaster")
 @onready var signals = Global.get_node("Signals")
 

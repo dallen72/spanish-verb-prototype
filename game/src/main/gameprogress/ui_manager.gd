@@ -22,7 +22,6 @@ func _ready():
 	Global.get_node("Signals").hide_progress_screen.connect(hide_progress_screen)
 
 
-# TODO: make the connect on line 24 connect to the global signal
 func _on_continue_pressed():
 	Global.get_node("Signals").emit_signal("continue_button_pressed")
 

@@ -1,9 +1,11 @@
 extends Control
 
+@onready var UIUtils = Global.get_node("UIUtils")
+
 @onready var main_text_label: Label = %MainText
 @onready var main_tutorial_button: Button = %MainTutorialButton
-var button_flash_tween: Tween
 
+var button_flash_tween: Tween
 
 var lesson_iterator = 0
 var current_lesson
@@ -27,20 +29,11 @@ func continue_lesson():
 	lesson_iterator += 1	
 	if lesson_iterator > 1:
 		showing_lesson = false
-
+		
 
 func show_lesson_page(lesson):
-	if button_flash_tween:	
+	if button_flash_tween:
 		button_flash_tween.kill()
 	main_text_label.text = lesson[lesson_iterator].main_text
 	main_tutorial_button.text = lesson[lesson_iterator].button_text
-	flash_text_node(main_tutorial_button)
-
-
-# TODO: put this in the UIUtils class
-func flash_text_node(node: Node):
-	button_flash_tween = create_tween()
-	var flash_duration = 1
-	button_flash_tween.set_loops(0)
-	button_flash_tween.tween_property(node, "modulate", Color.ORANGE, flash_duration)
-	button_flash_tween.tween_property(node, "modulate", Color.BLACK, flash_duration)
+	button_flash_tween = UIUtils.flash_text_node(main_tutorial_button)

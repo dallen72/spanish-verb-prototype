@@ -16,7 +16,7 @@ signal pronoun_selected(pronoun: String)
 
 func setup_exercise_data():
 	"""Initializes a new matching session with a verb and game mode."""
-	verb_data = game_progress.get_current_verb()
+	verb_data = game_progress.current_verb
 	exercise = game_progress.current_exercise
 	selected_pronoun = ""
 	matched_pairs.clear()

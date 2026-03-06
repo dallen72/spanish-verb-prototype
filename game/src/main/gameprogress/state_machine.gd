@@ -29,8 +29,6 @@ func _on_tutorial_started():
 	if current_state and current_state.has_method(ON_TUTORIAL_STARTED):
 		current_state.call(ON_TUTORIAL_STARTED)
 
-#TODO: make sure the progress screen is added after the intro screen "vamos!" is clicked.. or just await
-# the signal for tutorial started, in the ready function of the progress screen. or do something different
 func _on_tutorial_finished():
 	if current_state and current_state.has_method(ON_TUTORIAL_FINISHED):
 		current_state.call(ON_TUTORIAL_FINISHED)

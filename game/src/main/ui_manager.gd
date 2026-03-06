@@ -112,7 +112,7 @@ func set_conjugation_button_colors(bg_color: Color, font_color: Color) -> void:
 
 
 func update_exercise_display():
-	var current_verb: Verb = Global.get_node("GameProgressMaster").get_current_verb()
+	var current_verb: Verb = Global.get_node("GameProgressMaster").current_verb
 	var verb_name: String = current_verb.name if current_verb else ""
 	if game_progress.current_exercise != null:
 		if game_progress.current_exercise.name == "english_pronoun_matching":
@@ -140,18 +140,15 @@ func setup_problem():
 	
 	
 ## create and add the exercise nodes based on the exercise selected
-func _setup_exercise_nodes(mode: String):
+func _setup_exercise_nodes(exercise_name: String):
 	game_progress.init_new_problem()
 	var exercise_node: Node
 
-	#TODO: make sure this checks the enums. no hardcoded.
-	# Show/hide child scenes based on game mode
 	for exercise_scene in game_progress.game_exercises:
-		if exercise_scene.name == mode:
-	#if mode == "sentence_completion":
+		if exercise_scene.name == exercise_name:
 			var packed_scene = load(exercise_scene.path)
 			exercise_node = packed_scene.instantiate()
-			game_progress.current_exercise = game_progress.get_exercise_where_name_is(mode)
+			game_progress.current_exercise = game_progress.get_exercise_where_name_is(exercise_name)
 			exercise_container.add_child(exercise_node)		
 
 	

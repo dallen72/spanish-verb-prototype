@@ -22,7 +22,7 @@ func _ready():
 ## Wrapper function
 func populate_UI():
 	$UIManager.set_label_text(game_progress.current_exercise.label_text_for_given)
-	$UIManager.setup_UI(game_progress.get_current_verb(), session.selected_pronoun, _on_conjugation_button_pressed)
+	$UIManager.setup_UI(game_progress.current_verb, session.selected_pronoun, _on_conjugation_button_pressed)
 	
 
 ## Updates the UI state when a match is made.

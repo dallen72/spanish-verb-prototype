@@ -46,16 +46,6 @@ func get_next_verb() -> Verb:
 	else:
 		printerr("No Verb was able to be fetched with the name of the lowest score verb in get_next_verb()")
 		return Verb.new()
-		
-
-
-#TODO: delete
-func get_current_verb() -> Verb:
-	return current_verb
-
-#TODO: delete
-func set_current_verb(verb: Verb):
-	current_verb = verb
 
 
 func get_current_exercise():
