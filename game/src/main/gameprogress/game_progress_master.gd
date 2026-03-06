@@ -29,8 +29,8 @@ func _init_verb_score_list() -> void:
 
 
 # update the verb score after doing a problem
-func update_verb_score(verb, num_mistakes):
-	verb_scores[verb.name] -= num_mistakes
+func update_verb_score_after_exercise():
+	verb_scores[current_verb.name] -= total_mistakes.value
 
 
 # get the next verb in the list to be practiced
