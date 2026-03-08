@@ -126,43 +126,27 @@ func generate_conjugation_buttons(current_verb: Verb, button_callback: Callable)
 		return
 	
 	var conjugations = current_verb.conjugations
-	var conjugation_values = []
+	var conjugation_button_list = []
 	
 	# Create buttons for each conjugation
 	for pronoun in conjugations.keys():
 		var conjugation = conjugations[pronoun]
-		var button = Button.new()
-		button.text = conjugation
-		button.custom_minimum_size = Vector2(216, 108)
 		
-		# Apply shared colors from Global
-		if Engine.has_singleton("Global"):
-			var root = Engine.get_singleton("Global")
-			if root and root.has_node("GameProgressMaster"):
-				var gp = root.get_node("GameProgressMaster")
-				if gp and gp.has_method("get_conjugation_button_colors"):
-					var colors = gp.get_conjugation_button_colors()
-					if colors.has("bg_color"):
-						var style := StyleBoxFlat.new()
-						style.bg_color = colors["bg_color"]
-						style.corner_radius_top_left = 4
-						style.corner_radius_top_right = 4
-						style.corner_radius_bottom_left = 4
-						style.corner_radius_bottom_right = 4
-						button.add_theme_stylebox_override("normal", style)
-					if colors.has("font_color"):
-						button.add_theme_color_override("font_color", colors["font_color"])
+		var button = ConjugationButton.new()
+		
+		button.init_UI(conjugation)
 		
 		button.pressed.connect(button_callback.bind(button))
-		conjugation_values.append({"button": button, "conjugation": conjugation})
+		button.conjugation = conjugation
+		conjugation_button_list.append(button)
 		conjugation_buttons[conjugation] = button
 	
 	# Shuffle the conjugations for random placement
-	conjugation_values.shuffle()
+	conjugation_button_list.shuffle()
 	
 	# Add buttons to the grid
-	for item in conjugation_values:
-		conjugation_container.add_child(item["button"])
+	for button in conjugation_button_list:
+		conjugation_container.add_child(button)
 
 
 

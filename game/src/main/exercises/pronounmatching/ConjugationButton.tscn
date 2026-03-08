@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://fhvsjl3qxyw"]
+
+[ext_resource type="Script" uid="uid://c8is507mxt1xo" path="res://src/main/exercises/pronounmatching/conjugation_button.gd" id="1_7uya8"]
+
+[node name="ConjugationButton" type="Button"]
+script = ExtResource("1_7uya8")

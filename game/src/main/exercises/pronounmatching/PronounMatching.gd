@@ -62,7 +62,7 @@ func attempt_match(conjugation: String) -> bool:
 
 
 ## handler for clicking on a conjugation to match the pronoun
-func _on_conjugation_button_pressed(button: Button):
+func _on_conjugation_button_pressed(button: ConjugationButton):
 	if button.disabled:
 		return
 

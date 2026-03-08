@@ -68,12 +68,6 @@ func get_english_phrase_for(pronoun: String) -> String:
 		return ""
 	return verb_data.english_phrases.get(pronoun, "")
 
-func get_matched_pair_for(pronoun: String) -> Dictionary:
-	"""Returns the match pair for a given pronoun, or empty dict if not matched."""
-	for pair in matched_pairs:
-		if pair.get("pronoun", "") == pronoun:
-			return pair
-	return {}
 
 func get_all_pronouns() -> Array[String]:
 	"""Returns all pronouns for the current verb."""

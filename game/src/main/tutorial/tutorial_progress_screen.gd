@@ -44,6 +44,7 @@ enum TUTORIAL_STATE {
 	ENDING_TUTORIAL
 }
 
+## TODO: why are there two continue buttons?  this is confusing
 func update_progress_screen():
 	if showing_lesson:
 		continue_lesson()
@@ -52,6 +53,7 @@ func update_progress_screen():
 	match continue_state_index_counter:
 		TUTORIAL_STATE.SHOWING_FIRST_MESSAGE:
 			title_label.hide()
+			main_text_label.show()
 			main_text_label.text = "Hello!
 I'm learning Spanish,
 but I keep forgeting basic conjugations.

@@ -18,6 +18,8 @@ func show_progress_screen():
 func start_lesson_with_name(lesson_name: String):
 	var lesson = Lesson.get_lesson_by_name(lesson_name)
 	current_lesson = lesson
+	main_tutorial_button.show()
+	main_text_label.show()
 	continue_lesson()
 
 func continue_lesson():

@@ -14,26 +14,7 @@ var current_state: ButtonState = ButtonState.UNMATCHED
 var pronoun_name: String = ""
 @onready var game_progress: Node = Global.get_node("GameProgressMaster")
 
-static func _get_global_button_colors() -> Dictionary:
-	# Fetch shared button colors from the Global autoload (GameProgressMaster)
-	var result := {
-		"bg_color": Color(0.2, 0.2, 0.2, 0.8),
-		"font_color": Color(0.8, 0.8, 0.8, 1.0),
-		"disabled_font_color": Color(0.6, 0.6, 0.6, 1.0),
-	}
-	if Engine.has_singleton("Global"):
-		var root = Engine.get_singleton("Global")
-		if root and root.has_node("GameProgressMaster"):
-			var gp = root.get_node("GameProgressMaster")
-			if gp and gp.has_method("get_conjugation_button_colors"):
-				var colors = gp.get_conjugation_button_colors()
-				if colors.has("bg_color"):
-					result["bg_color"] = colors["bg_color"]
-				if colors.has("font_color"):
-					result["font_color"] = colors["font_color"]
-					result["disabled_font_color"] = colors["font_color"].darkened(0.2)
-	return result
-#
+
 func _ready():
 	# Wait a frame to ensure theme and globals are ready
 	await get_tree().process_frame
@@ -55,14 +36,19 @@ func set_correct_state_and_matched_if(selected_button: PronounButton):
 func set_state(new_state: ButtonState):
 	"""Updates the button state and appearance."""
 	current_state = new_state
-	var colors = _get_global_button_colors()
 	
+	var colors = {
+		"bg_color": Color(0.2, 0.2, 0.2, 0.8),
+		"font_color": Color(0.8, 0.8, 0.8, 1.0),
+		"disabled_font_color": Color(0.6, 0.6, 0.6, 1.0),
+	}
+			
+	mouse_filter = Control.MOUSE_FILTER_IGNORE	
 	match current_state:
 		ButtonState.UNMATCHED:
 			# Unmatched: use shared brown background and text color, ignore clicks
 			modulate = Color.WHITE
 			disabled = true
-			mouse_filter = Control.MOUSE_FILTER_IGNORE
 			
 			var disabled_style = StyleBoxFlat.new()
 			disabled_style.bg_color = colors["bg_color"]
@@ -79,7 +65,6 @@ func set_state(new_state: ButtonState):
 			# Selected: green color, ignore mouse clicks
 			modulate = Color.GREEN
 			disabled = false
-			mouse_filter = Control.MOUSE_FILTER_IGNORE
 		
 		ButtonState.COMPLETED:
 			# Completed: keep same shared font colors, but use a lighter background
@@ -95,7 +80,7 @@ func set_state(new_state: ButtonState):
 			add_theme_color_override("font_disabled_color", colors["disabled_font_color"])
 
 			disabled = true
-			mouse_filter = Control.MOUSE_FILTER_IGNORE
+
 
 func is_unmatched() -> bool:
 	return current_state == ButtonState.UNMATCHED
