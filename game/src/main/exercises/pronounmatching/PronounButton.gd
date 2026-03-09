@@ -1,6 +1,6 @@
 extends Button
 class_name PronounButton
-
+#TODO: convert all input events to use control._gui_input()
 ## Button that is matched with conjugations
 
 # Finite state machine for pronoun buttons
@@ -10,9 +10,16 @@ enum ButtonState {
 	COMPLETED   # Successfully matched with a conjugation
 }
 
+## TODO: reactivevalue
 var current_state: ButtonState = ButtonState.UNMATCHED
 var pronoun_name: String = ""
 @onready var game_progress: Node = Global.get_node("GameProgressMaster")
+
+## TODO: put this in another file for conjugation_buttons
+#button_state.changed.connect(on_conjugation_button_changed):
+	#for pronoun_button in pronoun_buttons:
+		#if pronoun_button.pronoun == conjugation_button.pronoun:
+			#conjugation_button.completed_state = STATE.COMPLETED
 
 
 func _ready():
@@ -42,7 +49,8 @@ func set_state(new_state: ButtonState):
 		"font_color": Color(0.8, 0.8, 0.8, 1.0),
 		"disabled_font_color": Color(0.6, 0.6, 0.6, 1.0),
 	}
-			
+
+	## TODO: three variations: default, selected, completed for button theme		
 	mouse_filter = Control.MOUSE_FILTER_IGNORE	
 	match current_state:
 		ButtonState.UNMATCHED:
