@@ -43,12 +43,6 @@ func set_correct_state_and_matched_if(selected_button: PronounButton):
 func set_state(new_state: ButtonState):
 	"""Updates the button state and appearance."""
 	current_state = new_state
-	
-	var colors = {
-		"bg_color": Color(0.2, 0.2, 0.2, 0.8),
-		"font_color": Color(0.8, 0.8, 0.8, 1.0),
-		"disabled_font_color": Color(0.6, 0.6, 0.6, 1.0),
-	}
 
 	## TODO: three variations: default, selected, completed for button theme		
 	mouse_filter = Control.MOUSE_FILTER_IGNORE	
@@ -56,18 +50,7 @@ func set_state(new_state: ButtonState):
 		ButtonState.UNMATCHED:
 			# Unmatched: use shared brown background and text color, ignore clicks
 			modulate = Color.WHITE
-			disabled = true
-			
-			var disabled_style = StyleBoxFlat.new()
-			disabled_style.bg_color = colors["bg_color"]
-			disabled_style.corner_radius_top_left = 4
-			disabled_style.corner_radius_top_right = 4
-			disabled_style.corner_radius_bottom_left = 4
-			disabled_style.corner_radius_bottom_right = 4
-			add_theme_stylebox_override("disabled", disabled_style)
-			
-			add_theme_color_override("font_color", colors["font_color"])
-			add_theme_color_override("font_disabled_color", colors["disabled_font_color"])
+			disabled = true		
 		
 		ButtonState.SELECTED:
 			# Selected: green color, ignore mouse clicks
@@ -75,19 +58,8 @@ func set_state(new_state: ButtonState):
 			disabled = false
 		
 		ButtonState.COMPLETED:
-			# Completed: keep same shared font colors, but use a lighter background
-			var completed_style = StyleBoxFlat.new()
-			completed_style.bg_color = colors["bg_color"].lightened(0.3)
-			completed_style.corner_radius_top_left = 4
-			completed_style.corner_radius_top_right = 4
-			completed_style.corner_radius_bottom_left = 4
-			completed_style.corner_radius_bottom_right = 4
-			add_theme_stylebox_override("disabled", completed_style)
-
-			add_theme_color_override("font_color", colors["font_color"])
-			add_theme_color_override("font_disabled_color", colors["disabled_font_color"])
-
 			disabled = true
+			theme_type_variation = "CompletedButton"
 
 
 func is_unmatched() -> bool:

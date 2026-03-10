@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b0x8jqyqj0x0r"]
+[gd_scene load_steps=14 format=3 uid="uid://b0x8jqyqj0x0r"]
 
 [ext_resource type="Script" uid="uid://ci4ach40catas" path="res://src/main/Main.gd" id="1_5qjmp"]
 [ext_resource type="Texture2D" uid="uid://gs2pwhy6vtko" path="res://assets/hispanic-woman-in-a-shop.png" id="2_fh42b"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://dcb4qmk1i7w2r" path="res://src/main/gameprogress/viewing_lesson.gd" id="6_f4teq"]
 [ext_resource type="Script" uid="uid://4hcyi7q7fo8n" path="res://src/main/gameprogress/gamestates/doing_excercise.gd" id="6_rahfo"]
 [ext_resource type="Script" uid="uid://nl72iu2ysixg" path="res://src/main/gameprogress/gamestates/updating_progress.gd" id="7_4bm33"]
+[ext_resource type="Theme" uid="uid://cfyd5dpu5lc0k" path="res://src/main/base_theme.tres" id="9_5i72y"]
 [ext_resource type="Script" uid="uid://c4hxsbas0vasm" path="res://src/main/ui_manager.gd" id="9_f4teq"]
 
 [node name="Main" type="Control"]
@@ -145,3 +146,10 @@ layout_mode = 2
 [node name="ExerciseContainer" type="HBoxContainer" parent="UIManager/GameArea/VBoxContainer/MainMarginContainer/PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="Button" type="Button" parent="UIManager/GameArea/VBoxContainer/MainMarginContainer/PanelContainer/ExerciseContainer"]
+visible = false
+layout_mode = 2
+theme = ExtResource("9_5i72y")
+theme_type_variation = &"UnmatchedButton"
+text = "fsdsafdasf"
