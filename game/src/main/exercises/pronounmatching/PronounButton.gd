@@ -31,7 +31,7 @@ func set_correct_state_and_matched_if(selected_button: PronounButton):
 		current_state.value = ButtonState.SELECTED
 			
 	
-func update_ui(new_state: ButtonState):
+func update_ui(_new_state: ButtonState):
 	mouse_filter = Control.MOUSE_FILTER_IGNORE	
 	match current_state.value:
 		ButtonState.UNMATCHED:

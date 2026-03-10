@@ -4,6 +4,7 @@ extends Button
 var pronoun: String
 var conjugation: String
 var current_state: ResponsiveValue
+var UIUtils = Global.get_node("UIUtils")
 
 enum ButtonState {
 	UNSELECTED,
@@ -18,6 +19,11 @@ func _ready():
 	current_state.changed.connect(update_ui)
 
 
-func update_ui(new_state):
-	if new_state.value == ButtonState.ERRORED:
-		print("debug")
+func update_ui(new_state: ButtonState):
+	if new_state == ButtonState.ERRORED:
+		UIUtils.flash_button_red_for_error(self)
+		Timer.new().start(1)
+		current_state.value = ButtonState.UNSELECTED
+		
+		
+		

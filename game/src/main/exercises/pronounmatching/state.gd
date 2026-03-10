@@ -28,8 +28,9 @@ func setup_exercise_data():
 	select_next_pronoun()
 
 
+## unselects the current pronoun in the UI and selects the next pronoun in the list
 func select_next_pronoun():
-	"""Automatically selects the next available pronoun."""
+	available_pronouns.erase(selected_pronoun)
 	if available_pronouns.size() > 0:
 		selected_pronoun = available_pronouns[0]
 		await get_tree().process_frame # TODO: make sure this runs before all ui modification code
@@ -66,13 +67,4 @@ func get_all_pronouns() -> Array[String]:
 	if not verb_data or verb_data.conjugations.is_empty():
 		return []
 	return verb_data.conjugations.keys()
-
-func update_state_data_for_matching(conjugation: String):
-	# get english phrase if english pronoun matching. TODO: handle somewhere else
-	var english_phrase := ""
-	if exercise.name == "english_pronoun_matching" and verb_data.english_phrases.size() > 0:
-		english_phrase = verb_data.english_phrases.get(selected_pronoun, "")
-	
-	# Remove from available pronouns
-	available_pronouns.erase(selected_pronoun)
 	

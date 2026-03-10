@@ -63,12 +63,10 @@ func _on_conjugation_button_pressed(button: ConjugationButton):
 	if button.disabled:
 		return
 
-
 	var match_attempt_success = attempt_match(button.text)
 	if not match_attempt_success:
-		UIUtils.flash_button_red_for_error(button)
-	else:		
-		session.update_state_data_for_matching(button.text)
+		button.current_state.value = ConjugationButton.ButtonState.ERRORED
+	else:
 		_on_session_match_made(session.selected_pronoun, button.text)
 
 		session.select_next_pronoun()
