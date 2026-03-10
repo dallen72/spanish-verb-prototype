@@ -22,8 +22,8 @@ func _ready():
 	
 ## Wrapper function
 func populate_UI():
-	$UIManager.set_label_text(game_progress.current_exercise.label_text_for_given)
-	$UIManager.setup_UI(game_progress.current_verb, session.selected_pronoun, _on_conjugation_button_pressed)
+	$UIManager.set_label_text()
+	$UIManager.setup_UI(session.selected_pronoun, _on_conjugation_button_pressed)
 	
 
 ## Updates the UI state when a match is made.
@@ -63,14 +63,15 @@ func _on_conjugation_button_pressed(button: ConjugationButton):
 	if button.disabled:
 		return
 
+
 	var match_attempt_success = attempt_match(button.text)
 	if not match_attempt_success:
 		UIUtils.flash_button_red_for_error(button)
 	else:		
 		session.update_state_data_for_matching(button.text)
 		_on_session_match_made(session.selected_pronoun, button.text)
+
+		session.select_next_pronoun()
 		if session.is_complete():
 			Global.get_node("Signals").emit_signal("problem_completed")
-			session.selected_pronoun = ""
-		else:
-			session.select_next_pronoun()
+			

@@ -7,6 +7,7 @@ extends Control
 @onready var pronoun_container: Control = %PronounGrid
 @onready var conjugation_container: GridContainer = $VBoxContainer/MarginContainer/GameArea/ConjugationSection/ConjugationMarginContainer/ConjugationGrid
 @onready var conjugation_margin_container: MarginContainer = $VBoxContainer/MarginContainer/GameArea/ConjugationSection/ConjugationMarginContainer
+@onready var game_progress = Global.get_node("GameProgressMaster")
 
 # Glow effect handler
 var glow_effect: GlowEffect = null
@@ -44,8 +45,8 @@ func initialize_pronoun_buttons():
 			pronoun_buttons[button.name] = button
 	
 			
-func set_label_text(exercise_label: String):
-	pronoun_label.text = exercise_label
+func set_label_text():
+	pronoun_label.text = game_progress.current_exercise.label_text_for_given
 
 
 ## handler. Updates UI when a pronoun is selected
@@ -117,8 +118,8 @@ func clear_conjugation_selection_appearances():
 			button.modulate = Color.WHITE
 
 
-func generate_conjugation_buttons(current_verb: Verb, button_callback: Callable):
-	"""Generates conjugation buttons from verb data."""
+func generate_conjugation_buttons(button_callback: Callable):
+	var current_verb = game_progress.current_verb 
 	if current_verb == null or current_verb.conjugations.is_empty():
 		return
 	
@@ -139,9 +140,9 @@ func generate_conjugation_buttons(current_verb: Verb, button_callback: Callable)
 		conjugation_container.add_child(button)
 
 
-func setup_UI(current_verb, selected_pronoun, callback):
+func setup_UI(selected_pronoun, callback):
 	initialize_pronoun_buttons()
-	generate_conjugation_buttons(current_verb, callback)
+	generate_conjugation_buttons(callback)
 
 	pronoun_container.visible = false
 	# Update glow effects after conjugations are loaded

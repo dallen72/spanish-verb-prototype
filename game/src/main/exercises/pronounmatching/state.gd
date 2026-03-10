@@ -43,9 +43,10 @@ func is_pronoun_available(pronoun: String) -> bool:
 	return pronoun in available_pronouns
 
 
+## 	Checks if all pronouns have been matched.
 func is_complete() -> bool:
-	"""Checks if all pronouns have been matched."""
 	return available_pronouns.size() == 0
+
 
 func get_correct_conjugation_for(pronoun: String) -> String:
 	"""Returns the correct conjugation for a given pronoun."""
