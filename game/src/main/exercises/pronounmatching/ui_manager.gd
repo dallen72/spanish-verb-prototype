@@ -132,14 +132,16 @@ func generate_conjugation_buttons(current_verb: Verb, button_callback: Callable)
 	for pronoun in conjugations.keys():
 		var conjugation = conjugations[pronoun]
 		
-		var button = ConjugationButton.new()
+		var conjugation_button = ConjugationButton.new()
 		
-		button.init_UI(conjugation)
+		conjugation_button.init_UI(conjugation)
 		
-		button.pressed.connect(button_callback.bind(button))
-		button.conjugation = conjugation
-		conjugation_button_list.append(button)
-		conjugation_buttons[conjugation] = button
+		conjugation_button.pressed.connect(button_callback.bind(conjugation_button))
+		# TODO: the pronounbutton state determines the UI changes of the pronounbutton
+		
+		conjugation_button.conjugation = conjugation
+		conjugation_button_list.append(conjugation_button)
+		conjugation_buttons[conjugation] = conjugation_button
 	
 	# Shuffle the conjugations for random placement
 	conjugation_button_list.shuffle()
@@ -147,7 +149,6 @@ func generate_conjugation_buttons(current_verb: Verb, button_callback: Callable)
 	# Add buttons to the grid
 	for button in conjugation_button_list:
 		conjugation_container.add_child(button)
-
 
 
 func setup_UI(current_verb, selected_pronoun, callback):

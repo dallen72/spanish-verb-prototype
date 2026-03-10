@@ -19,6 +19,7 @@ func _ready():
 	
 	match_failed.connect(_on_session_match_failed)
 	
+	
 ## Wrapper function
 func populate_UI():
 	$UIManager.set_label_text(game_progress.current_exercise.label_text_for_given)
@@ -31,11 +32,8 @@ func _on_session_match_made(pronoun: String, conjugation: String):
 	var conjugation_button = $UIManager.conjugation_buttons.get(conjugation)
 	
 	if pronoun_button and pronoun_button is PronounButton:
-		pronoun_button.set_state(PronounButton.ButtonState.COMPLETED)
+	#	pronoun_button.set_state(PronounButton.ButtonState.COMPLETED)
 		pronoun_button.update_text_for_match(conjugation, session.exercise.name, session.get_english_phrase_for(pronoun))	
-	if conjugation_button:
-		conjugation_button.modulate = Color.LIGHT_BLUE
-		conjugation_button.disabled = true
 
 
 ## Handles UI feedback when a match fails.
@@ -52,6 +50,7 @@ func attempt_match(conjugation: String) -> bool:
 	
 	if not session.verb_data or session.verb_data.conjugations.is_empty():
 		return false
+	
 	
 	var correct_conjugation = session.verb_data.conjugations.get(session.selected_pronoun, "")
 	if conjugation != correct_conjugation:

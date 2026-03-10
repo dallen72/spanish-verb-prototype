@@ -88,28 +88,7 @@ func _init_conjugation_button_colors():
 			conjugation_button_font_color = theme.get_color("font_color", "Button")
 
 	conjugation_button_colors_initialized = true
-
-func get_conjugation_button_colors() -> Dictionary:
-	"""
-	Returns the shared conjugation/pronoun button colors.
-	These are initialized once when the game loads so all buttons stay consistent.
-	"""
-	if not conjugation_button_colors_initialized:
-		_init_conjugation_button_colors()
-
-	return {
-		"bg_color": conjugation_button_bg_color,
-		"font_color": conjugation_button_font_color,
-	}
-
-func set_conjugation_button_colors(bg_color: Color, font_color: Color) -> void:
-	"""
-	Optional override: if we ever want to change button colors at runtime.
-	"""
-	conjugation_button_bg_color = bg_color
-	conjugation_button_font_color = font_color
-	conjugation_button_colors_initialized = true
-
+	
 
 func update_exercise_display():
 	var current_verb: Verb = Global.get_node("GameProgressMaster").current_verb

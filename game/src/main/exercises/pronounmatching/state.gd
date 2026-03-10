@@ -8,7 +8,6 @@ extends Node
 var verb_data: Verb = null
 var exercise: Exercise
 var selected_pronoun: String = ""
-var matched_pairs: Array[Dictionary] = []  # Array of {pronoun: String, conjugation: String, english_phrase: String}
 var available_pronouns: Array[String] = []  # Pronouns not yet matched
 
 # Signals for UI to observe state changes
@@ -19,7 +18,6 @@ func setup_exercise_data():
 	verb_data = game_progress.current_verb
 	exercise = game_progress.current_exercise
 	selected_pronoun = ""
-	matched_pairs.clear()
 	available_pronouns.clear()
 	
 	# Initialize available pronouns from verb data
@@ -44,13 +42,6 @@ func is_pronoun_available(pronoun: String) -> bool:
 	"""Checks if a pronoun is still available for matching."""
 	return pronoun in available_pronouns
 
-
-func is_pronoun_matched(pronoun: String) -> bool:
-	"""Checks if a pronoun has been matched."""
-	for pair in matched_pairs:
-		if pair.get("pronoun", "") == pronoun:
-			return true
-	return false
 
 func is_complete() -> bool:
 	"""Checks if all pronouns have been matched."""
@@ -80,14 +71,6 @@ func update_state_data_for_matching(conjugation: String):
 	var english_phrase := ""
 	if exercise.name == "english_pronoun_matching" and verb_data.english_phrases.size() > 0:
 		english_phrase = verb_data.english_phrases.get(selected_pronoun, "")
-	
-	# Record the match. TODO: handle some other way
-	var match_pair = {
-		"pronoun": selected_pronoun,
-		"conjugation": conjugation,
-		"english_phrase": english_phrase
-	}
-	matched_pairs.append(match_pair)
 	
 	# Remove from available pronouns
 	available_pronouns.erase(selected_pronoun)
