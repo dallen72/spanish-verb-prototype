@@ -29,10 +29,8 @@ func populate_UI():
 ## Updates the UI state when a match is made.
 func _on_session_match_made(pronoun: String, conjugation: String):
 	var pronoun_button = $UIManager.pronoun_buttons.get(pronoun)
-	var conjugation_button = $UIManager.conjugation_buttons.get(conjugation)
-	
+
 	if pronoun_button and pronoun_button is PronounButton:
-	#	pronoun_button.set_state(PronounButton.ButtonState.COMPLETED)
 		pronoun_button.update_text_for_match(conjugation, session.exercise.name, session.get_english_phrase_for(pronoun))	
 
 

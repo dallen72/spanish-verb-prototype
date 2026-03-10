@@ -13,8 +13,6 @@ var glow_effect: GlowEffect = null
 
 # Track pronoun button references for UI updates
 var pronoun_buttons: Dictionary = {}  # pronoun_name -> PronounButton
-var conjugation_buttons: Dictionary = {}  # conjugation_text -> Button
-
 
 func _ready():
 	var window_size = DisplayServer.window_get_size()
@@ -110,7 +108,6 @@ func clear_conjugation_buttons():
 	"""Clears all conjugation buttons from the UI."""
 	for child in conjugation_container.get_children():
 		child.queue_free()
-	conjugation_buttons.clear()
 
 
 ## Clears visual selection feedback from conjugation buttons.
@@ -125,35 +122,25 @@ func generate_conjugation_buttons(current_verb: Verb, button_callback: Callable)
 	if current_verb == null or current_verb.conjugations.is_empty():
 		return
 	
-	var conjugations = current_verb.conjugations
 	var conjugation_button_list = []
 	
 	# Create buttons for each conjugation
-	for pronoun in conjugations.keys():
-		var conjugation = conjugations[pronoun]
-		
-		var conjugation_button = ConjugationButton.new()
-		
-		conjugation_button.init_UI(conjugation)
-		
+	for pronoun in current_verb.conjugations.keys():
+		var conjugation_button = ConjugationButton.new()		
+		conjugation_button.init_UI(current_verb.conjugations[pronoun])
 		conjugation_button.pressed.connect(button_callback.bind(conjugation_button))
-		# TODO: the pronounbutton state determines the UI changes of the pronounbutton
+		conjugation_button.conjugation = current_verb.conjugations[pronoun]
 		
-		conjugation_button.conjugation = conjugation
 		conjugation_button_list.append(conjugation_button)
-		conjugation_buttons[conjugation] = conjugation_button
 	
-	# Shuffle the conjugations for random placement
+	# Shuffle the conjugations for random placement and add them to the UI
 	conjugation_button_list.shuffle()
-	
-	# Add buttons to the grid
 	for button in conjugation_button_list:
 		conjugation_container.add_child(button)
 
 
 func setup_UI(current_verb, selected_pronoun, callback):
 	initialize_pronoun_buttons()
-	clear_conjugation_buttons()
 	generate_conjugation_buttons(current_verb, callback)
 
 	pronoun_container.visible = false
