@@ -62,39 +62,29 @@ func update_pronoun_selection(pronoun: String):
 
 func setup_glow_effects(selected_pronoun):
 	"""Sets up glow effects using the GlowEffect script."""
-	if not glow_effect:
-		return
+	assert(glow_effect != null)
 	
-	# Remove any existing glows
 	glow_effect.remove_all_glows()
 	
 	# Create glow effect for currently selected pronoun
-	var target_button = pronoun_buttons.get(selected_pronoun)
-	
+	var target_button: PronounButton = pronoun_buttons.get(selected_pronoun)
 	if not target_button:
 		# Fallback to first button
 		target_button = pronoun_container.get_child(0)
-	
-	if target_button and target_button is PronounButton:
-		var button_parent = target_button.get_parent()
-		if button_parent:
-			glow_effect.add_glow_to_element(target_button, button_parent)
+	glow_effect.add_glow_to_element(target_button, target_button.get_parent())
 	
 	# Create glow effect for ConjugationGrid
 	var grid_parent = conjugation_container.get_parent()
 	if grid_parent:
 		glow_effect.add_glow_to_element(conjugation_container, grid_parent)
 
-#	"""Updates the glow effect to follow the currently selected pronoun."""
+
+##	"""Updates the glow effect to follow the currently selected pronoun."""
 func update_glow_for_selected_pronoun(selected_pronoun):
 	# Remove existing pronoun glow (first glow is always the pronoun)
 	if glow_effect.glow_panels.size() > 0:
-		var pronoun_glow = glow_effect.glow_panels[0]
-		if is_instance_valid(pronoun_glow):
-			pronoun_glow.queue_free()
-		glow_effect.glow_panels.remove_at(0)
-		if glow_effect.target_elements.size() > 0:
-			glow_effect.target_elements.remove_at(0)
+		glow_effect.remove_glow_at_nodes_with_name("Button")
+	# TODO: add border for already completed pronoun items
 	
 	# Add glow for currently selected pronoun
 	var target_button = pronoun_buttons.get(selected_pronoun)

@@ -102,6 +102,19 @@ func update_glow_panel_position(glow_panel: Panel, target: Control):
 	glow_panel.position = relative_pos - Vector2(border_width, border_width)
 	glow_panel.size = target.size + Vector2(border_width * 2, border_width * 2)
 
+
+func remove_glow_at_nodes_with_name(type_name: String):
+	var indices_to_remove = []
+	for i in range(target_elements.size()):
+		var target_element = target_elements[i]
+		if target_element.is_class(type_name):
+			indices_to_remove.append(i)
+
+	for i in range(indices_to_remove.size()):
+		target_elements.remove_at(indices_to_remove[i])
+		glow_panels.remove_at(indices_to_remove[i])
+
+
 func remove_all_glows():
 	"""Removes all glow effects."""
 	for panel in glow_panels:
