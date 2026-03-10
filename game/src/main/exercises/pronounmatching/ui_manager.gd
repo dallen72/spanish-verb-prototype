@@ -127,7 +127,7 @@ func generate_conjugation_buttons(current_verb: Verb, button_callback: Callable)
 	# Create buttons for each conjugation
 	for pronoun in current_verb.conjugations.keys():
 		var conjugation_button = ConjugationButton.new()		
-		conjugation_button.init_UI(current_verb.conjugations[pronoun])
+		conjugation_button.text = current_verb.conjugations[pronoun]
 		conjugation_button.pressed.connect(button_callback.bind(conjugation_button))
 		conjugation_button.conjugation = current_verb.conjugations[pronoun]
 		
