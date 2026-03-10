@@ -154,8 +154,8 @@ func _setup_exercise_nodes(exercise_name: String):
 	
 func remove_exercise_if_exists():
 	if (exercise_container.get_child_count() > 0):
-		var child = exercise_container.get_child(0)
-		exercise_container.remove_child(child)
+		for child in exercise_container.get_children():
+			child.queue_free()
 	
 
 # TODO
