@@ -157,7 +157,7 @@ func setup_UI(current_verb, selected_pronoun, callback):
 
 	pronoun_container.visible = false
 	# Update glow effects after conjugations are loaded
-	call_deferred("setup_glow_effects", selected_pronoun)
+	call_deferred("setup_glow_effects", selected_pronoun) #TODO: fix problem with last selected pronoun button being outlined
 	await get_tree().process_frame
 	call_deferred("adjust_size_of_buttons_dynamically")
 	pronoun_container.visible = true

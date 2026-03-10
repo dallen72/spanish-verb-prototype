@@ -2,7 +2,6 @@
 
 TODO
 
-# TODO: refactor. add themes
 # TODO: refactor. add the event for FNvalue for the pronounbutton states
 
 # TODO: do the TODO's littered throughout the code

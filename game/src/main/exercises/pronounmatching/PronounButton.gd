@@ -36,10 +36,6 @@ func set_correct_state_and_matched_if(selected_button: PronounButton):
 		set_state(PronounButton.ButtonState.UNMATCHED)
 	
 
-#button with text "I have" is set to green, then set to unmatched and white here
-#TODO: need to take a look at set_state calls that are deferred. why are they being called deferred?
-# the deferred calls are happening after the first button is set to green.
-# also, the buttons are being set twice (or the conjugation buttons are being set and the pronoun buttons are being set, and it just seems like they are being called twice. need to take a deeper look
 func set_state(new_state: ButtonState):
 	"""Updates the button state and appearance."""
 	current_state = new_state
