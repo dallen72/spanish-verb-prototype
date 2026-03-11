@@ -1,7 +1,6 @@
 extends "res://src/main/gameprogress/progress_screen.gd"
 
 
-#TODO: attach event dispatchers for "tutorial_continued" to buttons, and
 #TODO: add ui modifiers to the state machine for modifying the UI during the correct states
 
 # Signals for communicating with parent scenes
@@ -28,7 +27,7 @@ var VerbListWrapper: VBoxContainer
 var continue_state_index_counter: int = 0
 
 func _ready():
-	signals.tutorial_continued.connect(update_progress_screen) # TODO: do we even need this signal to exist?
+	continue_button.pressed.connect(update_progress_screen)	
 	main_tutorial_button.pressed.connect(update_progress_screen)	
 
 

@@ -2,10 +2,6 @@ extends "res://src/main/gameprogress/ui_manager.gd"
 
 
 
-func _on_continue_pressed():
-	Global.get_node("Signals").emit_signal("tutorial_continued")
-
-
 func show_progress_screen():
 	reset_panel_position()
 		
