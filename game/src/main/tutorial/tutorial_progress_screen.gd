@@ -72,6 +72,12 @@ Can you relate?"
 			signals.emit_signal("tutorial_finished")
 	continue_state_index_counter += 1
 
+	if showing_lesson:	
+		lesson_continue_button.grab_focus()
+	else:
+		game_continue_button.grab_focus()
+
+
 
 func hide_intro_screen():
 # Slide panel to the left off screen
