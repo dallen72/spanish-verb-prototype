@@ -44,6 +44,9 @@ enum TUTORIAL_STATE {
 	ENDING_TUTORIAL
 }
 
+const FIRST_LESSON_NAME = "Tener"
+const SECOND_LESSON_NAME = "English Pronoun Matching"
+
 ## TODO: why are there two continue buttons?  this is confusing
 func update_progress_screen():
 	if showing_lesson:
@@ -64,9 +67,9 @@ Can you relate?"
 			continue_button.text = "Vamos !"
 		TUTORIAL_STATE.SHOWING_FIRST_LESSON:
 			continue_button.hide()
-			start_lesson_with_name("first") #TODO: better way than hardcoding string. this is just temprorary
+			start_lesson_with_name(FIRST_LESSON_NAME)
 		TUTORIAL_STATE.SHOWING_SECOND_LESSON:
-			start_lesson_with_name("second")
+			start_lesson_with_name(SECOND_LESSON_NAME)
 		TUTORIAL_STATE.ENDING_TUTORIAL:
 			button_flash_tween.kill()
 			signals.emit_signal("tutorial_finished")

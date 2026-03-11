@@ -136,7 +136,3 @@ func remove_exercise_if_exists():
 		for child in exercise_container.get_children():
 			child.queue_free()
 	
-
-# TODO
-func show_lesson():
-	pass

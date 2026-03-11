@@ -1,6 +1,6 @@
 extends Button
 class_name PronounButton
-#TODO: convert all input events to use control._gui_input()
+
 ## Button that is matched with conjugations
 # Finite state machine for pronoun buttons
 enum ButtonState {
@@ -10,7 +10,6 @@ enum ButtonState {
 }
 
 
-## TODO: reactivevalue
 var current_state: ResponsiveValue
 var pronoun_name: String = ""
 @onready var game_progress: Node = Global.get_node("GameProgressMaster")

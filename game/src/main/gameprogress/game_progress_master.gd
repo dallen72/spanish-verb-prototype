@@ -65,8 +65,3 @@ func init_new_problem():
 	current_verb = get_next_verb()
 	previous_score = 0
 	total_mistakes.value = 0
-
-# TODO
-## loads the lesson to be viewed.
-func load_lesson():
-	pass

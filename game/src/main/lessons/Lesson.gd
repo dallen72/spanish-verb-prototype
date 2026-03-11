@@ -4,7 +4,7 @@ class_name Lesson
 
 static func get_lesson_by_name(name: String):
 	var lesson_data
-	if name == "first":
+	if name == "Tener":
 		lesson_data = [
 			{
 				"main_text": "",
@@ -15,7 +15,7 @@ static func get_lesson_by_name(name: String):
 				"button_text": "Continue...",
 			}
 		]
-	else:
+	elif name == "English Pronoun Matching":
 		lesson_data = [
 			{
 				"main_text": "",
