@@ -84,7 +84,6 @@ func update_glow_for_selected_pronoun(selected_pronoun):
 	# Remove existing pronoun glow (first glow is always the pronoun)
 	if glow_effect.glow_panels.size() > 0:
 		glow_effect.remove_glow_at_nodes_with_name("Button")
-	# TODO: add border for already completed pronoun items
 	
 	# Add glow for currently selected pronoun
 	var target_button = pronoun_buttons.get(selected_pronoun)
@@ -136,7 +135,7 @@ func setup_UI(selected_pronoun, callback):
 
 	pronoun_container.visible = false
 	# Update glow effects after conjugations are loaded
-	call_deferred("setup_glow_effects", selected_pronoun) #TODO: fix problem with last selected pronoun button being outlined
+	call_deferred("setup_glow_effects", selected_pronoun)
 	await get_tree().process_frame
 	call_deferred("adjust_size_of_buttons_dynamically")
 	pronoun_container.visible = true

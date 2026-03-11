@@ -2,6 +2,10 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_022ja"]
 bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0.70000005)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [resource]
 default_font_size = 48
