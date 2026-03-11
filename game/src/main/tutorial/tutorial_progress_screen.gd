@@ -1,8 +1,5 @@
 extends "res://src/main/gameprogress/progress_screen.gd"
 
-
-#TODO: add ui modifiers to the state machine for modifying the UI during the correct states
-
 # Signals for communicating with parent scenes
 signal intro_screen_closed
 
@@ -20,15 +17,15 @@ const COMPLETED_ICON_MODULATE := Color(0.2, 0.8, 0.3, 1.0)
 # UI references
 @onready var sliding_panel: Control = %SlidingPanel
 @onready var title_label: Label = %TitleLabel
-@onready var continue_button: Button = %ContinueButton
+@onready var game_continue_button: Button = %GameContinueButton
 var VerbListWrapper: VBoxContainer
 
 
 var continue_state_index_counter: int = 0
 
 func _ready():
-	continue_button.pressed.connect(update_progress_screen)	
-	main_tutorial_button.pressed.connect(update_progress_screen)	
+	game_continue_button.pressed.connect(update_progress_screen)	
+	lesson_continue_button.pressed.connect(update_progress_screen)	
 
 
 func show_progress_screen():
@@ -46,7 +43,7 @@ enum TUTORIAL_STATE {
 const FIRST_LESSON_NAME = "Tener"
 const SECOND_LESSON_NAME = "English Pronoun Matching"
 
-## TODO: why are there two continue buttons?  this is confusing
+
 func update_progress_screen():
 	if showing_lesson:
 		continue_lesson()
@@ -60,12 +57,12 @@ func update_progress_screen():
 I'm learning Spanish,
 but I keep forgeting basic conjugations.
 Can you relate?"
-			continue_button.text = "Yes!"
+			game_continue_button.text = "Yes!"
 		TUTORIAL_STATE.SHOWING_SECOND_MESSAGE:
 			main_text_label.text = "Let's make sure we know Spanish conjugations!"
-			continue_button.text = "Vamos !"
+			game_continue_button.text = "Vamos !"
 		TUTORIAL_STATE.SHOWING_FIRST_LESSON:
-			continue_button.hide()
+			game_continue_button.hide()
 			start_lesson_with_name(FIRST_LESSON_NAME)
 		TUTORIAL_STATE.SHOWING_SECOND_LESSON:
 			start_lesson_with_name(SECOND_LESSON_NAME)

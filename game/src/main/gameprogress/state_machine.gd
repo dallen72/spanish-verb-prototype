@@ -1,22 +1,22 @@
 extends StateMachine
 
 const ON_PROBLEM_COMPLETED = &"on_problem_completed"
-const ON_CONTINUE_BUTTON_PRESSED = &"on_continue_button_pressed"
+const ON_game_continue_button_PRESSED = &"on_game_continue_button_pressed"
 const ON_TUTORIAL_STARTED = &"on_tutorial_started"
 const ON_TUTORIAL_FINISHED = &"on_tutorial_finished"
 
 func _ready():
 	super()
 	Global.get_node("Signals").problem_completed.connect(_on_problem_completed)
-	Global.get_node("Signals").continue_button_pressed.connect(_on_continue_button_pressed)
+	Global.get_node("Signals").game_continue_button_pressed.connect(_on_game_continue_button_pressed)
 	Global.get_node("Signals").tutorial_started.connect(_on_tutorial_started)
 	Global.get_node("Signals").tutorial_finished.connect(_on_tutorial_finished)
 
 ###########		State Machine Inputs	###########
 
-func _on_continue_button_pressed():
-	if current_state and current_state.has_method(ON_CONTINUE_BUTTON_PRESSED):
-		current_state.call(ON_CONTINUE_BUTTON_PRESSED)
+func _on_game_continue_button_pressed():
+	if current_state and current_state.has_method(ON_game_continue_button_PRESSED):
+		current_state.call(ON_game_continue_button_PRESSED)
 
 func _on_problem_completed():
 	if current_state and current_state.has_method(ON_PROBLEM_COMPLETED):

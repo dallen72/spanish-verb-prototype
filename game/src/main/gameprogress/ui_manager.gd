@@ -13,17 +13,17 @@ const COMPLETED_ICON_MODULATE := Color(0.2, 0.8, 0.3, 1.0)
 
 # UI references
 @onready var sliding_panel: Control = %SlidingPanel
-@onready var continue_button: Button = %ContinueButton
+@onready var game_continue_button: Button = %GameContinueButton
 @onready var VerbListWrapper: VBoxContainer = %ListWrapper
 
 
 func _ready():
-	continue_button.pressed.connect(_on_continue_pressed)
+	game_continue_button.pressed.connect(_on_continue_pressed)
 	Global.get_node("Signals").hide_progress_screen.connect(hide_progress_screen)
 
 
 func _on_continue_pressed():
-	Global.get_node("Signals").emit_signal("continue_button_pressed")
+	Global.get_node("Signals").emit_signal("game_continue_button_pressed")
 
 
 func _build_verb_list():
