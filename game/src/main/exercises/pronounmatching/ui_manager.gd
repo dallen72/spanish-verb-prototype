@@ -51,6 +51,7 @@ func set_label_text():
 
 ## handler. Updates UI when a pronoun is selected
 func update_pronoun_selection(pronoun: String):
+	await get_tree().process_frame
 	var button: PronounButton = pronoun_buttons.get(pronoun)
 		
 	for btn in pronoun_buttons.values():

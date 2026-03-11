@@ -7,17 +7,18 @@ extends Node
 # Game state
 var verb_data: Verb = null
 var exercise: Exercise
-var selected_pronoun: String = ""
+var selected_pronoun: ResponsiveValue
 var available_pronouns: Array[String] = []  # Pronouns not yet matched
 
-# Signals for UI to observe state changes
-signal pronoun_selected(pronoun: String)
+func _ready():
+	selected_pronoun = ResponsiveValue.new("")
+
 
 func setup_exercise_data():
 	"""Initializes a new matching session with a verb and game mode."""
 	verb_data = game_progress.current_verb
 	exercise = game_progress.current_exercise
-	selected_pronoun = ""
+	selected_pronoun.value = ""
 	available_pronouns.clear()
 	
 	# Initialize available pronouns from verb data
@@ -30,13 +31,11 @@ func setup_exercise_data():
 
 ## unselects the current pronoun in the UI and selects the next pronoun in the list
 func select_next_pronoun():
-	available_pronouns.erase(selected_pronoun)
+	available_pronouns.erase(selected_pronoun.value)
 	if available_pronouns.size() > 0:
-		selected_pronoun = available_pronouns[0]
-		await get_tree().process_frame # TODO: make sure this runs before all ui modification code
-		pronoun_selected.emit(selected_pronoun)
+		selected_pronoun.value = available_pronouns[0]
 	else:
-		selected_pronoun = ""
+		selected_pronoun.value = ""
 
 
 func is_pronoun_available(pronoun: String) -> bool:

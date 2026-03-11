@@ -13,7 +13,7 @@ var UIUtils = Global.get_node("UIUtils")
 signal match_failed
 
 func _ready():
-	session.pronoun_selected.connect($UIManager.update_pronoun_selection)
+	session.selected_pronoun.changed.connect($UIManager.update_pronoun_selection)
 	session.setup_exercise_data()	
 	populate_UI()
 	
@@ -23,7 +23,7 @@ func _ready():
 ## Wrapper function
 func populate_UI():
 	$UIManager.set_label_text()
-	$UIManager.setup_UI(session.selected_pronoun, _on_conjugation_button_pressed)
+	$UIManager.setup_UI(session.selected_pronoun.value, _on_conjugation_button_pressed)
 	
 
 ## Updates the UI state when a match is made.
@@ -43,14 +43,14 @@ func _on_session_match_failed():
 ## Attempts to match the selected pronoun with a conjugation.
 ## Returns true if match is correct, false otherwise.
 func attempt_match(conjugation: String) -> bool:
-	if session.selected_pronoun.is_empty():
+	if session.selected_pronoun.value.is_empty():
 		return false
 	
 	if not session.verb_data or session.verb_data.conjugations.is_empty():
 		return false
 	
 	
-	var correct_conjugation = session.verb_data.conjugations.get(session.selected_pronoun, "")
+	var correct_conjugation = session.verb_data.conjugations.get(session.selected_pronoun.value, "")
 	if conjugation != correct_conjugation:
 		match_failed.emit()
 		return false
@@ -67,7 +67,7 @@ func _on_conjugation_button_pressed(button: ConjugationButton):
 	if not match_attempt_success:
 		button.current_state.value = ConjugationButton.ButtonState.ERRORED
 	else:
-		_on_session_match_made(session.selected_pronoun, button.text)
+		_on_session_match_made(session.selected_pronoun.value, button.text)
 
 		session.select_next_pronoun()
 		if session.is_complete():
