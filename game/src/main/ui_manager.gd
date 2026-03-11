@@ -13,7 +13,6 @@ var conjugation_button_colors_initialized: bool = false
 
 # UI references
 @onready var verb_label: Label = %VerbLabel
-@onready var previous_score_label: Label = %PreviousScoreLabel
 @onready var progress_indicator: Control = %ProgressIndicator
 @onready var title_section: VBoxContainer = %TitleSection
 @onready var exercise_container: HBoxContainer = %ExerciseContainer
@@ -52,8 +51,6 @@ func init_ui():
 
 		# Initialize shared button colors when the game loads
 	_init_conjugation_button_colors()
-	
-	previous_score_label.text = "You got " + str(game_progress.previous_score) + " wrong on the last problem"
 
 
 ## instantiate the tutorial or the regular progress scene, and add it to the scene, but remove the old progress screen node if it exists.

@@ -20,17 +20,7 @@ const COMPLETED_ICON_MODULATE := Color(0.2, 0.8, 0.3, 1.0)
 @onready var game_continue_button: Button = %GameContinueButton
 var VerbListWrapper: VBoxContainer
 
-
 var continue_state_index_counter: int = 0
-
-func _ready():
-	game_continue_button.pressed.connect(update_progress_screen)	
-	lesson_continue_button.pressed.connect(update_progress_screen)	
-
-
-func show_progress_screen():
-	%UIManager.show_progress_screen()
-	update_progress_screen()
 
 enum TUTORIAL_STATE {
 	SHOWING_FIRST_MESSAGE,
@@ -42,6 +32,17 @@ enum TUTORIAL_STATE {
 
 const FIRST_LESSON_NAME = "Tener"
 const SECOND_LESSON_NAME = "English Pronoun Matching"
+
+
+
+func _ready():
+	game_continue_button.pressed.connect(update_progress_screen)	
+	lesson_continue_button.pressed.connect(update_progress_screen)	
+
+
+func show_progress_screen():
+	%UIManager.show_progress_screen()
+	update_progress_screen()
 
 
 func update_progress_screen():

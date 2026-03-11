@@ -6,6 +6,9 @@ var conjugation: String
 var current_state: ResponsiveValue
 var UIUtils = Global.get_node("UIUtils")
 
+const BUTTON_CUSTOM_MIN_SIZE_X = 300
+const BUTTON_CUSTOM_MIN_SIZE_Y = 150
+
 enum ButtonState {
 	UNSELECTED,
 	ERRORED
@@ -14,7 +17,7 @@ enum ButtonState {
 @onready var game_progress = Global.get_node("GameProgressMaster")
 
 func _ready():
-	custom_minimum_size = Vector2(216, 108)
+	custom_minimum_size = Vector2(BUTTON_CUSTOM_MIN_SIZE_X, BUTTON_CUSTOM_MIN_SIZE_Y)
 	current_state = ResponsiveValue.new(ButtonState.UNSELECTED)
 	current_state.changed.connect(update_ui)
 
