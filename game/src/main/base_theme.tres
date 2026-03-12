@@ -1,5 +1,16 @@
-[gd_resource type="Theme" format=3 uid="uid://cfyd5dpu5lc0k"]
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cfyd5dpu5lc0k"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_022ja"]
+bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0.70000005)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [resource]
 default_font_size = 48
+Button/colors/font_color = Color(1.1139308, 1.1139308, 1.1139308, 1)
+Button/colors/font_disabled_color = Color(0.79607844, 0.8666667, 0.8666667, 1)
 Button/font_sizes/font_size = 56
+CompletedButton/base_type = &"Button"
+CompletedButton/styles/disabled = SubResource("StyleBoxFlat_022ja")

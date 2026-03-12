@@ -66,6 +66,22 @@ text = "Your Progress"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="MainText" type="Label" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_vertical = 10
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="LessonContinueButton" type="Button" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+autowrap_mode = 3
+
 [node name="Spacer" type="Control" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -87,7 +103,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
-[node name="ContinueButton" type="Button" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer"]
+[node name="GameContinueButton" type="Button" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Continue"

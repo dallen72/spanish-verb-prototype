@@ -13,7 +13,6 @@ var conjugation_button_colors_initialized: bool = false
 
 # UI references
 @onready var verb_label: Label = %VerbLabel
-@onready var previous_score_label: Label = %PreviousScoreLabel
 @onready var progress_indicator: Control = %ProgressIndicator
 @onready var title_section: VBoxContainer = %TitleSection
 @onready var exercise_container: HBoxContainer = %ExerciseContainer
@@ -22,8 +21,6 @@ var progress_screen: Control
 var progress_screen_scene: PackedScene = preload("res://src/main/gameprogress/ProgressScreen.tscn")
 var tutorial_progress_screen_scene: PackedScene = preload("res://src/main/tutorial/TutorialProgressScreen.tscn")
 
-var PronounMatching = preload(Global.PRONOUN_MATCHING_SCENE_PATH)
-var SentenceCompletion = preload(Global.SENTENCE_COMPLETION_SCENE_PATH)
 
 func _ready():
 	init_ui()
@@ -54,8 +51,6 @@ func init_ui():
 
 		# Initialize shared button colors when the game loads
 	_init_conjugation_button_colors()
-	
-	previous_score_label.text = "You got " + str(game_progress.previous_score) + " wrong on the last problem"
 
 
 ## instantiate the tutorial or the regular progress scene, and add it to the scene, but remove the old progress screen node if it exists.
@@ -90,31 +85,10 @@ func _init_conjugation_button_colors():
 			conjugation_button_font_color = theme.get_color("font_color", "Button")
 
 	conjugation_button_colors_initialized = true
-
-func get_conjugation_button_colors() -> Dictionary:
-	"""
-	Returns the shared conjugation/pronoun button colors.
-	These are initialized once when the game loads so all buttons stay consistent.
-	"""
-	if not conjugation_button_colors_initialized:
-		_init_conjugation_button_colors()
-
-	return {
-		"bg_color": conjugation_button_bg_color,
-		"font_color": conjugation_button_font_color,
-	}
-
-func set_conjugation_button_colors(bg_color: Color, font_color: Color) -> void:
-	"""
-	Optional override: if we ever want to change button colors at runtime.
-	"""
-	conjugation_button_bg_color = bg_color
-	conjugation_button_font_color = font_color
-	conjugation_button_colors_initialized = true
-
+	
 
 func update_exercise_display():
-	var current_verb: Verb = Global.get_node("GameProgressMaster").get_current_verb()
+	var current_verb: Verb = Global.get_node("GameProgressMaster").current_verb
 	var verb_name: String = current_verb.name if current_verb else ""
 	if game_progress.current_exercise != null:
 		if game_progress.current_exercise.name == "english_pronoun_matching":
@@ -142,31 +116,20 @@ func setup_problem():
 	
 	
 ## create and add the exercise nodes based on the exercise selected
-func _setup_exercise_nodes(mode: String):
+func _setup_exercise_nodes(exercise_name: String):
 	game_progress.init_new_problem()
 	var exercise_node: Node
 
-	# Show/hide child scenes based on game mode
-	if mode == "sentence_completion":
-		game_progress.current_exercise = game_progress.get_exercise_where_name_is("sentence_completion")
-		exercise_node = SentenceCompletion.instantiate()
-		exercise_container.add_child(exercise_node)
-	else:
-		#TODO: make sure this checks the enums. no hardcoded.
-		if mode == "english_pronoun_matching":
-			game_progress.current_exercise = game_progress.get_exercise_where_name_is("english_pronoun_matching")
-		else:
-			game_progress.current_exercise = game_progress.get_exercise_where_name_is("spanish_pronoun_matching")
-		exercise_node = PronounMatching.instantiate()
-		exercise_container.add_child(exercise_node)	
+	for exercise_scene in game_progress.game_exercises:
+		if exercise_scene.name == exercise_name:
+			var packed_scene = load(exercise_scene.path)
+			exercise_node = packed_scene.instantiate()
+			game_progress.current_exercise = game_progress.get_exercise_where_name_is(exercise_name)
+			exercise_container.add_child(exercise_node)		
 
 	
 func remove_exercise_if_exists():
 	if (exercise_container.get_child_count() > 0):
-		var child = exercise_container.get_child(0)
-		exercise_container.remove_child(child)
+		for child in exercise_container.get_children():
+			child.queue_free()
 	
-
-# TODO
-func show_lesson():
-	pass

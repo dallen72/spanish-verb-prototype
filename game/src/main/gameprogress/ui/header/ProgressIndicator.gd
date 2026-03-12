@@ -12,7 +12,7 @@ func _ready():
 	
 # Public methods for updating progress display
 func update_progress():
-	var current_verb: Verb = game_progress.get_current_verb()
+	var current_verb: Verb = game_progress.current_verb
 	#var completed_verbs = game_progress.get_verbs_completed_for_excercise()
 		
 	# Update verb ending (first)

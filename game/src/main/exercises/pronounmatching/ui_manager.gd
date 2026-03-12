@@ -7,14 +7,13 @@ extends Control
 @onready var pronoun_container: Control = %PronounGrid
 @onready var conjugation_container: GridContainer = $VBoxContainer/MarginContainer/GameArea/ConjugationSection/ConjugationMarginContainer/ConjugationGrid
 @onready var conjugation_margin_container: MarginContainer = $VBoxContainer/MarginContainer/GameArea/ConjugationSection/ConjugationMarginContainer
+@onready var game_progress = Global.get_node("GameProgressMaster")
 
 # Glow effect handler
 var glow_effect: GlowEffect = null
 
 # Track pronoun button references for UI updates
 var pronoun_buttons: Dictionary = {}  # pronoun_name -> PronounButton
-var conjugation_buttons: Dictionary = {}  # conjugation_text -> Button
-
 
 func _ready():
 	var window_size = DisplayServer.window_get_size()
@@ -46,12 +45,13 @@ func initialize_pronoun_buttons():
 			pronoun_buttons[button.name] = button
 	
 			
-func set_label_text(exercise_label: String):
-	pronoun_label.text = exercise_label
+func set_label_text():
+	pronoun_label.text = game_progress.current_exercise.label_text_for_given
 
 
 ## handler. Updates UI when a pronoun is selected
 func update_pronoun_selection(pronoun: String):
+	await get_tree().process_frame
 	var button: PronounButton = pronoun_buttons.get(pronoun)
 		
 	for btn in pronoun_buttons.values():
@@ -63,39 +63,28 @@ func update_pronoun_selection(pronoun: String):
 
 func setup_glow_effects(selected_pronoun):
 	"""Sets up glow effects using the GlowEffect script."""
-	if not glow_effect:
-		return
+	assert(glow_effect != null)
 	
-	# Remove any existing glows
 	glow_effect.remove_all_glows()
 	
 	# Create glow effect for currently selected pronoun
-	var target_button = pronoun_buttons.get(selected_pronoun)
-	
+	var target_button: PronounButton = pronoun_buttons.get(selected_pronoun)
 	if not target_button:
 		# Fallback to first button
 		target_button = pronoun_container.get_child(0)
-	
-	if target_button and target_button is PronounButton:
-		var button_parent = target_button.get_parent()
-		if button_parent:
-			glow_effect.add_glow_to_element(target_button, button_parent)
+	glow_effect.add_glow_to_element(target_button, target_button.get_parent())
 	
 	# Create glow effect for ConjugationGrid
 	var grid_parent = conjugation_container.get_parent()
 	if grid_parent:
 		glow_effect.add_glow_to_element(conjugation_container, grid_parent)
 
-#	"""Updates the glow effect to follow the currently selected pronoun."""
+
+##	"""Updates the glow effect to follow the currently selected pronoun."""
 func update_glow_for_selected_pronoun(selected_pronoun):
 	# Remove existing pronoun glow (first glow is always the pronoun)
 	if glow_effect.glow_panels.size() > 0:
-		var pronoun_glow = glow_effect.glow_panels[0]
-		if is_instance_valid(pronoun_glow):
-			pronoun_glow.queue_free()
-		glow_effect.glow_panels.remove_at(0)
-		if glow_effect.target_elements.size() > 0:
-			glow_effect.target_elements.remove_at(0)
+		glow_effect.remove_glow_at_nodes_with_name("Button")
 	
 	# Add glow for currently selected pronoun
 	var target_button = pronoun_buttons.get(selected_pronoun)
@@ -110,7 +99,6 @@ func clear_conjugation_buttons():
 	"""Clears all conjugation buttons from the UI."""
 	for child in conjugation_container.get_children():
 		child.queue_free()
-	conjugation_buttons.clear()
 
 
 ## Clears visual selection feedback from conjugation buttons.
@@ -120,56 +108,31 @@ func clear_conjugation_selection_appearances():
 			button.modulate = Color.WHITE
 
 
-func generate_conjugation_buttons(current_verb: Verb, button_callback: Callable):
-	"""Generates conjugation buttons from verb data."""
+func generate_conjugation_buttons(button_callback: Callable):
+	var current_verb = game_progress.current_verb 
 	if current_verb == null or current_verb.conjugations.is_empty():
 		return
 	
-	var conjugations = current_verb.conjugations
-	var conjugation_values = []
+	var conjugation_button_list = []
 	
 	# Create buttons for each conjugation
-	for pronoun in conjugations.keys():
-		var conjugation = conjugations[pronoun]
-		var button = Button.new()
-		button.text = conjugation
-		button.custom_minimum_size = Vector2(216, 108)
+	for pronoun in current_verb.conjugations.keys():
+		var conjugation_button = ConjugationButton.new()		
+		conjugation_button.text = current_verb.conjugations[pronoun]
+		conjugation_button.pressed.connect(button_callback.bind(conjugation_button))
+		conjugation_button.conjugation = current_verb.conjugations[pronoun]
 		
-		# Apply shared colors from Global
-		if Engine.has_singleton("Global"):
-			var root = Engine.get_singleton("Global")
-			if root and root.has_node("GameProgressMaster"):
-				var gp = root.get_node("GameProgressMaster")
-				if gp and gp.has_method("get_conjugation_button_colors"):
-					var colors = gp.get_conjugation_button_colors()
-					if colors.has("bg_color"):
-						var style := StyleBoxFlat.new()
-						style.bg_color = colors["bg_color"]
-						style.corner_radius_top_left = 4
-						style.corner_radius_top_right = 4
-						style.corner_radius_bottom_left = 4
-						style.corner_radius_bottom_right = 4
-						button.add_theme_stylebox_override("normal", style)
-					if colors.has("font_color"):
-						button.add_theme_color_override("font_color", colors["font_color"])
-		
-		button.pressed.connect(button_callback.bind(button))
-		conjugation_values.append({"button": button, "conjugation": conjugation})
-		conjugation_buttons[conjugation] = button
+		conjugation_button_list.append(conjugation_button)
 	
-	# Shuffle the conjugations for random placement
-	conjugation_values.shuffle()
-	
-	# Add buttons to the grid
-	for item in conjugation_values:
-		conjugation_container.add_child(item["button"])
+	# Shuffle the conjugations for random placement and add them to the UI
+	conjugation_button_list.shuffle()
+	for button in conjugation_button_list:
+		conjugation_container.add_child(button)
 
 
-
-func setup_UI(current_verb, selected_pronoun, callback):
+func setup_UI(selected_pronoun, callback):
 	initialize_pronoun_buttons()
-	clear_conjugation_buttons()
-	generate_conjugation_buttons(current_verb, callback)
+	generate_conjugation_buttons(callback)
 
 	pronoun_container.visible = false
 	# Update glow effects after conjugations are loaded

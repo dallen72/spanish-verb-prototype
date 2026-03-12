@@ -19,7 +19,7 @@ func _ready():
 	setup_UI()
 
 func setup_UI():
-	var current_verb: Verb = Global.get_node("GameProgressMaster").get_current_verb()
+	var current_verb: Verb = Global.get_node("GameProgressMaster").current_verb
 	if current_verb == null:
 		return
 	
@@ -48,7 +48,7 @@ func _on_sentence_button_pressed(button: Button):
 		# Correct match!
 		button.modulate = Color.LIGHT_BLUE
 		button.disabled = true
-		var current_verb: Verb = Global.get_node("GameProgressMaster").get_current_verb()
+		var current_verb: Verb = Global.get_node("GameProgressMaster").current_verb
 		if current_verb != null:
 			button.text = current_verb.sentence_templates[pronoun].replace("___", current_pronoun_for_sentences)
 		

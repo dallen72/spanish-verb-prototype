@@ -2,31 +2,24 @@
 
 TODO
 
-# TODO: make sure buttons appear larger in chrome Android
-# TODO: make sure the progress and intro screens take up the whole screen in Android chrome
-# TODO: make sure the gameplay screen is not so busy. Move some stuff off of it to the progress screen
 
-# TODO: add the tutorial states to the progress screen. state is tutorial_showing_first_verb, then tutorial_showing_first_exercise, then showing_progress_normally 
-# TODO: make the screens for the states. when the user clicks the buttons in the tutorial states, they are moved through the tutorial.
-# TODO: create the lessons, so that the tutorial will have the lessons in them.
-# TODO: remove the second and third exercise from the gameplay.
+# TODO: a lesson about the progress screen shows, when the user completes the first exercise at any percent. The progress screen: the player chooses an exercise and is shown the verb that has the lowest score for that exercise, and if there is a tie,
+the lowest total score verb is shown for that exercise. There is also a tab for verbs unlocked, on the progress screen.
+
 # TODO: when the user completes an exercise one time, a new verb is unlocked.
-# TODO: when the user completes an exercise at 100% (english matching with one of the two verbs), a new exercise (spanish matching) is unlocked
-# TODO: make the intro text move in like it's being typed, but fade in
-# TODO: fix the conjugation exercise
+# TODO: after the progress screen lesson, there is a lesson list (not in the UI yet, but in the logic) for uncompleted lessons which have been unlocked. Add an "unlocked lesson" feature. when the user completes the unlock criteria, they are shown the progress screen with the "Lesson unlocked" screen (for that lesson, like a popup for congratulations). then they are shown the normal progress screen, with the lesson highlighted. When this list is added, and there is a highlight for the button, add instructions to click the flashing thing. So, add a lesson list for lessons unlocked but not taken. there will be a UI indicator function that flashes UI elements on the screen to lead the user to where the unlocked lessons are. When this feature is added, there should be a lesson for that too : add this tutorial to the progress screen lesson.
 
-# TODO: set up a local dev server for testing for mobile development. we can do one with godot already, but it seems to be blocking connections from devices on the same network.
+# TODO: when the user completes an exercise at 100% (english matching with one of the two verbs), a new exercise (spanish matching) is unlocked
+
+# TODO: fix the conjugation exercise
 
 # TODO: make the buttons appear like clickable buttons
 
 - the exercises, when completed should add an icon to the list of verbs
 
-- Add Lessons. The user does lessons before each exercise to unlock the exercise. Mnemonics are needed for each lesson.
+# TODO: add Mnemonics to improve the lessons.
 
-- relationship, excercises to verbs are one to many:
-
-- the player chooses an excercise and is shown the verb that has the lowest score for that excercise, and if there is a tie,
-the lowest total score verb is shown for that excercise
+- relationship, exercises to verbs are one to many:
 
 - fix webgl error. can't run in linux on the browser
 

@@ -29,8 +29,8 @@ func _init_verb_score_list() -> void:
 
 
 # update the verb score after doing a problem
-func update_verb_score(verb, num_mistakes):
-	verb_scores[verb.name] -= num_mistakes
+func update_verb_score_after_exercise():
+	verb_scores[current_verb.name] -= total_mistakes.value
 
 
 # get the next verb in the list to be practiced
@@ -44,18 +44,8 @@ func get_next_verb() -> Verb:
 	if verb_object is Verb:
 		return verb_object
 	else:
-		print("No Verb was able to be fetched with the name of the lowest score verb in get_next_verb()")
+		printerr("No Verb was able to be fetched with the name of the lowest score verb in get_next_verb()")
 		return Verb.new()
-		
-
-
-#TODO: delete
-func get_current_verb() -> Verb:
-	return current_verb
-
-#TODO: delete
-func set_current_verb(verb: Verb):
-	current_verb = verb
 
 
 func get_current_exercise():
@@ -75,8 +65,3 @@ func init_new_problem():
 	current_verb = get_next_verb()
 	previous_score = 0
 	total_mistakes.value = 0
-
-# TODO
-## loads the lesson to be viewed.
-func load_lesson():
-	pass

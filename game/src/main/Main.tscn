@@ -56,7 +56,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("9_5i72y")
 script = ExtResource("9_f4teq")
 
 [node name="GameArea" type="Control" parent="UIManager"]
@@ -118,13 +117,6 @@ text = "Match the conjugation with the pronoun for..."
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="PreviousScoreLabel" type="Label" parent="UIManager/GameArea/VBoxContainer/HeaderMarginContainer/HeaderContainer/HBoxContainer/TitleSection"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "Previous Score: 0"
-horizontal_alignment = 1
-
 [node name="Spacer2" type="Control" parent="UIManager/GameArea/VBoxContainer/HeaderMarginContainer/HeaderContainer/HBoxContainer/TitleSection"]
 layout_mode = 2
 
@@ -147,3 +139,10 @@ layout_mode = 2
 [node name="ExerciseContainer" type="HBoxContainer" parent="UIManager/GameArea/VBoxContainer/MainMarginContainer/PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="Button" type="Button" parent="UIManager/GameArea/VBoxContainer/MainMarginContainer/PanelContainer/ExerciseContainer"]
+visible = false
+layout_mode = 2
+theme = ExtResource("9_5i72y")
+theme_type_variation = &"UnmatchedButton"
+text = "fsdsafdasf"

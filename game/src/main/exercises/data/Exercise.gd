@@ -7,3 +7,4 @@ var name: String = ""
 var icon_path: String = ""
 var label_text_for_given: String = ""
 var completed_verbs: Array[String] = []
+var path: String = ""

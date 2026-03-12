@@ -25,7 +25,6 @@ func _init(dependencies: Array[ResponsiveValue], get_value: Callable):
 func _update():
 	value = _get_value.callv(_args)
 
-# TODO Convert to unit testing
 static func test():
 	var a = ResponsiveValue.new(0)
 	var b = ResponsiveValue.new(2)

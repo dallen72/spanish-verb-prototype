@@ -13,20 +13,10 @@ script = ExtResource("3_kck03")
 [node name="TitleLabel" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer" index="0"]
 unique_name_in_owner = true
 
-[node name="MainText" type="Label" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer" index="1"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 100)
+[node name="Spacer2" type="Control" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer" index="2"]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
-size_flags_vertical = 10
-text = "Hello!
-I'm learning Spanish,
-but I keep forgeting basic conjugations.
-Can you relate?"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
 
-[node name="MainTutorialButton" type="Button" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer" index="2"]
-unique_name_in_owner = true
+[node name="Spacer3" type="Control" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer" index="3"]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
-autowrap_mode = 3

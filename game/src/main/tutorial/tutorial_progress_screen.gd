@@ -1,9 +1,5 @@
 extends "res://src/main/gameprogress/progress_screen.gd"
 
-
-#TODO: attach event dispatchers for "tutorial_continued" to buttons, and
-#TODO: add ui modifiers to the state machine for modifying the UI during the correct states
-
 # Signals for communicating with parent scenes
 signal intro_screen_closed
 
@@ -16,75 +12,71 @@ const SLIDE_DURATION := Global.UI_TRANSITION_SLIDE_DURATION
 const ROW_ITEM_SIZE := 240
 const COMPLETED_ICON_MODULATE := Color(0.2, 0.8, 0.3, 1.0)
 
-var button_flash_tween: Tween
-
 @onready var signals = Global.get_node("Signals")
 
 # UI references
 @onready var sliding_panel: Control = %SlidingPanel
 @onready var title_label: Label = %TitleLabel
-@onready var continue_button: Button = %ContinueButton
+@onready var game_continue_button: Button = %GameContinueButton
 var VerbListWrapper: VBoxContainer
-@onready var main_text_label: Label = %MainText
-@onready var main_tutorial_button: Button = %MainTutorialButton
 
 var continue_state_index_counter: int = 0
 
+enum TUTORIAL_STATE {
+	SHOWING_FIRST_MESSAGE,
+	SHOWING_SECOND_MESSAGE,
+	SHOWING_FIRST_LESSON,
+	SHOWING_SECOND_LESSON,
+	ENDING_TUTORIAL
+}
+
+const FIRST_LESSON_NAME = "Tener"
+const SECOND_LESSON_NAME = "English Pronoun Matching"
+
+
+
 func _ready():
-	signals.tutorial_continued.connect(update_progress_screen) # TODO: do we even need this signal to exist?
-	main_tutorial_button.pressed.connect(update_progress_screen)	
+	game_continue_button.pressed.connect(update_progress_screen)	
+	lesson_continue_button.pressed.connect(update_progress_screen)	
 
 
 func show_progress_screen():
 	%UIManager.show_progress_screen()
 	update_progress_screen()
 
-enum TUTORIAL_STATE {
-	SHOWING_FIRST_MESSAGE,
-	SHOWING_SECOND_MESSAGE,
-	SHOWING_FIRST_VERB,
-	SHOWING_FIRST_VERB_DESCRIPTION,
-	SHOWING_FIRST_EXERCISE,
-	SHOWING_FIRST_EXERCISE_DESCRIPTION,
-	ENDING_TUTORIAL
-}
 
 func update_progress_screen():
+	if showing_lesson:
+		continue_lesson()
+		return
+
 	match continue_state_index_counter:
 		TUTORIAL_STATE.SHOWING_FIRST_MESSAGE:
 			title_label.hide()
+			main_text_label.show()
 			main_text_label.text = "Hello!
 I'm learning Spanish,
 but I keep forgeting basic conjugations.
 Can you relate?"
-			continue_button.text = "Yes!"
+			game_continue_button.text = "Yes!"
 		TUTORIAL_STATE.SHOWING_SECOND_MESSAGE:
 			main_text_label.text = "Let's make sure we know Spanish conjugations!"
-			continue_button.text = "Vamos !"
-		TUTORIAL_STATE.SHOWING_FIRST_VERB:
-			main_text_label.text = ""
-			main_tutorial_button.text = "First Verb: Tener"
-			flash_text_node(main_tutorial_button)
-			continue_button.hide()
-		TUTORIAL_STATE.SHOWING_FIRST_VERB_DESCRIPTION: #TODO: make this into a "lesson"
-			button_flash_tween.kill()
-			main_text_label.text = "Tener means 'To have'. 'I have' is 'yo tengo', so 'tengo' is the first-person conjugation for Tener."
-			main_tutorial_button.text = "Continue..."
-			flash_text_node(main_tutorial_button)
-		TUTORIAL_STATE.SHOWING_FIRST_EXERCISE:
-			main_text_label.text = ""
-			button_flash_tween.kill()
-			main_tutorial_button.text = "First Exercise: Matching English Pronouns to Conjugations"
-			flash_text_node(main_tutorial_button)			
-		TUTORIAL_STATE.SHOWING_FIRST_EXERCISE_DESCRIPTION:
-			button_flash_tween.kill()
-			main_text_label.text = "Match the pronouns on the left with the Conjugations on the right"
-			main_tutorial_button.text = "Continuemos"
-			flash_text_node(main_tutorial_button)
+			game_continue_button.text = "Vamos !"
+		TUTORIAL_STATE.SHOWING_FIRST_LESSON:
+			game_continue_button.hide()
+			start_lesson_with_name(FIRST_LESSON_NAME)
+		TUTORIAL_STATE.SHOWING_SECOND_LESSON:
+			start_lesson_with_name(SECOND_LESSON_NAME)
 		TUTORIAL_STATE.ENDING_TUTORIAL:
 			button_flash_tween.kill()
 			signals.emit_signal("tutorial_finished")
 	continue_state_index_counter += 1
+
+	if showing_lesson:	
+		lesson_continue_button.grab_focus()
+	else:
+		game_continue_button.grab_focus()
+
 
 
 func hide_intro_screen():
@@ -104,11 +96,3 @@ func _reset_panel_position():
 func show_intro_screen():
 	_reset_panel_position()
 	visible = true
-
-
-func flash_text_node(node: Node):
-	button_flash_tween = create_tween()
-	var flash_duration = 1
-	button_flash_tween.set_loops(0)
-	button_flash_tween.tween_property(node, "modulate", Color.ORANGE, flash_duration)
-	button_flash_tween.tween_property(node, "modulate", Color.BLACK, flash_duration)
