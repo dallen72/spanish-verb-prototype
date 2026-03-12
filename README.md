@@ -3,12 +3,8 @@
 TODO
 
 
-# TODO: make sure the gameplay screen is not so busy. Move some stuff off of it to the progress screen
-# TODO: fix the spacing on the tutorial text
-
 # TODO: a lesson about the progress screen shows, when the user completes the first exercise at any percent. The progress screen: the player chooses an exercise and is shown the verb that has the lowest score for that exercise, and if there is a tie,
 the lowest total score verb is shown for that exercise. There is also a tab for verbs unlocked, on the progress screen.
-
 
 # TODO: when the user completes an exercise one time, a new verb is unlocked.
 # TODO: after the progress screen lesson, there is a lesson list (not in the UI yet, but in the logic) for uncompleted lessons which have been unlocked. Add an "unlocked lesson" feature. when the user completes the unlock criteria, they are shown the progress screen with the "Lesson unlocked" screen (for that lesson, like a popup for congratulations). then they are shown the normal progress screen, with the lesson highlighted. When this list is added, and there is a highlight for the button, add instructions to click the flashing thing. So, add a lesson list for lessons unlocked but not taken. there will be a UI indicator function that flashes UI elements on the screen to lead the user to where the unlocked lessons are. When this feature is added, there should be a lesson for that too : add this tutorial to the progress screen lesson.
