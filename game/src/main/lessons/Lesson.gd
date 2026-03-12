@@ -26,5 +26,22 @@ static func get_lesson_by_name(name: String):
 				"button_text": "Continuemos",
 			}
 		]
-	
+	elif name == "Game Progress":
+		lesson_data = [
+			{
+				"main_text": "",
+				"button_text": "Game Progress: Exploring Your Learning Growth"
+			},
+			{
+				"main_text": "The exercises you have unlocked are on the left, the verbs you have unlocked are on the right",
+				"button_text": "Continuemos",
+			}
+		]	
 	return lesson_data
+
+
+static func unlock_lesson_if_criteria_met(current_exercise: Exercise, previous_score: int, lessons_unlocked_list: Array[String]):
+	if (current_exercise.name == Global.ENGLISH_PRONOUN_MATCHING_EXERCISE_NAME):
+		if (not lessons_unlocked_list.has(Global.GAME_PROGRESS_LESSON_NAME)):
+			lessons_unlocked_list.append(Global.GAME_PROGRESS_LESSON_NAME)
+	

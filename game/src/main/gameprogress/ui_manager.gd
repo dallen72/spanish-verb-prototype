@@ -66,6 +66,7 @@ func _build_verb_list():
 		VerbListWrapper.add_child(flow_container)
 
 
+
 func hide_progress_screen():
 # Slide panel to the left off screen
 	var tween = create_tween()

@@ -106,6 +106,10 @@ func show_progress_screen():
 	progress_screen.show_progress_screen()
 
 
+func show_lesson():
+	progress_screen.start_lesson_with_name(game_progress.loaded_lesson.name)
+
+
 ## Creates the next exercise and adds it to the UI
 func setup_problem():
 	if game_progress.current_exercise == null:

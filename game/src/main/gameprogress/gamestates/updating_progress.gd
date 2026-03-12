@@ -4,4 +4,8 @@ extends State
 
 func enter():
 	game_progress.update_verb_score_after_exercise()
-	Transitioned.emit(self, "ViewingProgress")
+	game_progress.determine_what_lessons_have_been_unlocked()
+	if game_progress.name_of_lesson_in_queue != "":
+		Transitioned.emit(self, "ViewingLesson")
+	else:
+		Transitioned.emit(self, "ViewingProgress")

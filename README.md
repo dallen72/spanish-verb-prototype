@@ -11,6 +11,8 @@ the lowest total score verb is shown for that exercise. There is also a tab for 
 
 # TODO: when the user completes an exercise at 100% (english matching with one of the two verbs), a new exercise (spanish matching) is unlocked
 
+#TODO: unlock level 2 of English pronoun matching: randomized conjugation positions
+
 # TODO: fix the conjugation exercise
 
 # TODO: make the buttons appear like clickable buttons

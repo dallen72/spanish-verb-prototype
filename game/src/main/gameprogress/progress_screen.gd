@@ -22,6 +22,8 @@ func start_lesson_with_name(lesson_name: String):
 	main_text_label.show()
 	continue_lesson()
 
+
+
 func continue_lesson():
 	if lesson_iterator > 1:
 		lesson_iterator = 0

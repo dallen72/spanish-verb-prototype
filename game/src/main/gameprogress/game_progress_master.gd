@@ -3,6 +3,9 @@ extends Node
 var verb_scores: Dictionary
 var next_verb: Verb
 var current_verb: Verb
+var lessons_unlocked_list: Array[String]
+var loaded_lesson: Lesson = null
+var name_of_lesson_in_queue: String
 
 var game_exercises: Array[Exercise]
 var current_exercise: Exercise
@@ -13,10 +16,23 @@ var previous_score: int = 0
 @onready var global_signals = Global.get_node("Signals")
 
 func _ready():
+	name_of_lesson_in_queue = ""
+	load_game_progress_for_lessons()
 	_init_verb_score_list()
 	game_exercises = ExerciseDataAccess.fetch_exercise_list()
 	global_signals.wrong_selection.connect(on_wrong_selection)
 	
+
+# TODO: load from save game data
+func load_game_progress_for_lessons():
+	lessons_unlocked_list = []
+
+
+# TODO: make a structure or something for loading the lessons. so that it doesn't always load the game progress lesson.
+func load_lesson_in_queue():
+	loaded_lesson = Lesson.get_lesson_by_name(Global.GAME_PROGRESS_LESSON_NAME)
+	name_of_lesson_in_queue = ""
+
 
 func on_wrong_selection():
 	total_mistakes.value += 1
@@ -31,6 +47,13 @@ func _init_verb_score_list() -> void:
 # update the verb score after doing a problem
 func update_verb_score_after_exercise():
 	verb_scores[current_verb.name] -= total_mistakes.value
+
+
+func determine_what_lessons_have_been_unlocked():
+	var game_progress_lesson_was_unlocked = lessons_unlocked_list.has(Global.GAME_PROGRESS_LESSON_NAME)
+	Lesson.unlock_lesson_if_criteria_met(current_exercise, previous_score, lessons_unlocked_list)
+	if (not game_progress_lesson_was_unlocked and lessons_unlocked_list.has(Global.GAME_PROGRESS_LESSON_NAME)):
+		name_of_lesson_in_queue = Lesson.get_lesson_by_name(Global.GAME_PROGRESS_LESSON_NAME) 
 
 
 # get the next verb in the list to be practiced
