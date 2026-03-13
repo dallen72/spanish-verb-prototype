@@ -15,6 +15,8 @@ const COMPLETED_ICON_MODULATE := Color(0.2, 0.8, 0.3, 1.0)
 @onready var sliding_panel: Control = %SlidingPanel
 @onready var game_continue_button: Button = %GameContinueButton
 @onready var VerbListWrapper: VBoxContainer = %ListWrapper
+@onready var main_text_label: Label = %MainText
+@onready var lesson_continue_button: Button = %LessonContinueButton
 
 
 func _ready():
@@ -72,6 +74,7 @@ func hide_progress_screen():
 	var tween = create_tween()
 	tween.tween_property(sliding_panel, "position:x", -CONTENT_WIDTH, SLIDE_DURATION).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
 	await tween.finished
+	%TabContainer.hide()
 	visible = false
 	Global.get_node("Signals").menu_screens_have_exited_the_screen.emit()
 
@@ -88,3 +91,18 @@ func show_progress_screen():
 	sliding_panel.position.x = -CONTENT_WIDTH
 	var tween = create_tween()
 	tween.tween_property(sliding_panel, "position:x", MARGIN, SLIDE_DURATION).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
+	%TabContainer.show()
+
+
+func show_lesson():
+	lesson_continue_button.show()
+	main_text_label.show()
+	%TitleLabel.hide()
+	%TutorialSpacer.show()
+	%TabContainer.hide()
+
+
+func end_lesson():
+	%TitleLabel.show()
+	%TabContainer.show()
+	%TutorialSpacer.hide()

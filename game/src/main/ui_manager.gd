@@ -54,12 +54,12 @@ func init_ui():
 
 
 ## instantiate the tutorial or the regular progress scene, and add it to the scene, but remove the old progress screen node if it exists.
-func update_scene_with_correct_progress_screen(is_tutorial: bool):
+func update_scene_with_correct_progress_screen():
 	if progress_screen:
 		remove_child(progress_screen)
 		progress_screen.queue_free()
 		
-	if is_tutorial:
+	if Global.is_tutorial:
 		progress_screen = tutorial_progress_screen_scene.instantiate()
 	else:
 		progress_screen = progress_screen_scene.instantiate()
@@ -102,12 +102,16 @@ func update_exercise_display():
 
 
 func show_progress_screen():
-	update_scene_with_correct_progress_screen(Global.is_tutorial)
+	update_scene_with_correct_progress_screen()
 	progress_screen.show_progress_screen()
 
 
 func show_lesson():
 	progress_screen.start_lesson_with_name(game_progress.loaded_lesson.name)
+
+
+func end_lesson():
+	progress_screen.end_lesson()
 
 
 ## Creates the next exercise and adds it to the UI

@@ -1,10 +1,12 @@
 extends Node
 
+@onready var signals = Global.get_node("Signals")
+
 var verb_scores: Dictionary
 var next_verb: Verb
 var current_verb: Verb
 var lessons_unlocked_list: Array[String]
-var loaded_lesson: Lesson = null
+var loaded_lesson: Dictionary = {}
 var name_of_lesson_in_queue: String
 
 var game_exercises: Array[Exercise]
@@ -53,7 +55,7 @@ func determine_what_lessons_have_been_unlocked():
 	var game_progress_lesson_was_unlocked = lessons_unlocked_list.has(Global.GAME_PROGRESS_LESSON_NAME)
 	Lesson.unlock_lesson_if_criteria_met(current_exercise, previous_score, lessons_unlocked_list)
 	if (not game_progress_lesson_was_unlocked and lessons_unlocked_list.has(Global.GAME_PROGRESS_LESSON_NAME)):
-		name_of_lesson_in_queue = Lesson.get_lesson_by_name(Global.GAME_PROGRESS_LESSON_NAME) 
+		name_of_lesson_in_queue = Global.GAME_PROGRESS_LESSON_NAME
 
 
 # get the next verb in the list to be practiced

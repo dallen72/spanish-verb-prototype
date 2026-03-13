@@ -3,41 +3,50 @@ class_name Lesson
 
 
 static func get_lesson_by_name(name: String):
-	var lesson_data
+	var lesson
 	if name == "Tener":
-		lesson_data = [
-			{
-				"main_text": "",
-				"button_text": "First Verb: Tener"
-			},
-			{
-				"main_text": "Tener means 'To have'. 'I have' is 'yo tengo', so 'tengo' is the first-person conjugation for Tener.",
-				"button_text": "Continue...",
-			}
-		]
+		lesson = {
+			"name": "Tener",
+			"data": [
+				{
+					"main_text": "",
+					"button_text": "First Verb: Tener"
+				},
+				{
+					"main_text": "Tener means 'To have'. 'I have' is 'yo tengo', so 'tengo' is the first-person conjugation for Tener.",
+					"button_text": "Continue...",
+				}
+			]
+		}
 	elif name == "English Pronoun Matching":
-		lesson_data = [
-			{
-				"main_text": "",
-				"button_text": "First Exercise: Matching English Pronouns to Conjugations"
-			},
-			{
-				"main_text": "Match the pronouns on the left with the Conjugations on the right",
-				"button_text": "Continuemos",
-			}
-		]
+		lesson = {
+			'name': "English Pronoun Matching",
+			'data': [
+				{
+					"main_text": "",
+					"button_text": "First Exercise: Matching English Pronouns to Conjugations"
+				},
+				{
+					"main_text": "Match the pronouns on the left with the Conjugations on the right",
+					"button_text": "Continuemos",
+				}
+			]
+		}
 	elif name == "Game Progress":
-		lesson_data = [
-			{
-				"main_text": "",
-				"button_text": "Game Progress: Exploring Your Learning Growth"
-			},
-			{
-				"main_text": "The exercises you have unlocked are on the left, the verbs you have unlocked are on the right",
-				"button_text": "Continuemos",
-			}
-		]	
-	return lesson_data
+		lesson = {
+			'name': "Game Progress",
+			'data': [
+				{
+					"main_text": "",
+					"button_text": "Game Progress: Exploring Your Learning Growth"
+				},
+				{
+					"main_text": "The exercises you have unlocked are on the left, the verbs you have unlocked are on the right",
+					"button_text": "Continuemos",
+				}
+			]
+		}	
+	return lesson
 
 
 static func unlock_lesson_if_criteria_met(current_exercise: Exercise, previous_score: int, lessons_unlocked_list: Array[String]):

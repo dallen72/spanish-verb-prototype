@@ -8,7 +8,7 @@ extends Control
 var button_flash_tween: Tween
 
 var lesson_iterator = 0
-var current_lesson
+var current_lesson: Dictionary
 var showing_lesson: bool = false
 
 func show_progress_screen():
@@ -16,12 +16,14 @@ func show_progress_screen():
 
 
 func start_lesson_with_name(lesson_name: String):
-	var lesson = Lesson.get_lesson_by_name(lesson_name)
+	var lesson: Dictionary = Lesson.get_lesson_by_name(lesson_name)
 	current_lesson = lesson
-	lesson_continue_button.show()
-	main_text_label.show()
+	%UIManager.show_lesson()
 	continue_lesson()
 
+
+func end_lesson():
+	%UIManager.end_lesson()
 
 
 func continue_lesson():
@@ -35,9 +37,9 @@ func continue_lesson():
 		showing_lesson = false
 		
 
-func show_lesson_page(lesson):
+func show_lesson_page(lesson: Dictionary):
 	if button_flash_tween:
 		button_flash_tween.kill()
-	main_text_label.text = lesson[lesson_iterator].main_text
-	lesson_continue_button.text = lesson[lesson_iterator].button_text
+	main_text_label.text = lesson.data[lesson_iterator].main_text
+	lesson_continue_button.text = lesson.data[lesson_iterator].button_text
 	button_flash_tween = UIUtils.flash_text_node(lesson_continue_button)

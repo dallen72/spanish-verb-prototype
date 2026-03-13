@@ -60,6 +60,7 @@ theme_override_constants/margin_bottom = 120
 layout_mode = 2
 
 [node name="TitleLabel" type="Label" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "Your Progress"
@@ -86,22 +87,48 @@ autowrap_mode = 3
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer"]
+[node name="TabContainer" type="TabContainer" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
+current_tab = 0
 
-[node name="CenterContainer" type="CenterContainer" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="Exercises" type="ScrollContainer" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer/TabContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_tab_index = 0
+
+[node name="CenterContainer" type="CenterContainer" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer/TabContainer/Exercises"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 2
 
-[node name="ListWrapper" type="VBoxContainer" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer"]
+[node name="ListWrapper" type="VBoxContainer" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer/TabContainer/Exercises/CenterContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ContinueSpacer" type="Control" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer"]
+[node name="Verbs" type="ScrollContainer" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer/TabContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_tab_index = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer/TabContainer/Verbs"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+
+[node name="ListWrapper" type="VBoxContainer" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer/TabContainer/Verbs/CenterContainer"]
+layout_mode = 2
+
+[node name="TutorialSpacer" type="Control" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="GameContinueButton" type="Button" parent="UIManager/SlidingPanel/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
