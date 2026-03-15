@@ -111,6 +111,8 @@ The game includes three Spanish verbs with their conjugations:
 - share with Emily and Ryan (ryanrknight12@gmail.com) from FNSM
 - share with David from FNSM (908 319 0880)
 - be active in all relevant discords
+- share with Ryan from Vizion Men's group (Rmcnally89@gmail.com for Spanish app)
+- share with Lenny Crosson from Hilliard's Life group Lacrosson@gmail.com
 - Kim from Calvary
 
 # after beta complete
